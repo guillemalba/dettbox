@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:paddingBottom="50dp"
-                android:text="Already have account?"
+                android:text="Already have an account?"
                 android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="@+id/btnRegister"
                 app:layout_constraintStart_toStartOf="@+id/btnRegister"
