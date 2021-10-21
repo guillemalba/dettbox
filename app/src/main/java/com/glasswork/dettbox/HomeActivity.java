@@ -5,8 +5,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -23,6 +25,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class HomeActivity extends AppCompatActivity {
 
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String FIREBASE_LINK = "https://dettbox-default-rtdb.europe-west1.firebasedatabase.app";
+
     private Button btnLogout;
     private Button btn;
     private Boolean buttonClicked = false;
@@ -30,8 +35,9 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
+    private boolean isFirstTime = true;
+
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +45,24 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         btn = findViewById(R.id.button);
+
+        if (getColor() != Color.GRAY) {
+            btn.setBackgroundColor(getColor());
+            switch (getColor()) {
+                case Color.RED:
+                    btn.setText("FALSE");
+                    break;
+                case Color.GREEN:
+                    btn.setText("TRUE");
+                    break;
+            }
+        }
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buttonClicked = true;
-                DatabaseReference reference = FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
+                DatabaseReference reference = FirebaseDatabase.getInstance(FIREBASE_LINK)
                         .getReference("Users")
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                         .child("led_boolean");
@@ -55,42 +74,29 @@ public class HomeActivity extends AppCompatActivity {
                             String data = snapshot.getValue().toString();
                             if (buttonClicked) {
                                 buttonClicked = false;
+
                                 switch (data) {
                                     case "true":
                                         btn.setText("False");
                                         btn.setBackgroundColor(Color.RED);
-                                        FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
+                                        storeButton(Color.RED, "false");
+
+                                        FirebaseDatabase.getInstance(FIREBASE_LINK)
                                                 .getReference("Users")
                                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                 .child("led_boolean")
-                                                .setValue(false);/*.addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(HomeActivity.this, "Boolean saved into our database!", Toast.LENGTH_SHORT).show();
-                                                } else {
-                                                    Toast.makeText(HomeActivity.this, "Failed on saving to our database!", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });*/
+                                                .setValue(false);
                                         break;
                                     case "false":
                                         btn.setText("True");
                                         btn.setBackgroundColor(Color.GREEN);
-                                        FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
+                                        storeButton(Color.GREEN, "true");
+
+                                        FirebaseDatabase.getInstance(FIREBASE_LINK)
                                                 .getReference("Users")
                                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                 .child("led_boolean")
-                                                .setValue(true);/*.addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(HomeActivity.this, "Boolean saved into our database!", Toast.LENGTH_SHORT).show();
-                                                } else {
-                                                    Toast.makeText(HomeActivity.this, "Failed on saving to our database!", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });*/
+                                                .setValue(true);
                                         break;
 
                                 }
@@ -122,4 +128,19 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+
+    public void storeButton(int color, String status) {
+        sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor save = sharedPreferences.edit();
+        save.putString("button_status", status);
+        save.putInt("button_color", color);
+        save.apply();
+    }
+
+    public int getColor () {
+        sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        int selectedColor = sharedPreferences.getInt("button_color", Color.GRAY);
+        return selectedColor;
+    }
+
 }
