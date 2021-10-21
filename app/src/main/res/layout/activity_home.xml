@@ -10,10 +10,22 @@
         android:id="@+id/button"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_marginTop="360dp"
         android:background="@drawable/button_background"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Hello World!"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnlogout"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/button_background"
+        android:text="Logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

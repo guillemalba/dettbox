@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "456716383339",
+    "project_id": "dettbox",
+    "storage_bucket": "dettbox.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456716383339:android:0706474564352ba9d0ed2e",
+        "android_client_info": {
+          "package_name": "com.glasswork.dettbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "456716383339-t2mk10gm9uu758rtkq3cqh881cuqu5l4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0EBc8oODyQTmMxyylm1eYp0J9AG6dHzU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "456716383339-t2mk10gm9uu758rtkq3cqh881cuqu5l4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
