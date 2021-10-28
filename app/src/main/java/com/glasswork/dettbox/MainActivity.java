@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /* Splash Screen time*/
-        setTheme(R.style.SplashTheme);
+        /*setTheme(R.style.SplashTheme);*/
+
         /*try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -45,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // to remove top navbar
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorSecondary));*/
 
         inputEmail = findViewById(R.id.inputEmail);
         inputPassword = findViewById(R.id.inputPassword);

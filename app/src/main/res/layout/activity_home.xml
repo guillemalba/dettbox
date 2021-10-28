@@ -4,29 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorDark"
     tools:context=".HomeActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnRed"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
+        android:layout_marginTop="225dp"
         android:background="@drawable/button_background"
-        android:text="Hello World!"
+        android:fontFamily="@font/bitter_regular"
+        android:text="RED"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnGreen"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/bitter_regular"
+        android:text="GREEN"
+        app:layout_constraintEnd_toEndOf="@+id/btnRed"
+        app:layout_constraintStart_toStartOf="@+id/btnRed"
+        app:layout_constraintTop_toBottomOf="@+id/btnRed" />
+
+    <Button
+        android:id="@+id/btnBlue"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/bitter_regular"
+        android:text="BLUE"
+        app:layout_constraintEnd_toEndOf="@+id/btnGreen"
+        app:layout_constraintStart_toStartOf="@+id/btnGreen"
+        app:layout_constraintTop_toBottomOf="@+id/btnGreen" />
 
     <Button
         android:id="@+id/btnlogout"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         android:background="@drawable/button_background"
+        android:fontFamily="@font/bitter_regular"
         android:text="Logout"
         android:textColor="@color/colorWhite"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintEnd_toEndOf="@+id/btnBlue"
+        app:layout_constraintStart_toStartOf="@+id/btnBlue"
+        app:layout_constraintTop_toBottomOf="@+id/btnBlue" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -51,7 +51,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         // to remove top navbar
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorSecondary));*/
 
         // Getting ids from xml to java
         inputEmail = findViewById(R.id.inputEmail);
