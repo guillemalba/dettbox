@@ -1,18 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="DettboxTheme" parent="Theme.AppCompat.Light.NoActionBar">
+         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorSecondary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/colorPrimary</item>
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/colorSplash</item>
+        <item name="android:navigationBarColor">@color/colorSplash</item>
+        <!--<item name="android:background">@color/colorSplash</item>-->
+        <item name="android:fontFamily">@font/bitter_regular</item>
+
+
     </style>
     
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:statusBarColor">@color/colorSplash</item>
         <item name="android:navigationBarColor">@color/colorSplash</item>
+
 
     </style>
 </resources>

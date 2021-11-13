@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#1C5D6B</color>
     <color name="colorSecondary">#EEEEEE</color>
+    <color name="NavigationBar">#00363F</color>
     <!--<color name="colorSecondary">#F1DF9C</color>-->
     <color name="colorAccent">#FFE68A</color>
     <!--<color name="colorAccent">#FFE68A</color>-->
