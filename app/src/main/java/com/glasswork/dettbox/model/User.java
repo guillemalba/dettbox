@@ -1,4 +1,4 @@
-package com.glasswork.dettbox;
+package com.glasswork.dettbox.model;
 
 public class User {
 

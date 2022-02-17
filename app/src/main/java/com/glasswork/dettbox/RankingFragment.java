@@ -1,5 +1,6 @@
 package com.glasswork.dettbox;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,13 +23,14 @@ import com.google.firebase.database.ValueEventListener;
 
 public class RankingFragment extends Fragment {
 
-
+    Button btn;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ranking, container, false);
 
+        btn = view.findViewById(R.id.button2);
 
 
         return view;

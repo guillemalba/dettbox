@@ -105,18 +105,39 @@
                 app:layout_constraintStart_toStartOf="@+id/inputPassword"
                 app:layout_constraintTop_toBottomOf="@+id/inputPassword" />
 
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="50dp"
+
+                android:text="Don't have an account?"
+                android:textSize="15dp"
+                android:fontFamily="@font/bitter_regular"
+                app:layout_constraintEnd_toStartOf="@+id/createNewAccount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnLogin"
+                tools:ignore="MissingConstraints" />
+
             <TextView
                 android:id="@+id/createNewAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="50dp"
-                android:paddingBottom="50dp"
-                android:text="Create new account"
+                android:layout_marginEnd="100dp"
                 android:fontFamily="@font/bitter_regular"
+                android:textColor="@color/colorHint"
+                android:textStyle="bold"
+                android:text="Register"
                 android:textSize="15dp"
-                app:layout_constraintEnd_toEndOf="@+id/btnLogin"
-                app:layout_constraintStart_toStartOf="@+id/btnLogin"
-                app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView10"
+                app:layout_constraintTop_toBottomOf="@+id/btnLogin"
+                tools:ignore="MissingConstraints" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

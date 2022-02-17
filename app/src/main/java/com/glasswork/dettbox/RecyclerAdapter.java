@@ -1,14 +1,18 @@
 package com.glasswork.dettbox;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.glasswork.dettbox.model.AppItem;
 
 import java.util.ArrayList;
 
@@ -28,11 +32,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView tvAppName;
         private TextView tvAppTime;
+        private ImageView ivAppIcon;
 
         public MyViewHolder(final View view) {
             super(view);
             tvAppName = view.findViewById(R.id.app_name);
             tvAppTime = view.findViewById(R.id.app_time);
+            ivAppIcon = view.findViewById(R.id.app_icon);
         }
     }
 
@@ -47,9 +53,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public void onBindViewHolder(@NonNull RecyclerAdapter.MyViewHolder holder, int position) {
         String name = appList.get(position).getAppName();
         String time = appList.get(position).getAppTimeUsed();
+        Drawable drawableImage = appList.get(position).getDrawableIcon();
 
         holder.tvAppName.setText(name);
         holder.tvAppTime.setText(time);
+        holder.ivAppIcon.setImageDrawable(drawableImage);
 
     }
 
