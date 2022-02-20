@@ -1,4 +1,4 @@
-package com.glasswork.dettbox;
+package com.glasswork.dettbox.ui.home;
 
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -16,7 +16,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.glasswork.dettbox.R;
+import com.glasswork.dettbox.RecyclerAdapter;
 import com.glasswork.dettbox.model.AppItem;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -87,7 +90,9 @@ public class HomeFragment extends Fragment {
     private void setAppInfo() {
 
         DatabaseReference reference = FirebaseDatabase.getInstance(FIREBASE_LINK)
-                .getReference("Apps");
+                .getReference("Users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("Apps");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

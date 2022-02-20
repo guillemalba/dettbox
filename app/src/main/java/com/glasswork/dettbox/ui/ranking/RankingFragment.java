@@ -1,4 +1,4 @@
-package com.glasswork.dettbox;
+package com.glasswork.dettbox.ui.ranking;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.glasswork.dettbox.R;
+import com.glasswork.dettbox.ui.profile.ProfileFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,7 +32,14 @@ public class RankingFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ranking, container, false);
 
-        btn = view.findViewById(R.id.button2);
+        // if the user is not in a group or not change fragment to display
+        if (true) {
+            Fragment childFragment = new NoGroupFragment();
+            getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, childFragment).commit();
+        } else {
+            Fragment childFragment = new GrupListFragment();
+            getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, childFragment).commit();
+        }
 
 
         return view;

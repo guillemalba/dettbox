@@ -1,6 +1,5 @@
 package com.glasswork.dettbox;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -8,27 +7,16 @@ import androidx.fragment.app.Fragment;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.glasswork.dettbox.ui.home.HomeFragment;
+import com.glasswork.dettbox.ui.profile.ProfileFragment;
+import com.glasswork.dettbox.ui.ranking.RankingFragment;
+import com.glasswork.dettbox.ui.tasks.TasksFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -56,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        FrameLayout frameLayout = findViewById(R.id.fragment_container);
+        //FrameLayout frameLayout = findViewById(R.id.fragment_container);
 
         // line to initialize the first HomeFragment
         if (savedInstanceState == null) {
@@ -72,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment selectedFragment = null;
-                    FrameLayout frameLayout = findViewById(R.id.fragment_container);
+                    //FrameLayout frameLayout = findViewById(R.id.fragment_container);
 
                     switch (item.getItemId()) {
                         case R.id.nav_home:

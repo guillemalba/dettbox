@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.Nullable;
 
@@ -132,7 +133,9 @@ public class MyService extends Service {
         }
 
         FirebaseDatabase.getInstance(FIREBASE_LINK)
-                .getReference("Apps")
+                .getReference("Users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("Apps")
                 .child(packageName.replace(".", "-"))
                 .child("time")
                 .setValue(convertTime(seconds*1000));
@@ -165,7 +168,9 @@ public class MyService extends Service {
         }
 
         FirebaseDatabase.getInstance(FIREBASE_LINK)
-                .getReference("Apps")
+                .getReference("Users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("Apps")
                 .child(packageName.replace(".", "-"))
                 .child("name")
                 .setValue(appName);
@@ -198,6 +203,7 @@ public class MyService extends Service {
         }
     }
 
+    // shows a notification when the app is opened and keeps it until app is force closed
     @RequiresApi(Build.VERSION_CODES.O)
     private void startMyOwnForeground()
     {

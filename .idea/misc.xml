@@ -28,7 +28,9 @@
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/activity_trash_pop_up.xml" value="0.27943840579710144" />
         <entry key="app/src/main/res/layout/activity_trash_rank.xml" value="0.27943840579710144" />
+        <entry key="app/src/main/res/layout/fragment_grup_list.xml" value="0.35507246376811596" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_no_group.xml" value="0.35507246376811596" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_ranking.xml" value="0.30978260869565216" />
         <entry key="app/src/main/res/layout/fragment_tasks.xml" value="0.30978260869565216" />
@@ -43,7 +45,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
