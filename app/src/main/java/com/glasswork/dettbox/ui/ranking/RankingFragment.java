@@ -25,8 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class RankingFragment extends Fragment {
 
-    Button btn;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

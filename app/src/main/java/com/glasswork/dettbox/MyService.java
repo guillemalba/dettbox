@@ -73,109 +73,6 @@ public class MyService extends Service {
 
     }
 
-    void getTimeSpent(Context context, String packageName, long beginTime, long endTime) throws ParseException {
-        UsageEvents.Event currentEvent;
-        List<UsageEvents.Event> allEvents = new ArrayList<>();
-        HashMap<String, Integer> appUsageMap = new HashMap<>();
-
-        UsageStatsManager usageStatsManager = (UsageStatsManager)context.getSystemService(Context.USAGE_STATS_SERVICE);
-        UsageEvents usageEvents = usageStatsManager.queryEvents(beginTime, endTime);
-
-        while (usageEvents.hasNextEvent()) {
-            currentEvent = new UsageEvents.Event();
-            usageEvents.getNextEvent(currentEvent);
-            if(currentEvent.getPackageName().equals(packageName) || packageName == null) {
-                if (currentEvent.getEventType() == UsageEvents.Event.ACTIVITY_RESUMED
-                        || currentEvent.getEventType() == UsageEvents.Event.ACTIVITY_PAUSED) {
-                    allEvents.add(currentEvent);
-                    String key = currentEvent.getPackageName();
-
-                    Calendar currentDate = Calendar.getInstance();
-
-                    if (currentDate.before(endDate)) {
-                        /*Toast.makeText(getApplicationContext(), "DAY NOT ENDED:", Toast.LENGTH_SHORT).show();*/
-                        /*Log.e("TAG", "DAY NOT ENDED: ");*/
-
-                    } else {
-                        /*Toast.makeText(getApplicationContext(), "DAY ENDED:", Toast.LENGTH_SHORT).show();*/
-                        /*Log.e("TAG", "DAY ENDED: ");*/
-                        endDate = Calendar.getInstance();
-                        endDate.set(Calendar.SECOND, 59);
-                        endDate.set(Calendar.MINUTE, 59);
-                        endDate.set(Calendar.HOUR_OF_DAY, 23);
-                        appUsageMap.put(key, 0);
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < allEvents.size() - 1; i++) {
-            UsageEvents.Event E0 = allEvents.get(i);
-            UsageEvents.Event E1 = allEvents.get(i + 1);
-
-            if (E0.getEventType() == UsageEvents.Event.ACTIVITY_RESUMED
-                    && E1.getEventType() == UsageEvents.Event.ACTIVITY_PAUSED
-                    && E0.getClassName().equals(E1.getClassName())) {
-                int diff = (int)(E1.getTimeStamp() - E0.getTimeStamp());
-                diff /= 1000;
-                Integer prev = appUsageMap.get(E0.getPackageName());
-                if(prev == null) prev = 0;
-                appUsageMap.put(E0.getPackageName(), prev + diff);
-            }
-        }
-
-        int seconds;
-
-        if (appUsageMap.get(packageName) != null) {
-            seconds = appUsageMap.get(packageName);
-        } else {
-            seconds = 0;
-        }
-
-        FirebaseDatabase.getInstance(FIREBASE_LINK)
-                .getReference("Users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("Apps")
-                .child(packageName.replace(".", "-"))
-                .child("time")
-                .setValue(convertTime(seconds*1000));
-
-        String appName;
-        switch (packageName) {
-            case "com.whatsapp":
-                appName = "WhatsApp";
-                break;
-            case "deezer.android.app":
-                appName = "Deezer";
-                break;
-            case "com.glasswork.dettbox":
-                appName = "Dettbox";
-                break;
-            case "com.instagram.android":
-                appName = "Instagram";
-                break;
-            case "com.netflix.mediaclient":
-                appName = "Netflix";
-                break;
-            case "org.telegram.messenger":
-                appName = "Telegram";
-                break;
-            case "com.discord":
-                appName = "Discord";
-                break;
-            default:
-                appName = "App not found";
-        }
-
-        FirebaseDatabase.getInstance(FIREBASE_LINK)
-                .getReference("Users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("Apps")
-                .child(packageName.replace(".", "-"))
-                .child("name")
-                .setValue(appName);
-    }
-
     private String convertTime(long lastTimeUsed) {
         return String.format(
                 "%02dh %02dm %02ds",
@@ -296,6 +193,109 @@ public class MyService extends Service {
             }
         };
         timer.schedule(timerTask, 1000, 1000); //
+    }
+
+    void getTimeSpent(Context context, String packageName, long beginTime, long endTime) throws ParseException {
+        UsageEvents.Event currentEvent;
+        List<UsageEvents.Event> allEvents = new ArrayList<>();
+        HashMap<String, Integer> appUsageMap = new HashMap<>();
+
+        UsageStatsManager usageStatsManager = (UsageStatsManager)context.getSystemService(Context.USAGE_STATS_SERVICE);
+        UsageEvents usageEvents = usageStatsManager.queryEvents(beginTime, endTime);
+
+        while (usageEvents.hasNextEvent()) {
+            currentEvent = new UsageEvents.Event();
+            usageEvents.getNextEvent(currentEvent);
+            if(currentEvent.getPackageName().equals(packageName) || packageName == null) {
+                if (currentEvent.getEventType() == UsageEvents.Event.ACTIVITY_RESUMED
+                        || currentEvent.getEventType() == UsageEvents.Event.ACTIVITY_PAUSED) {
+                    allEvents.add(currentEvent);
+                    String key = currentEvent.getPackageName();
+
+                    Calendar currentDate = Calendar.getInstance();
+
+                    if (currentDate.before(endDate)) {
+                        /*Toast.makeText(getApplicationContext(), "DAY NOT ENDED:", Toast.LENGTH_SHORT).show();*/
+                        /*Log.e("TAG", "DAY NOT ENDED: ");*/
+
+                    } else {
+                        /*Toast.makeText(getApplicationContext(), "DAY ENDED:", Toast.LENGTH_SHORT).show();*/
+                        /*Log.e("TAG", "DAY ENDED: ");*/
+                        endDate = Calendar.getInstance();
+                        endDate.set(Calendar.SECOND, 59);
+                        endDate.set(Calendar.MINUTE, 59);
+                        endDate.set(Calendar.HOUR_OF_DAY, 23);
+                        appUsageMap.put(key, 0);
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < allEvents.size() - 1; i++) {
+            UsageEvents.Event E0 = allEvents.get(i);
+            UsageEvents.Event E1 = allEvents.get(i + 1);
+
+            if (E0.getEventType() == UsageEvents.Event.ACTIVITY_RESUMED
+                    && E1.getEventType() == UsageEvents.Event.ACTIVITY_PAUSED
+                    && E0.getClassName().equals(E1.getClassName())) {
+                int diff = (int)(E1.getTimeStamp() - E0.getTimeStamp());
+                diff /= 1000;
+                Integer prev = appUsageMap.get(E0.getPackageName());
+                if(prev == null) prev = 0;
+                appUsageMap.put(E0.getPackageName(), prev + diff);
+            }
+        }
+
+        int seconds;
+
+        if (appUsageMap.get(packageName) != null) {
+            seconds = appUsageMap.get(packageName);
+        } else {
+            seconds = 0;
+        }
+
+        FirebaseDatabase.getInstance(FIREBASE_LINK)
+                .getReference("Users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("Apps")
+                .child(packageName.replace(".", "-"))
+                .child("time")
+                .setValue(convertTime(seconds*1000));
+
+        String appName;
+        switch (packageName) {
+            case "com.whatsapp":
+                appName = "WhatsApp";
+                break;
+            case "deezer.android.app":
+                appName = "Deezer";
+                break;
+            case "com.glasswork.dettbox":
+                appName = "Dettbox";
+                break;
+            case "com.instagram.android":
+                appName = "Instagram";
+                break;
+            case "com.netflix.mediaclient":
+                appName = "Netflix";
+                break;
+            case "org.telegram.messenger":
+                appName = "Telegram";
+                break;
+            case "com.discord":
+                appName = "Discord";
+                break;
+            default:
+                appName = "App not found";
+        }
+
+        FirebaseDatabase.getInstance(FIREBASE_LINK)
+                .getReference("Users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("Apps")
+                .child(packageName.replace(".", "-"))
+                .child("name")
+                .setValue(appName);
     }
 
     public void stoptimertask() {

@@ -38,7 +38,7 @@ public class HomeActivity extends AppCompatActivity {
         mYourService = new MyService();
         mServiceIntent = new Intent(this, mYourService.getClass());
         if (!isMyServiceRunning(mYourService.getClass())) {
-            //startService(mServiceIntent); // TODO: to start background service
+            startService(mServiceIntent); // TODO: to start background service
         }
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);

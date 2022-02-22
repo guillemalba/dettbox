@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             inputEmail.setError("Enter Context Email");
             inputEmail.requestFocus(); // TODO
         } else if (password.isEmpty() || password.length() < 6) {
-            inputPassword.setError("Enter propper password!");
+            inputPassword.setError("Enter propper password!"); // TODO change message
             inputPassword.requestFocus();
         } else {
             progressDialog.setMessage("Please wait while login in...");

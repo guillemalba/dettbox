@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:gravity="center"
+            android:fontFamily="@font/bitter_regular"
             android:text="Don't have group yet?"
             android:textColor="@color/colorSecondary"
             android:textSize="20sp"
