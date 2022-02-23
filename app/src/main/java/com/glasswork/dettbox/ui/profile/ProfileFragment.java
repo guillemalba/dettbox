@@ -66,8 +66,8 @@ public class ProfileFragment extends Fragment {
         textName = view.findViewById(R.id.textView5);
         textSurname = view.findViewById(R.id.textView7);
         textEmail = view.findViewById(R.id.textEmail);
-        textPassword =  view.findViewById(R.id.textView11);
-        textBday = view.findViewById(R.id.textView9);
+        textPassword =  view.findViewById(R.id.textView9);
+        textBday = view.findViewById(R.id.textView11);
         textGroup = view.findViewById(R.id.textView12);
 
         DatabaseReference reference = FirebaseDatabase.getInstance(FIREBASE_LINK)
