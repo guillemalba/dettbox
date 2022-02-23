@@ -29,6 +29,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class RegisterActivity extends AppCompatActivity {
 
     private TextView alreadyHaveAnAccount;
+    private EditText inputName;
+    private EditText inputSurname;
     private EditText inputEmail;
     private EditText inputPassword;
     private EditText inputConfirmPassword;
@@ -55,6 +57,8 @@ public class RegisterActivity extends AppCompatActivity {
         getWindow().setNavigationBarColor(getResources().getColor(R.color.colorSecondary));*/
 
         // Getting ids from xml to java
+        inputName = findViewById(R.id.inputName);
+        inputSurname = findViewById(R.id.inputSurname);
         inputEmail = findViewById(R.id.inputEmail);
         inputPassword = findViewById(R.id.inputPassword);
         inputConfirmPassword = findViewById(R.id.inputConfirmPassword);
@@ -156,6 +160,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     // authentication
     private void perforAuth() {
+        String name = inputName.getText().toString();
+        String surname = inputSurname.getText().toString();
         String email = inputEmail.getText().toString();
         String password = inputPassword.getText().toString();
         String confirmPassword = inputConfirmPassword.getText().toString();
@@ -181,7 +187,7 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
 
-                        User user = new User(email, password, birth, null);
+                        User user = new User(name, surname, email, password, birth, null);
                         FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
                                 .getReference("Users")
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
