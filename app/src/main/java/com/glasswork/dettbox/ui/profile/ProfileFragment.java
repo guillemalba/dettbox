@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,10 +27,11 @@ import java.util.Objects;
 public class ProfileFragment extends Fragment {
 
     private static final String FIREBASE_LINK = "https://dettbox-default-rtdb.europe-west1.firebasedatabase.app";
-    private DatabaseReference reference;
+    //private DatabaseReference reference;
 
     private FirebaseAuth mAuth;
     private Button btnLogout;
+    private Button btnUpdate;
     private TextView textEmail;
     private TextView textName;
     private TextView textSurname;
@@ -70,10 +72,10 @@ public class ProfileFragment extends Fragment {
         textBday = view.findViewById(R.id.textView11);
         textGroup = view.findViewById(R.id.textView12);
 
-        DatabaseReference reference = FirebaseDatabase.getInstance(FIREBASE_LINK)
+        final DatabaseReference[] reference = {FirebaseDatabase.getInstance(FIREBASE_LINK)
                 .getReference("Users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        reference.addValueEventListener(new ValueEventListener() {
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())};
+        reference[0].addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -95,6 +97,35 @@ public class ProfileFragment extends Fragment {
 
         textEmail.setText(Objects.requireNonNull(mAuth.getCurrentUser()).getEmail());
 
+        btnUpdate = view.findViewById(R.id.btnUpdate);
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //mAuth.signOut();
+                if(isNameChanged() || isSurnameChanged() || isPsswChanged()){
+                    Toast.makeText(getContext(),"Data has been updated", Toast.LENGTH_SHORT).show();
+
+                }
+                reference[0] = FirebaseDatabase.getInstance().getReference("Users");
+
+                /*Intent intent = new Intent(getActivity(), ProfileFragment.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);*/
+            }
+        });
+
         return view;
+    }
+
+    private  boolean isNameChanged(){
+       return true;
+    }
+
+    private  boolean isSurnameChanged(){
+        return true;
+    }
+
+    private  boolean isPsswChanged(){
+        return true;
     }
 }
