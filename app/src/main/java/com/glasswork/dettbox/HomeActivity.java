@@ -17,6 +17,7 @@ import com.glasswork.dettbox.ui.profile.ProfileFragment;
 import com.glasswork.dettbox.ui.ranking.RankingFragment;
 import com.glasswork.dettbox.ui.tasks.TasksFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -49,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
         // line to initialize the first HomeFragment
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new HomeFragment()).commit();
+                    new HomeFragment()).commit(); // TODO: temporal here goes HomeFragment
         }
 
 

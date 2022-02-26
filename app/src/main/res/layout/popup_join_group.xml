@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/inputJoinGroupName" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnJoin"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginLeft="25dp"

@@ -27,7 +27,7 @@ import java.util.Objects;
 public class ProfileFragment extends Fragment {
 
     private static final String FIREBASE_LINK = "https://dettbox-default-rtdb.europe-west1.firebasedatabase.app";
-    //private DatabaseReference reference;
+    private DatabaseReference reference;
 
     private FirebaseAuth mAuth;
     private Button btnLogout;
@@ -56,14 +56,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-         FirebaseDatabase.getInstance(FIREBASE_LINK)
-                .getReference("Group")
-                .child(mAuth.getUid())
-                .child("Users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("name")
-                .setValue("Guille");
-
         //Cogemos los campos
         textName = view.findViewById(R.id.textView5);
         textSurname = view.findViewById(R.id.textView7);
@@ -72,10 +64,10 @@ public class ProfileFragment extends Fragment {
         textBday = view.findViewById(R.id.textView11);
         textGroup = view.findViewById(R.id.textView12);
 
-        final DatabaseReference[] reference = {FirebaseDatabase.getInstance(FIREBASE_LINK)
+        reference = FirebaseDatabase.getInstance(FIREBASE_LINK)
                 .getReference("Users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())};
-        reference[0].addValueEventListener(new ValueEventListener() {
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -83,11 +75,13 @@ public class ProfileFragment extends Fragment {
                     String surname = snapshot.child("surname").getValue().toString();
                     String pssw = snapshot.child("password").getValue().toString();
                     String bday = snapshot.child("birth").getValue().toString();
+                    String groupName = snapshot.child("groupName").getValue().toString();
 
                     textName.setText(name);
                     textSurname.setText(surname);
                     textPassword.setText(pssw);
                     textBday.setText(bday);
+                    textGroup.setText(groupName);
                 }
             }
             @Override
@@ -106,7 +100,7 @@ public class ProfileFragment extends Fragment {
                     Toast.makeText(getContext(),"Data has been updated", Toast.LENGTH_SHORT).show();
 
                 }
-                reference[0] = FirebaseDatabase.getInstance().getReference("Users");
+                reference = FirebaseDatabase.getInstance().getReference("Users");
 
                 /*Intent intent = new Intent(getActivity(), ProfileFragment.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

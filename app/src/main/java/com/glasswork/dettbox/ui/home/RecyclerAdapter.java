@@ -1,4 +1,4 @@
-package com.glasswork.dettbox;
+package com.glasswork.dettbox.ui.home;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.glasswork.dettbox.R;
 import com.glasswork.dettbox.model.AppItem;
 
 import java.util.ArrayList;

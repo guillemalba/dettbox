@@ -122,38 +122,6 @@ public class RegisterActivity extends AppCompatActivity {
         return day + "/" + month + "/" + year;
     }
 
-    private String getMonthFormat(int month) {
-        switch (month) {
-            case 1:
-                return "JAN";
-            case 2:
-                return "FEB";
-            case 3:
-                return "MAR";
-            case 4:
-                return "APR";
-            case 5:
-                return "MAY";
-            case 6:
-                return "JUN";
-            case 7:
-                return "JUL";
-            case 8:
-                return "AUG";
-            case 9:
-                return "SEP";
-            case 10:
-                return "OCT";
-            case 11:
-                return "NOV";
-            case 12:
-                return "DEC";
-            default:
-                System.out.println("ERROR");
-                return "ERROR";
-        }
-    }
-
     public void openDatePicker (View view) {
         datePickerDialog.show();
     }
@@ -169,7 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (!email.matches(emailPattern)) {
             inputEmail.setError("Enter Context Email");
-            inputEmail.requestFocus(); // TODO
+            inputEmail.requestFocus();
         } else if (password.isEmpty() || password.length() < 6) {
             inputPassword.setError("Enter propper password!");
             inputPassword.requestFocus();
@@ -187,7 +155,7 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
 
-                        User user = new User(name, surname, email, password, birth, null);
+                        User user = new User(name, surname, email, password, birth, "null");
                         FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
                                 .getReference("Users")
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
