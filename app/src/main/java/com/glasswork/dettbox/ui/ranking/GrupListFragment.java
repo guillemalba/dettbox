@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +41,10 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.concurrent.TimeUnit;
 
 public class GrupListFragment extends Fragment {
 
@@ -60,16 +64,24 @@ public class GrupListFragment extends Fragment {
 
     private TextView rankingName;
 
+    private TextView tvCountDown;
+    CountDownTimer mCountDownTimer;
+
+    long mInitialTime;
+    long timeRemaining;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_grup_list, container, false);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String groupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "Ranking");
+        tvCountDown = view.findViewById(R.id.tvCountDown);
+        // sets the timer of the season
+        setCountDownSeason();
 
-        rankingName = getActivity().findViewById(R.id.ranking_name);
-        rankingName.setText(groupName);
+        // sets the group name as the title of ranking group
+        setGroupNameOnScreen();
+
         readUser();
         mAuth = FirebaseAuth.getInstance();
 
@@ -102,6 +114,63 @@ public class GrupListFragment extends Fragment {
         rankingName = getActivity().findViewById(R.id.ranking_name);
         rankingName.setText(groupName);
     }
+
+    public void setGroupNameOnScreen() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String groupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "Ranking");
+
+        rankingName = getActivity().findViewById(R.id.ranking_name);
+        rankingName.setText(groupName);
+    }
+
+    public void setCountDownSeason() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
+        cal.clear(Calendar.MINUTE);
+        cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MILLISECOND);
+
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+
+
+        mInitialTime = DateUtils.DAY_IN_MILLIS * Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
+        long timeBetweenStartMonthAndCurrent = System.currentTimeMillis() - cal.getTimeInMillis();
+        timeRemaining = mInitialTime - timeBetweenStartMonthAndCurrent;
+
+        mCountDownTimer = new CountDownTimer(timeRemaining, 1000) {
+            StringBuilder time = new StringBuilder();
+            @Override
+            public void onFinish() {
+                tvCountDown.setText(DateUtils.formatElapsedTime(0));
+                //mTextView.setText("Times Up!");
+                // TODO: here finishes counter
+            }
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                time.setLength(0);
+                time.append(convertTimeToString(millisUntilFinished));
+                tvCountDown.setText(time.toString());
+            }
+        }.start();
+    }
+
+    private String convertTimeToString(long lastTimeUsed) {
+        return String.format(
+                "%dd %2dh %2dm %2ds",
+                TimeUnit.MILLISECONDS.toDays(lastTimeUsed),
+                TimeUnit.MILLISECONDS.toHours(lastTimeUsed) - TimeUnit.DAYS.toHours(
+                        TimeUnit.MILLISECONDS.toDays(lastTimeUsed)
+                ),
+                TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed) - TimeUnit.HOURS.toMinutes(
+                        TimeUnit.MILLISECONDS.toHours(lastTimeUsed)
+                ),
+                TimeUnit.MILLISECONDS.toSeconds(lastTimeUsed) - TimeUnit.MINUTES.toSeconds(
+                        TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed)
+                )
+        );
+    }
+
 
     public void leaveGroupDialog() {
         dialogBuilder = new AlertDialog.Builder(getContext());
