@@ -287,7 +287,7 @@ public class NoGroupFragment extends Fragment {
                     String bday = snapshot.child("birth").getValue().toString();
                     String groupName = snapshot.child("groupName").getValue().toString();
                     String email = snapshot.child("email").getValue().toString();
-                    user = new User(name, surname, email, pssw, bday, groupName);
+                    user = new User(name,email, pssw, bday, groupName);
                 }
             }
             @Override

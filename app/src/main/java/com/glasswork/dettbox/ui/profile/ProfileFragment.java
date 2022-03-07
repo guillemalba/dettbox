@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,10 @@ import androidx.fragment.app.Fragment;
 
 import com.glasswork.dettbox.MainActivity;
 import com.glasswork.dettbox.R;
+import com.glasswork.dettbox.RegisterActivity;
+import com.glasswork.dettbox.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,11 +38,13 @@ public class ProfileFragment extends Fragment {
     private Button btnLogout;
     private Button btnUpdate;
     private TextView textEmail;
-    private TextView textName;
-    private TextView textSurname;
+    private EditText textName;
     private TextView textPassword;
-    private TextView textBday;
+    private EditText textBday;
     private TextView textGroup;
+    private EditText TextName2;
+    private EditText TextBday2;
+    String _NAME, _BDAY;
 
     @Nullable
     @Override
@@ -58,7 +65,6 @@ public class ProfileFragment extends Fragment {
 
         //Cogemos los campos
         textName = view.findViewById(R.id.textView5);
-        textSurname = view.findViewById(R.id.textView7);
         textEmail = view.findViewById(R.id.textEmail);
         textPassword =  view.findViewById(R.id.textView9);
         textBday = view.findViewById(R.id.textView11);
@@ -71,14 +77,12 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    String name = snapshot.child("name").getValue().toString();
-                    String surname = snapshot.child("surname").getValue().toString();
-                    String pssw = snapshot.child("password").getValue().toString();
-                    String bday = snapshot.child("birth").getValue().toString();
+                    String name = Objects.requireNonNull(snapshot.child("name").getValue()).toString();
+                    String pssw = Objects.requireNonNull(snapshot.child("password").getValue()).toString();
+                    String bday = Objects.requireNonNull(snapshot.child("birth").getValue()).toString();
                     String groupName = snapshot.child("groupName").getValue().toString();
 
                     textName.setText(name);
-                    textSurname.setText(surname);
                     textPassword.setText(pssw);
                     textBday.setText(bday);
                     textGroup.setText(groupName);
@@ -96,30 +100,50 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //mAuth.signOut();
-                if(isNameChanged() || isSurnameChanged() || isPsswChanged()){
-                    Toast.makeText(getContext(),"Data has been updated", Toast.LENGTH_SHORT).show();
+                if(!isUsernameChanged() || !isBdayChanged()){
 
+                    //Cogemos nuevos valores de los campos
+                    TextName2 = view.findViewById(R.id.textView5);
+                    TextBday2 = view.findViewById(R.id.textView11);
+                    String newName = TextName2.getText().toString();
+                    String email = textEmail.getText().toString();
+                    String password = textPassword.getText().toString();
+                    textPassword =  view.findViewById(R.id.textView9);
+                    String newBday =  TextBday2.getText().toString();
+
+                    //Metemos los nuevos valores en la bbdd
+                    User user = new User(newName,email, password, newBday, "null");
+                    FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
+                            .getReference("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getContext(), "User has been updated", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Data has not been updated!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                }else{
+                    Toast.makeText(getContext(),"Data has not been updated!", Toast.LENGTH_SHORT).show();
                 }
-                reference = FirebaseDatabase.getInstance().getReference("Users");
 
-                /*Intent intent = new Intent(getActivity(), ProfileFragment.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);*/
+
             }
         });
 
         return view;
     }
 
-    private  boolean isNameChanged(){
-       return true;
+    private  boolean isUsernameChanged(){
+        return !_NAME.equals(textName.getText().toString());
+
     }
 
-    private  boolean isSurnameChanged(){
-        return true;
-    }
-
-    private  boolean isPsswChanged(){
-        return true;
+    private  boolean isBdayChanged(){
+        return !_BDAY.equals(textBday.getText().toString());
     }
 }
