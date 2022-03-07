@@ -128,10 +128,8 @@ public class ProfileFragment extends Fragment {
                     });
 
                 }else{
-                    Toast.makeText(getContext(),"Data has not been updated!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"There is nothing to update", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
 

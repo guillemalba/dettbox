@@ -73,7 +73,7 @@
                 android:id="@+id/inputEmail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/input_bg"
                 android:drawableLeft="@drawable/ic_baseline_email_24"
                 android:drawablePadding="10dp"
@@ -87,10 +87,10 @@
                 android:paddingBottom="13dp"
                 android:textColor="@color/colorHint"
                 android:textColorHint="@color/colorHint"
-                app:layout_constraintEnd_toEndOf="@+id/inputSurname"
+                app:layout_constraintEnd_toEndOf="@+id/inputName"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/inputSurname"
-                app:layout_constraintTop_toBottomOf="@+id/inputSurname" />
+                app:layout_constraintStart_toStartOf="@+id/inputName"
+                app:layout_constraintTop_toBottomOf="@+id/inputName" />
 
             <EditText
                 android:id="@+id/inputPassword"
@@ -195,7 +195,7 @@
                 android:background="@drawable/input_bg"
                 android:ems="10"
                 android:fontFamily="@font/bitter_regular"
-                android:hint="Name"
+                android:hint="Username"
                 android:inputType="textPersonName"
                 android:paddingLeft="20dp"
                 android:paddingTop="12dp"
@@ -207,28 +207,6 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-            <EditText
-                android:id="@+id/inputSurname"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/input_bg"
-                android:drawablePadding="10dp"
-                android:ems="10"
-                android:fontFamily="@font/bitter_regular"
-                android:hint="Surname"
-                android:inputType="textPersonName"
-                android:paddingLeft="20dp"
-                android:paddingTop="12dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="12dp"
-                android:textColor="@color/colorHint"
-                android:textColorHint="@color/colorHint"
-                app:layout_constraintEnd_toEndOf="@+id/inputName"
-                app:layout_constraintHorizontal_bias="0.333"
-                app:layout_constraintStart_toStartOf="@+id/inputName"
-                app:layout_constraintTop_toBottomOf="@+id/inputName" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

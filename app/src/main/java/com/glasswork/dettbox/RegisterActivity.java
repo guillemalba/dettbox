@@ -58,7 +58,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Getting ids from xml to java
         inputName = findViewById(R.id.inputName);
-        inputSurname = findViewById(R.id.inputSurname);
         inputEmail = findViewById(R.id.inputEmail);
         inputPassword = findViewById(R.id.inputPassword);
         inputConfirmPassword = findViewById(R.id.inputConfirmPassword);
