@@ -100,19 +100,23 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //mAuth.signOut();
+                TextName2 = view.findViewById(R.id.textView5);
+                TextBday2 = view.findViewById(R.id.textView11);
+                _NAME = TextName2.getText().toString();
+                _BDAY = TextBday2.getText().toString();
+
                 if(!isUsernameChanged() || !isBdayChanged()){
 
                     //Cogemos nuevos valores de los campos
-                    TextName2 = view.findViewById(R.id.textView5);
-                    TextBday2 = view.findViewById(R.id.textView11);
-                    String newName = TextName2.getText().toString();
+
+                   //String newName = TextName2.getText().toString();
                     String email = textEmail.getText().toString();
                     String password = textPassword.getText().toString();
                     textPassword =  view.findViewById(R.id.textView9);
-                    String newBday =  TextBday2.getText().toString();
+                    //String newBday =  TextBday2.getText().toString();
 
                     //Metemos los nuevos valores en la bbdd
-                    User user = new User(newName,email, password, newBday, "null");
+                    User user = new User(_NAME,email, password, _BDAY, "null");
                     FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
                             .getReference("Users")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
