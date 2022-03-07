@@ -99,7 +99,8 @@ public class ProfileFragment extends Fragment {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //mAuth.signOut();
+
+                //Cogemos nuevos valores de los campos
                 TextName2 = view.findViewById(R.id.textView5);
                 TextBday2 = view.findViewById(R.id.textView11);
                 _NAME = TextName2.getText().toString();
@@ -107,29 +108,47 @@ public class ProfileFragment extends Fragment {
 
                 if(!isUsernameChanged() || !isBdayChanged()){
 
-                    //Cogemos nuevos valores de los campos
+                    //Metemos los nuevos valores en la bbdd
 
-                   //String newName = TextName2.getText().toString();
                     String email = textEmail.getText().toString();
                     String password = textPassword.getText().toString();
                     textPassword =  view.findViewById(R.id.textView9);
-                    //String newBday =  TextBday2.getText().toString();
 
-                    //Metemos los nuevos valores en la bbdd
-                    User user = new User(_NAME,email, password, _BDAY, "null");
-                    FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
-                            .getReference("Users")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getContext(), "User has been updated", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getContext(), "Data has not been updated!", Toast.LENGTH_SHORT).show();
+                    if(!isUsernameChanged()){
+                        String Bday =  TextBday2.getText().toString();
+                        User user = new User(_NAME,email, password, Bday , "null");
+                        FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
+                                .getReference("Users")
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getContext(), "Username has been updated", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getContext(), "Username has not been updated!", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+
+                    if (!isBdayChanged()){
+                        String Name = TextName2.getText().toString();
+                        User user = new User(Name,email, password, _BDAY, "null");
+                        FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
+                                .getReference("Users")
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getContext(), "Birthday has been updated", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getContext(), "Birthday has not been updated!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
 
                 }else{
                     Toast.makeText(getContext(),"There is nothing to update", Toast.LENGTH_SHORT).show();
