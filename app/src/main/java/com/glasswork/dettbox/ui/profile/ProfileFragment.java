@@ -111,15 +111,15 @@ public class ProfileFragment extends Fragment {
                 if(!isUsernameChanged() || !isBdayChanged()){
 
                     //Metemos los nuevos valores en la bbdd
-
                     String email = textEmail.getText().toString();
                     String password = textPassword.getText().toString();
+                    String group =  textGroup.getText().toString();
                     textPassword =  view.findViewById(R.id.textView9);
 
                     //solo cambiamos el username si solo se ha editado ese campo
                     if(!isUsernameChanged()){
                         String Bday =  TextBday2.getText().toString();
-                       User user = new User(_NAME,email, password, Bday, "null");
+                       User user = new User(_NAME,email, password, Bday,group);
                         FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
                                 .getReference("Users")
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -137,7 +137,7 @@ public class ProfileFragment extends Fragment {
                     //solo cambiamos el cumpleaños si solo se ha editado ese campo
                     if (!isBdayChanged()){
                         String Name = TextName2.getText().toString();
-                        User user = new User(Name,email, password, _BDAY, "null");
+                        User user = new User(Name,email, password, _BDAY, group);
                         FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
                                 .getReference("Users")
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
