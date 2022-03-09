@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -23,22 +22,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.glasswork.dettbox.R;
-import com.glasswork.dettbox.model.AppItem;
 import com.glasswork.dettbox.model.User;
-import com.glasswork.dettbox.ui.home.RecyclerAdapter;
 import com.glasswork.dettbox.model.UserRanking;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -143,6 +136,10 @@ public class GrupListFragment extends Fragment {
             public void onFinish() {
                 tvCountDown.setText(DateUtils.formatElapsedTime(0));
                 //mTextView.setText("Times Up!");
+                /*FragmentTransaction ft = ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, new FinalResultsFragment());
+                ft.addToBackStack("FinalResultsFragment");
+                ft.commit();*/
                 // TODO: here finishes counter
             }
 
@@ -190,7 +187,7 @@ public class GrupListFragment extends Fragment {
             public void onClick(View v) {
                 dialog.dismiss();
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                prefs.edit().putBoolean(mAuth.getCurrentUser().getUid(), true).commit();
+                prefs.edit().putBoolean(mAuth.getCurrentUser().getUid() + "groupStatus", true).commit();
 
                 reference = FirebaseDatabase.getInstance(FIREBASE_LINK)
                         .getReference("Groups").child(user.getGroupName()).child("Users").child(mAuth.getCurrentUser().getUid());
@@ -308,7 +305,7 @@ public class GrupListFragment extends Fragment {
 
     public void sendUserToNextFragment() {
         FragmentTransaction ft = ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, new RankingFragment());
+        ft.replace(R.id.fragment_container, new MainRankingFragment());
         ft.addToBackStack("GroupListFragment");
         ft.commit();
     }

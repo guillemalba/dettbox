@@ -77,10 +77,10 @@ public class NoGroupFragment extends Fragment {
 
     private void sendUserToNextFragment() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        prefs.edit().putBoolean(mAuth.getCurrentUser().getUid(), false).commit();
+        prefs.edit().putBoolean(mAuth.getCurrentUser().getUid() + "groupStatus", false).commit();
 
         FragmentTransaction ft = ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, new RankingFragment());
+        ft.replace(R.id.fragment_container, new MainRankingFragment());
         ft.addToBackStack("GroupListFragment");
         ft.commit();
     }
@@ -282,7 +282,6 @@ public class NoGroupFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     String name = snapshot.child("name").getValue().toString();
-                    String surname = snapshot.child("surname").getValue().toString();
                     String pssw = snapshot.child("password").getValue().toString();
                     String bday = snapshot.child("birth").getValue().toString();
                     String groupName = snapshot.child("groupName").getValue().toString();

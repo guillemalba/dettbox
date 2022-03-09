@@ -83,19 +83,6 @@ public class HomeFragment extends Fragment {
         return position;
     }
 
-    private int appNameExist(List<PackageInfo> list, String appName) {
-        int position = -2;
-        for (int i = 0; i < list.size(); i++) {
-            String name = list.get(i).applicationInfo.loadLabel(getActivity().getPackageManager()).toString();
-            if (name.equals(appName)) {
-                return i;
-            } else {
-                position = -1;
-            }
-        }
-        return position;
-    }
-
     private void setAdapter() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -105,7 +92,6 @@ public class HomeFragment extends Fragment {
 
     private void setAppInfo() {
 
-        saveIconsToLocal();
         DatabaseReference reference = FirebaseDatabase.getInstance(FIREBASE_LINK)
                 .getReference("Users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -168,30 +154,6 @@ public class HomeFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-    }
-
-    public void saveIconsToLocal() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        List<PackageInfo> packList = getActivity().getPackageManager().getInstalledPackages(0);
-        for (int i=0; i < packList.size(); i++)
-        {
-            PackageInfo packInfo = packList.get(i);
-            String appName = packInfo.applicationInfo.loadLabel(getActivity().getPackageManager()).toString();
-            switch (appName) {
-                case "WhatsApp":
-                case "Deezer":
-                case "Dettbox":
-                case "Instagram":
-                case "Netflix":
-                case "Telegram":
-                case "Discord":
-                    String json = gson.toJson(packList.get(i));
-                    prefs.edit().putString(appName, json).commit();
-                    break;
-            }
-        }
     }
 
 }

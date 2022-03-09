@@ -24,7 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class RankingFragment extends Fragment {
+public class MainRankingFragment extends Fragment {
     private FirebaseAuth mAuth;
 
     @Nullable
@@ -33,7 +33,7 @@ public class RankingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ranking, container, false);
         mAuth = FirebaseAuth.getInstance();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Boolean yourLocked = prefs.getBoolean(mAuth.getCurrentUser().getUid(), true);
+        Boolean yourLocked = prefs.getBoolean(mAuth.getCurrentUser().getUid() + "groupStatus", true);
 
         // if the user is not in a group or not change fragment to display
         if (yourLocked) {

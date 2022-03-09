@@ -128,7 +128,6 @@ public class RegisterActivity extends AppCompatActivity {
     // authentication
     private void perforAuth() {
         String name = inputName.getText().toString();
-        String surname = inputSurname.getText().toString();
         String email = inputEmail.getText().toString();
         String password = inputPassword.getText().toString();
         String confirmPassword = inputConfirmPassword.getText().toString();

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.tasks.MenuTasksFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/add_task"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/input_bg"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="30dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Task"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="@+id/add_task"
+            app:layout_constraintEnd_toEndOf="@+id/add_task"
+            app:layout_constraintStart_toStartOf="@+id/add_task"
+            app:layout_constraintTop_toTopOf="@+id/add_task" />
+
+        <View
+            android:id="@+id/verify_task"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/input_bg"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_task" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Verify Task"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="@+id/verify_task"
+            app:layout_constraintEnd_toEndOf="@+id/verify_task"
+            app:layout_constraintStart_toStartOf="@+id/verify_task"
+            app:layout_constraintTop_toTopOf="@+id/verify_task" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

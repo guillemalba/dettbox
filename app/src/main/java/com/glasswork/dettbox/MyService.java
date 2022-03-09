@@ -72,7 +72,7 @@ public class MyService extends Service {
         }
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-            startMyOwnForeground();
+            //startMyOwnForeground();
         } else {
             startForeground(1, new Notification());
         }
@@ -106,7 +106,7 @@ public class MyService extends Service {
         }
     }
 
-    // shows a notification when the app is opened and keeps it until app is force closed
+    /*// shows a notification when the app is opened and keeps it until app is force closed
     @RequiresApi(Build.VERSION_CODES.O)
     private void startMyOwnForeground()
     {
@@ -129,7 +129,7 @@ public class MyService extends Service {
         startForeground(2, notification);
 
 
-    }
+    }*/
 
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
@@ -168,13 +168,13 @@ public class MyService extends Service {
 
                     Calendar currentDate = Calendar.getInstance();
 
-                    if (currentDate.before(endDate)) {
-                        /*Toast.makeText(getApplicationContext(), "DAY NOT ENDED:", Toast.LENGTH_SHORT).show();*/
-                        /*Log.e("TAG", "DAY NOT ENDED: ");*/
+                    /*if (currentDate.before(endDate)) {
+                        *//*Toast.makeText(getApplicationContext(), "DAY NOT ENDED:", Toast.LENGTH_SHORT).show();*//*
+                        *//*Log.e("TAG", "DAY NOT ENDED: ");*//*
 
                     } else {
-                        /*Toast.makeText(getApplicationContext(), "S'està reproduint (" + mQuery + ")", Toast.LENGTH_SHORT).show();*/
-                        /*Log.e("TAG", "DAY ENDED: ");*/
+                        *//*Toast.makeText(getApplicationContext(), "S'està reproduint (" + mQuery + ")", Toast.LENGTH_SHORT).show();*//*
+                        *//*Log.e("TAG", "DAY ENDED: ");*//*
                         endDate = Calendar.getInstance();
                         endDate.set(Calendar.SECOND, 59);
                         endDate.set(Calendar.MINUTE, 59);
@@ -183,15 +183,26 @@ public class MyService extends Service {
                         start.set(Calendar.SECOND, 0);
                         start.set(Calendar.MINUTE, 0);
                         start.set(Calendar.HOUR_OF_DAY, 0);
-                    }
+                    }*/
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
+                    cal.clear(Calendar.MINUTE);
+                    cal.clear(Calendar.SECOND);
+                    cal.clear(Calendar.MILLISECOND);
 
-                    getTimeSpent(MyService.this, "com.whatsapp", start.getTimeInMillis(), System.currentTimeMillis());
-                    getTimeSpent(MyService.this, "deezer.android.app", start.getTimeInMillis(), System.currentTimeMillis());
-                    getTimeSpent(MyService.this, "com.glasswork.dettbox", start.getTimeInMillis(), System.currentTimeMillis());
-                    getTimeSpent(MyService.this, "com.instagram.android", start.getTimeInMillis(), System.currentTimeMillis());
-                    getTimeSpent(MyService.this, "com.netflix.mediaclient", start.getTimeInMillis(), System.currentTimeMillis());
-                    getTimeSpent(MyService.this, "org.telegram.messenger", start.getTimeInMillis(), System.currentTimeMillis());
-                    getTimeSpent(MyService.this, "com.discord", start.getTimeInMillis(), System.currentTimeMillis());
+                    cal.set(Calendar.DAY_OF_MONTH, 1);
+
+                    getTimeSpent(MyService.this, "com.whatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
+                    getTimeSpent(MyService.this, "deezer.android.app", cal.getTimeInMillis(), System.currentTimeMillis());
+                    getTimeSpent(MyService.this, "com.glasswork.dettbox", cal.getTimeInMillis(), System.currentTimeMillis());
+                    getTimeSpent(MyService.this, "com.instagram.android", cal.getTimeInMillis(), System.currentTimeMillis());
+                    getTimeSpent(MyService.this, "com.netflix.mediaclient", cal.getTimeInMillis(), System.currentTimeMillis());
+                    getTimeSpent(MyService.this, "org.telegram.messenger", cal.getTimeInMillis(), System.currentTimeMillis());
+                    getTimeSpent(MyService.this, "com.discord", cal.getTimeInMillis(), System.currentTimeMillis());
+                    getTimeSpent(MyService.this, "com.twitter.android", cal.getTimeInMillis(), System.currentTimeMillis());
+                    getTimeSpent(MyService.this, "tv.twitch.android.app", cal.getTimeInMillis(), System.currentTimeMillis());
+                    getTimeSpent(MyService.this, "com.google.android.youtube", cal.getTimeInMillis(), System.currentTimeMillis());
+                    /*getTimeSpent(MyService.this, "com.vanced.android.youtube", cal.getTimeInMillis(), System.currentTimeMillis());*/
 
                     saveTotalTimeToFirebase();
 
@@ -234,7 +245,7 @@ public class MyService extends Service {
                         }
                         // boolean if player is in the group or not to save its info
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        Boolean yourLocked = prefs.getBoolean(FirebaseAuth.getInstance().getCurrentUser().getUid(), true);
+                        Boolean yourLocked = prefs.getBoolean(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupStatus", true);
                         String prefsGroupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
                         if (!yourLocked) {
                             if (!prefsGroupName.equals("null")) {
@@ -248,63 +259,7 @@ public class MyService extends Service {
                                         .setValue(timeString);
                             }
                         }
-
-                    /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    prefs.edit().putInt("hola", totalTime).commit();
-
-                    FirebaseDatabase.getInstance(FIREBASE_LINK)
-                            .getReference("Users")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (snapshot.exists()) {
-                                        String name = snapshot.child("name").getValue().toString();
-                                        String groupName = snapshot.child("groupName").getValue().toString();
-
-                                        FirebaseDatabase.getInstance(FIREBASE_LINK)
-                                                .getReference("Groups")
-                                                .child(groupName)
-                                                .child("Users")
-                                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                        if (snapshot.exists()) {
-                                                            String timeOfRank = snapshot.child("totalMinutes").getValue().toString();
-                                                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                                                            int prefsTotalTime = prefs.getInt("hola", 0);
-                                                            prefsTotalTime += convertTimeToSeconds(timeOfRank);
-                                                            Toast.makeText(getApplicationContext(), "->" + prefsTotalTime, Toast.LENGTH_SHORT).show();
-
-                                                            String aux = convertTimeToString(prefsTotalTime*1000L);
-
-                                                            FirebaseDatabase.getInstance(FIREBASE_LINK)
-                                                                    .getReference("Groups")
-                                                                    .child(groupName)
-                                                                    .child("Users")
-                                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                                    .child("totalMinutes")
-                                                                    .setValue(aux);
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                                    }
-                                                });
-
-                                    }
-                                }
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                }
-                            });*/
-
                     }
-
-
                 }
 
                 @Override
@@ -404,6 +359,18 @@ public class MyService extends Service {
                 case "com.discord":
                     appName = "Discord";
                     break;
+                case "com.twitter.android":
+                    appName = "Twitter";
+                    break;
+                case "tv.twitch.android.app":
+                    appName = "Twitch";
+                    break;
+                case "com.google.android.youtube":
+                    appName = "YouTube";
+                    break;
+                /*case "com.vanced.android.youtube":
+                    appName = "YouTube Vanced";
+                    break;*/
                 default:
                     appName = "App not found";
             }
@@ -457,13 +424,12 @@ public class MyService extends Service {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
-                                String name = snapshot.child("name").getValue().toString();
-                                String surname = snapshot.child("surname").getValue().toString();
+                                String username = snapshot.child("name").getValue().toString();
                                 String pssw = snapshot.child("password").getValue().toString();
                                 String bday = snapshot.child("birth").getValue().toString();
                                 String groupName = snapshot.child("groupName").getValue().toString();
                                 String email = snapshot.child("email").getValue().toString();
-                                user = new User(name, email, pssw, bday, groupName);
+                                user = new User(username, email, pssw, bday, groupName);
                             }
                         }
                         @Override
