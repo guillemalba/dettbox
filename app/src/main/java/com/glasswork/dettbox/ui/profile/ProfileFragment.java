@@ -82,7 +82,7 @@ public class ProfileFragment extends Fragment {
                     String name = Objects.requireNonNull(snapshot.child("name").getValue()).toString();
                     String pssw = Objects.requireNonNull(snapshot.child("password").getValue()).toString();
                     String bday = Objects.requireNonNull(snapshot.child("birth").getValue()).toString();
-                    String groupName = snapshot.child("groupName").getValue().toString();
+                    String groupName = Objects.requireNonNull(snapshot.child("groupName").getValue()).toString();
 
                     textName.setText(name);
                     textPassword.setText(pssw);
@@ -119,7 +119,7 @@ public class ProfileFragment extends Fragment {
                     //solo cambiamos el username si solo se ha editado ese campo
                     if(!isUsernameChanged()){
                         String Bday =  TextBday2.getText().toString();
-                        User user = new User(_NAME,email, password, Bday, "null");
+                       User user = new User(_NAME,email, password, Bday, "null");
                         FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
                                 .getReference("Users")
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
