@@ -17,7 +17,7 @@
             android:layout_width="265px"
             android:layout_height="265px"
             android:layout_marginTop="30dp"
-            android:background="@drawable/ic_top3"
+            android:background="@drawable/ic_ranking"
             android:backgroundTint="@color/colorSecondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

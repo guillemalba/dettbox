@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorSplash"
         app:menu="@menu/bottom_navigation"
-        app:labelVisibilityMode="labeled"
+        app:labelVisibilityMode="selected"
         app:elevation="8dp"
         app:itemIconTint="@color/icon_colors"
         app:itemTextColor="@color/icon_colors"

@@ -1,14 +1,38 @@
 package com.glasswork.dettbox.model;
 
 public class ActiveTask {
+    private String id;
+    private String title;
     private String description;
     private String member1;
     private String member2;
+    private String time;
+    private String verifiedCount;
 
-    public ActiveTask(String description, String member1, String member2) {
+    public ActiveTask(String id, String title, String description, String member1, String member2, String time, String verifiedCount) {
+        this.id = id;
+        this.title = title;
         this.description = description;
         this.member1 = member1;
         this.member2 = member2;
+        this.time = time;
+        this.verifiedCount = verifiedCount;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -33,5 +57,21 @@ public class ActiveTask {
 
     public void setMember2(String member2) {
         this.member2 = member2;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getVerifiedCount() {
+        return verifiedCount;
+    }
+
+    public void setVerifiedCount(String verifiedCount) {
+        this.verifiedCount = verifiedCount;
     }
 }

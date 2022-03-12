@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -32,6 +34,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,19 +45,28 @@ public class MenuTasksFragment extends Fragment {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
 
+    private EditText etTaskTitle;
     private EditText etTaskDescription;
-    private Spinner spinnerMenu;
+    private Spinner spinnerMembers;
+    private Spinner spinnerHours;
     private Button btnAddTask;
     private View vAddTask;
     private View vVerifyTask;
 
     private List<String> names;
+    private List<String> hours;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_tasks, container, false);
 
         names = new ArrayList<>();
+        hours = new ArrayList<>();
+        hours.add("1h");
+        hours.add("2h");
+        hours.add("3h");
+        hours.add("4h");
+        hours.add("5h");
 
         // reads the user and stores it on shared preferences
         readUser();
@@ -97,12 +110,16 @@ public class MenuTasksFragment extends Fragment {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
+        // TODO change name joinGroupView
+        etTaskTitle = joinGroupView.findViewById(R.id.inputTaskTitle);
         etTaskDescription = joinGroupView.findViewById(R.id.inputTaskDescription);
-        spinnerMenu = joinGroupView.findViewById(R.id.spinner_menu);
+        spinnerMembers = joinGroupView.findViewById(R.id.spinner_members);
+        spinnerHours = joinGroupView.findViewById(R.id.spinner_hours);
 
         btnAddTask = joinGroupView.findViewById(R.id.btnAddTask);
 
         btnAddTask.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
 
@@ -113,19 +130,23 @@ public class MenuTasksFragment extends Fragment {
                 String json = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid(), "");
                 User user = gson.fromJson(json, User.class);
 
+                String taskTitle = etTaskTitle.getText().toString();
                 String taskDescription = etTaskDescription.getText().toString();
-                String memberName2 = spinnerMenu.getSelectedItem().toString();
+                String memberName2 = spinnerMembers.getSelectedItem().toString();
+                String hoursSelected = spinnerHours.getSelectedItem().toString();
 
-                ActiveTask newTask = new ActiveTask(taskDescription, user.getName(), memberName2);
+                String actualDate = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss").format(LocalDateTime.now());
+                String id = actualDate;
+
+                ActiveTask newTask = new ActiveTask(id, taskTitle, taskDescription, user.getName(), memberName2, hoursSelected, "0");
                 FirebaseDatabase.getInstance(FIREBASE_LINK)
                         .getReference("Groups")
                         .child(groupName)
                         .child("ActiveTasks")
+                        .child(actualDate)
                         .setValue(newTask);
 
                 dialog.dismiss();
-
-
             }
         });
 
@@ -154,7 +175,12 @@ public class MenuTasksFragment extends Fragment {
                         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_single_choice, names);
                         arrayAdapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
 
-                        spinnerMenu.setAdapter(arrayAdapter);
+                        spinnerMembers.setAdapter(arrayAdapter);
+
+                        ArrayAdapter<String> arrayHoursAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_single_choice, hours);
+                        arrayHoursAdapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+
+                        spinnerHours.setAdapter(arrayHoursAdapter);
                     }
 
                             /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -162,7 +188,7 @@ public class MenuTasksFragment extends Fragment {
                             prefs.edit().putString(mAuth.getCurrentUser().getUid() + "groupName", "null").commit();
                             String groupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");*/
                 } else {
-                    Toast.makeText(getContext(), "There are no Groups yet!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "ERROR: Im here on MenuTasksFragment", Toast.LENGTH_SHORT).show();
                 }
 
 

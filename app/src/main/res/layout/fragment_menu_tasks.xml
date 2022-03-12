@@ -23,14 +23,35 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="30dp" />
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Task"
             android:textSize="25sp"
+            android:layout_marginLeft="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/add_task"
+            app:layout_constraintStart_toEndOf="@+id/ic_add_task"
+            app:layout_constraintTop_toTopOf="@+id/add_task" />
+
+        <View
+            android:id="@+id/ic_add_task"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ic_baseline_playlist_add_24"
+            android:layout_marginLeft="22dp"
+            app:layout_constraintBottom_toBottomOf="@+id/add_task"
+            app:layout_constraintStart_toStartOf="@+id/add_task"
+            app:layout_constraintTop_toTopOf="@+id/add_task" />
+
+        <View
+            android:id="@+id/ic_arrow1"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:layout_marginRight="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/add_task"
             app:layout_constraintEnd_toEndOf="@+id/add_task"
-            app:layout_constraintStart_toStartOf="@+id/add_task"
             app:layout_constraintTop_toTopOf="@+id/add_task" />
 
         <View
@@ -48,11 +69,31 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Verify Task"
+            android:text="Verify Tasks"
             android:textSize="25sp"
+            android:layout_marginLeft="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/verify_task"
+            app:layout_constraintStart_toEndOf="@+id/ic_verify_task"
+            app:layout_constraintTop_toTopOf="@+id/verify_task" />
+
+        <View
+            android:id="@+id/ic_verify_task"
+            android:layout_width="25dp"
+            android:layout_height="28dp"
+            android:background="@drawable/ic_task_verified"
+            android:layout_marginLeft="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/verify_task"
+            app:layout_constraintStart_toStartOf="@+id/verify_task"
+            app:layout_constraintTop_toTopOf="@+id/verify_task" />
+
+        <View
+            android:id="@+id/ic_arrow2"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:layout_marginRight="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/verify_task"
             app:layout_constraintEnd_toEndOf="@+id/verify_task"
-            app:layout_constraintStart_toStartOf="@+id/verify_task"
             app:layout_constraintTop_toTopOf="@+id/verify_task" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
