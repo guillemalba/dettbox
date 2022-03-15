@@ -71,6 +71,9 @@ public class MenuTasksFragment extends Fragment {
         // reads the user and stores it on shared preferences
         readUser();
 
+        // reads de group size
+        readGroupSize();
+
         vAddTask = view.findViewById(R.id.add_task);
         vAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +135,13 @@ public class MenuTasksFragment extends Fragment {
 
                 String taskTitle = etTaskTitle.getText().toString();
                 String taskDescription = etTaskDescription.getText().toString();
-                String memberName2 = spinnerMembers.getSelectedItem().toString();
+                String memberName2;
+                int groupSize = prefs.getInt(groupName + "countUsers", 0);
+                if (groupSize == 1) {
+                    memberName2 = "Nobody";
+                } else {
+                    memberName2 = spinnerMembers.getSelectedItem().toString();
+                }
                 String hoursSelected = spinnerHours.getSelectedItem().toString();
 
                 String actualDate = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss").format(LocalDateTime.now());
@@ -224,6 +233,30 @@ public class MenuTasksFragment extends Fragment {
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+    }
+
+    public void readGroupSize() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String prefsGroupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
+        FirebaseDatabase.getInstance(FIREBASE_LINK)
+                .getReference("Groups")
+                .child(prefsGroupName)
+                .child("Users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int counter = 0;
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            counter++;
+                        }
+                        prefs.edit().putInt(prefsGroupName + "countUsers", counter).commit();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
                     }
                 });
     }

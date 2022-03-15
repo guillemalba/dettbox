@@ -168,7 +168,6 @@ public class GrupListFragment extends Fragment {
         );
     }
 
-
     public void leaveGroupDialog() {
         dialogBuilder = new AlertDialog.Builder(getContext());
         final View leaveGroupView = getLayoutInflater().inflate(R.layout.popup_leave_group, null);

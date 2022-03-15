@@ -72,6 +72,7 @@ public class HomeActivity extends AppCompatActivity {
         {
             PackageInfo packInfo = packList.get(i);
             String appName = packInfo.applicationInfo.loadLabel(getPackageManager()).toString();
+            /*prefs.edit().remove("YouTubeVanced").commit();*/
             switch (appName) {
                 case "WhatsApp":
                 case "Deezer":
@@ -79,11 +80,17 @@ public class HomeActivity extends AppCompatActivity {
                 case "Instagram":
                 case "Netflix":
                 case "Telegram":
-                case "Discord"://TODO NAMS
+                case "Discord":
                 case "Twitter":
                 case "Twitch":
                 case "YouTube":
-                /*case "YouTube Vanced":*/
+                case "TikTok":
+                case "Facebook":
+                case "Messenger":
+                case "Tinder":
+                case "Snapchat":
+                case "BeReal":
+                case "Reddit":
                     String json = gson.toJson(packList.get(i));
                     prefs.edit().putString(appName, json).commit();
                     break;
