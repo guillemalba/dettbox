@@ -1,23 +1,19 @@
 package com.glasswork.dettbox.ui.home;
 
-import android.annotation.SuppressLint;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.content.pm.PackageInfo;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,9 +22,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.glasswork.dettbox.MyService;
 import com.glasswork.dettbox.R;
-import com.glasswork.dettbox.RegisterActivity;
 import com.glasswork.dettbox.model.AppItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -39,7 +33,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -84,8 +77,9 @@ public class HomeFragment extends Fragment {
 
         cal.set(Calendar.DAY_OF_MONTH, 1);
 
+        /*getAppData(getContext(), "com.tinder", cal.getTimeInMillis(), System.currentTimeMillis());*/
         getAppData(getContext(), "com.whatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.tinder", cal.getTimeInMillis(), System.currentTimeMillis());
+        getAppData(getContext(), "edu.salleurl.esyllabus", cal.getTimeInMillis(), System.currentTimeMillis());
         getAppData(getContext(), "com.glasswork.dettbox", cal.getTimeInMillis(), System.currentTimeMillis());
         getAppData(getContext(), "com.instagram.android", cal.getTimeInMillis(), System.currentTimeMillis());
         getAppData(getContext(), "com.netflix.mediaclient", cal.getTimeInMillis(), System.currentTimeMillis());
@@ -96,7 +90,6 @@ public class HomeFragment extends Fragment {
         getAppData(getContext(), "com.google.android.youtube", cal.getTimeInMillis(), System.currentTimeMillis());
         getAppData(getContext(), "com.zhiliaoapp.musically", cal.getTimeInMillis(), System.currentTimeMillis());
         getAppData(getContext(), "com.snapchat.android", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.tinder", cal.getTimeInMillis(), System.currentTimeMillis());
         getAppData(getContext(), "com.facebook.katana", cal.getTimeInMillis(), System.currentTimeMillis());
         getAppData(getContext(), "com.facebook.orca", cal.getTimeInMillis(), System.currentTimeMillis());
         getAppData(getContext(), "com.reddit.frontpage", cal.getTimeInMillis(), System.currentTimeMillis());
@@ -246,11 +239,14 @@ public class HomeFragment extends Fragment {
             case "com.snapchat.android":
                 appName = "Snapchat";
                 break;
-            case "com.tinder":
+            /*case "com.tinder":
                 appName = "Tinder";
-                break;
+                break;*/
             case "com.facebook.katana":
                 appName = "Facebook";
+                break;
+            case "edu.salleurl.esyllabus":
+                appName = "eSyllabus";
                 break;
             case "com.facebook.orca":
                 appName = "Messenger";

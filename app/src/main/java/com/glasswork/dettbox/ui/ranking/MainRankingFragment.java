@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainRankingFragment extends Fragment {
     private FirebaseAuth mAuth;
+    private boolean yourLocked;
 
     @Nullable
     @Override
@@ -33,7 +35,7 @@ public class MainRankingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ranking, container, false);
         mAuth = FirebaseAuth.getInstance();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Boolean yourLocked = prefs.getBoolean(mAuth.getCurrentUser().getUid() + "groupStatus", true);
+        yourLocked = prefs.getBoolean(mAuth.getCurrentUser().getUid() + "groupStatus", true);
 
         // if the user is not in a group or not change fragment to display
         if (yourLocked) {
@@ -47,6 +49,4 @@ public class MainRankingFragment extends Fragment {
 
         return view;
     }
-
-
 }

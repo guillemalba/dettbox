@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
+import com.glasswork.dettbox.Messages;
 import com.glasswork.dettbox.R;
 import com.glasswork.dettbox.model.ActiveTask;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 
 public class VerifyTasksFragment extends Fragment {
@@ -277,7 +280,7 @@ public class VerifyTasksFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                    String prefsGroupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
+                    String prefsGroupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + Messages.GROUP_NAME, "null");
                     FirebaseDatabase.getInstance(FIREBASE_LINK)
                             .getReference("Groups")
                             .child(prefsGroupName)
@@ -296,7 +299,7 @@ public class VerifyTasksFragment extends Fragment {
                                         } else {
                                             newValue = Integer.parseInt(verifiedCount) - 1;
                                         }
-                                        int numUsers = prefs.getInt(prefsGroupName + "countUsers", 0);
+                                        int numUsers = prefs.getInt(prefsGroupName + Messages.NUMBER_USERS, 0);
                                         if (newValue == numUsers) {
                                             FirebaseDatabase.getInstance(FIREBASE_LINK)
                                                     .getReference("Groups")
@@ -304,6 +307,50 @@ public class VerifyTasksFragment extends Fragment {
                                                     .child("ActiveTasks")
                                                     .child(tvTaskId.getText().toString())
                                                     .removeValue();
+                                            FirebaseDatabase.getInstance(FIREBASE_LINK)
+                                                    .getReference("Groups")
+                                                    .child(prefsGroupName)
+                                                    .child("Users")
+                                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            if (snapshot.exists()) {
+                                                                for (DataSnapshot user : snapshot.getChildren()) {
+                                                                    String userId = user.getKey();
+                                                                    String username = user.child("name").getValue().toString();
+                                                                    String participant = tvTaskMember2.getText().toString().replace("Participant: ", "");
+                                                                    if(username.equals(participant) || username.equals(tvTaskReporter.getText().toString())) {
+                                                                        int taskSeconds = 0;
+                                                                        switch (tvTaskTime.getText().toString()) {
+                                                                            case "1h": taskSeconds = 1*60*60; break;
+                                                                            case "2h": taskSeconds = 2*60*60; break;
+                                                                            case "3h": taskSeconds = 3*60*60; break;
+                                                                            case "4h": taskSeconds = 4*60*60; break;
+                                                                            case "5h": taskSeconds = 5*60*60; break;
+                                                                        }
+
+                                                                        if (user.hasChild("totalTaskMinutes")) {
+                                                                            int totalTaskMinutes = convertTimeToSeconds(user.child("totalTaskMinutes").getValue().toString());
+                                                                            taskSeconds += totalTaskMinutes;
+                                                                        }
+                                                                        FirebaseDatabase.getInstance(FIREBASE_LINK)
+                                                                                .getReference("Groups")
+                                                                                .child(prefsGroupName)
+                                                                                .child("Users")
+                                                                                .child(userId)
+                                                                                .child("totalTaskMinutes")
+                                                                                .setValue(convertTimeToString(taskSeconds * 1000));
+
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                        }
+                                                    });
                                         } else {
                                             FirebaseDatabase.getInstance(FIREBASE_LINK)
                                                     .getReference("Groups")
@@ -369,6 +416,29 @@ public class VerifyTasksFragment extends Fragment {
                 }
             });
         }
+    }
+
+    private String convertTimeToString(long lastTimeUsed) {
+        return String.format(
+                "%02dh %02dm %02ds",
+                TimeUnit.MILLISECONDS.toHours(lastTimeUsed),
+                TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed) - TimeUnit.HOURS.toMinutes(
+                        TimeUnit.MILLISECONDS.toHours(lastTimeUsed)
+                ),
+                TimeUnit.MILLISECONDS.toSeconds(lastTimeUsed) - TimeUnit.MINUTES.toSeconds(
+                        TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed)
+                )
+        );
+    }
+
+    public int convertTimeToSeconds(String timeString) {
+        String[] aux = timeString.split("h ", 2);
+        String hours = aux[0];
+        String[] aux2 = aux[1].split("m ", 2);
+        String mins = aux2[0];
+        String[] aux3 = aux2[1].split("s", 2);
+        String sec = aux3[0];
+        return Integer.parseInt(hours)*60*60 + Integer.parseInt(mins)*60 + Integer.parseInt(sec);
     }
 
     public void readGroupSize() {

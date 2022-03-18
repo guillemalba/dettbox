@@ -3,9 +3,13 @@ package com.glasswork.dettbox;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AppOpsManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -45,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (!checkUsageStatsPermision()) {
+            startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
+
         // to remove top navbar
         /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setNavigationBarColor(getResources().getColor(R.color.colorSecondary));*/
@@ -73,6 +81,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, RegisterActivity.class));
             }
         });
+    }
+
+    private boolean checkUsageStatsPermision() {
+        try {
+            AppOpsManager appOpsManager;
+            ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo(getPackageName(), 0);
+            int mode = 0;
+            appOpsManager = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
+            mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, applicationInfo.uid, applicationInfo.packageName);
+            return mode == AppOpsManager.MODE_ALLOWED;
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error: Cannot find any usage stats", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 
 
