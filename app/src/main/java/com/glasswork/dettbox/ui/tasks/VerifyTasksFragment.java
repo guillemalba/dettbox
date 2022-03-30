@@ -330,7 +330,7 @@ public class VerifyTasksFragment extends Fragment {
                                                                         }
 
                                                                         if (user.hasChild("totalTaskMinutes")) {
-                                                                            int totalTaskMinutes = convertTimeToSeconds(user.child("totalTaskMinutes").getValue().toString());
+                                                                            int totalTaskMinutes = convertHourMinuteToInt(user.child("totalTaskMinutes").getValue().toString());
                                                                             taskSeconds += totalTaskMinutes;
                                                                         }
                                                                         FirebaseDatabase.getInstance(FIREBASE_LINK)
@@ -339,7 +339,7 @@ public class VerifyTasksFragment extends Fragment {
                                                                                 .child("Users")
                                                                                 .child(userId)
                                                                                 .child("totalTaskMinutes")
-                                                                                .setValue(convertTimeToString(taskSeconds * 1000));
+                                                                                .setValue(convertMillisToHourMinute(taskSeconds * 1000));
 
                                                                     }
                                                                 }
@@ -418,27 +418,109 @@ public class VerifyTasksFragment extends Fragment {
         }
     }
 
-    private String convertTimeToString(long lastTimeUsed) {
+    public int convertHourMinuteToInt(String timeString) {
+        String[] aux = timeString.split("h ", 2);
+        String hours = aux[0];
+        String[] aux2 = aux[1].split("m", 2);
+        String mins = aux2[0];
+        return Integer.parseInt(hours)*60*60 + Integer.parseInt(mins)*60;
+    }
+
+    public int convertTimeToSeconds(String timeString) {
+        if (timeString.contains("d")) {
+
+            String[] aux = timeString.split("d ", 2);
+            String days = aux[0];
+            String[] aux2 = aux[1].split("h ", 2);
+            String hours = aux2[0];
+            String[] aux3 = aux2[1].split("m ", 2);
+            String mins = aux3[0];
+            System.out.println("KO");
+            String[] aux4 = aux3[1].split("s", 2);
+            String sec = aux4[0];
+            return Integer.parseInt(days)*24*60*60 + Integer.parseInt(hours)*60*60 + Integer.parseInt(mins)*60 + Integer.parseInt(sec);
+        } else if (timeString.contains("h")) {
+            String[] aux = timeString.split("h ", 2);
+            String hours = aux[0];
+            String[] aux2 = aux[1].split("m ", 2);
+            String mins = aux2[0];
+            String[] aux3 = aux2[1].split("s", 2);
+            String sec = aux3[0];
+            return Integer.parseInt(hours)*60*60 + Integer.parseInt(mins)*60 + Integer.parseInt(sec);
+        } else if (timeString.contains("m")) {
+            String[] aux2 = timeString.split("m ", 2);
+            String mins = aux2[0];
+            String[] aux3 = aux2[1].split("s", 2);
+            String sec = aux3[0];
+            return Integer.parseInt(mins)*60 + Integer.parseInt(sec);
+        } else {
+            String removeSpace = timeString.replace(" ", "");
+            String sec = removeSpace.replace("s", "");
+            return Integer.parseInt(sec);
+        }
+
+    }
+
+    private String convertMillisToHourMinute(long lastTimeUsed) {
+        String format = "%02dh %02dm";
         return String.format(
-                "%02dh %02dm %02ds",
+                format,
                 TimeUnit.MILLISECONDS.toHours(lastTimeUsed),
                 TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed) - TimeUnit.HOURS.toMinutes(
                         TimeUnit.MILLISECONDS.toHours(lastTimeUsed)
-                ),
-                TimeUnit.MILLISECONDS.toSeconds(lastTimeUsed) - TimeUnit.MINUTES.toSeconds(
-                        TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed)
                 )
         );
     }
 
-    public int convertTimeToSeconds(String timeString) {
-        String[] aux = timeString.split("h ", 2);
-        String hours = aux[0];
-        String[] aux2 = aux[1].split("m ", 2);
-        String mins = aux2[0];
-        String[] aux3 = aux2[1].split("s", 2);
-        String sec = aux3[0];
-        return Integer.parseInt(hours)*60*60 + Integer.parseInt(mins)*60 + Integer.parseInt(sec);
+    private String convertTimeToString(long lastTimeUsed) {
+        String format;
+        long aDay = 86400000;
+        long anHour = 3600000;
+        long aMinute = 60000;
+        if (lastTimeUsed >= aDay) {
+            format = "%02dd %02dh %02dm %02ds";
+            return String.format(
+                    format,
+                    TimeUnit.MILLISECONDS.toDays(lastTimeUsed),
+                    TimeUnit.MILLISECONDS.toHours(lastTimeUsed) - TimeUnit.DAYS.toHours(
+                            TimeUnit.MILLISECONDS.toDays(lastTimeUsed)
+                    ),
+                    TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed) - TimeUnit.HOURS.toMinutes(
+                            TimeUnit.MILLISECONDS.toHours(lastTimeUsed)
+                    ),
+                    TimeUnit.MILLISECONDS.toSeconds(lastTimeUsed) - TimeUnit.MINUTES.toSeconds(
+                            TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed)
+                    )
+            );
+        } else if (lastTimeUsed >= anHour) {
+            format = "%02dh %02dm %02ds";
+            return String.format(
+                    format,
+                    TimeUnit.MILLISECONDS.toHours(lastTimeUsed),
+                    TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed) - TimeUnit.HOURS.toMinutes(
+                            TimeUnit.MILLISECONDS.toHours(lastTimeUsed)
+                    ),
+                    TimeUnit.MILLISECONDS.toSeconds(lastTimeUsed) - TimeUnit.MINUTES.toSeconds(
+                            TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed)
+                    )
+            );
+        } else if (lastTimeUsed >= aMinute) {
+            format = "%02dm %02ds";
+            return String.format(
+                    format,
+                    TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed),
+                    TimeUnit.MILLISECONDS.toSeconds(lastTimeUsed) - TimeUnit.MINUTES.toSeconds(
+                            TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed)
+                    )
+            );
+        } else {
+            format = "%02ds";
+            return String.format(
+                    format,
+                    TimeUnit.MILLISECONDS.toSeconds(lastTimeUsed)
+            );
+        }
+
     }
 
     public void readGroupSize() {

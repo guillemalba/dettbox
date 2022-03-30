@@ -13,9 +13,9 @@
         <View
             android:id="@+id/add_task"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:background="@drawable/input_bg"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="80dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Task"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:layout_marginLeft="25dp"
             app:layout_constraintBottom_toBottomOf="@+id/add_task"
             app:layout_constraintStart_toEndOf="@+id/ic_add_task"
@@ -36,8 +36,8 @@
 
         <View
             android:id="@+id/ic_add_task"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:background="@drawable/ic_baseline_playlist_add_24"
             android:layout_marginLeft="22dp"
             app:layout_constraintBottom_toBottomOf="@+id/add_task"
@@ -57,7 +57,7 @@
         <View
             android:id="@+id/verify_task"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:background="@drawable/input_bg"
             android:layout_marginTop="25dp"
             android:layout_marginLeft="25dp"
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Verify Tasks"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:layout_marginLeft="25dp"
             app:layout_constraintBottom_toBottomOf="@+id/verify_task"
             app:layout_constraintStart_toEndOf="@+id/ic_verify_task"
@@ -78,8 +78,8 @@
 
         <View
             android:id="@+id/ic_verify_task"
-            android:layout_width="25dp"
-            android:layout_height="28dp"
+            android:layout_width="23dp"
+            android:layout_height="25dp"
             android:background="@drawable/ic_task_verified"
             android:layout_marginLeft="25dp"
             app:layout_constraintBottom_toBottomOf="@+id/verify_task"

@@ -1,4 +1,4 @@
-package com.glasswork.dettbox;
+package com.glasswork.dettbox.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +13,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
+import com.glasswork.dettbox.R;
 import com.glasswork.dettbox.model.User;
 import com.glasswork.dettbox.ui.home.HomeFragment;
 import com.glasswork.dettbox.ui.profile.ProfileFragment;
@@ -36,16 +39,17 @@ public class HomeActivity extends AppCompatActivity {
     /*private MyService mYourService;*/
     private static final String FIREBASE_LINK = "https://dettbox-default-rtdb.europe-west1.firebasedatabase.app";
     private User user;
+    private Button btnDay;
+    private Button btnWeek;
+    private Button btnMonth;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.DettboxTheme);
-        /*setTheme(R.style.Theme_AppCompat);*/
         setContentView(R.layout.activity_home);
 
-        /*setTheme(R.style.Theme_AppCompat);*/ //TODO
         // to remove top navbar
         /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setNavigationBarColor(getResources().getColor(R.color.colorDark));*/
@@ -53,16 +57,8 @@ public class HomeActivity extends AppCompatActivity {
         saveIconsToLocal();
         setUserGroup();
 
-        /*mYourService = new MyService();
-        mServiceIntent = new Intent(this, mYourService.getClass());
-        if (!isMyServiceRunning(mYourService.getClass())) {
-            startService(mServiceIntent); // TODO: to start background service
-        }*/
-
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-
-        //FrameLayout frameLayout = findViewById(R.id.fragment_container);
 
         // line to initialize the first HomeFragment
         if (savedInstanceState == null) {
@@ -105,7 +101,7 @@ public class HomeActivity extends AppCompatActivity {
         {
             PackageInfo packInfo = packList.get(i);
             String appName = packInfo.applicationInfo.loadLabel(getPackageManager()).toString();
-            /*prefs.edit().remove("Tinder").commit();*/
+            /*prefs.edit().remove("eSyllabus").commit();*/
             switch (appName) {
                 case "WhatsApp":
                 case "Deezer":
@@ -125,6 +121,8 @@ public class HomeActivity extends AppCompatActivity {
                 case "Snapchat":
                 case "BeReal":
                 case "Reddit":
+                case "FMWhatsApp":
+                case "YoWhatsApp":
                     String json = gson.toJson(packList.get(i));
                     prefs.edit().putString(appName, json).commit();
                     break;
@@ -157,27 +155,5 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
                 }
             };
-
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                Log.i ("Service status", "Running");
-                return true;
-            }
-        }
-        Log.i ("Service status", "Not running");
-        return false;
-    }
-
-    @Override
-    protected void onDestroy() {
-        /*//stopService(mServiceIntent);
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction("restartservice");
-        broadcastIntent.setClass(this, Restarter.class);
-        this.sendBroadcast(broadcastIntent);*/
-        super.onDestroy();
-    }
 
 }

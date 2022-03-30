@@ -29,10 +29,23 @@ public class MainRankingFragment extends Fragment {
     private FirebaseAuth mAuth;
     private boolean yourLocked;
 
+    private Button btnDay;
+    private Button btnWeek;
+    private Button btnMonth;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ranking, container, false);
+
+        btnDay = getActivity().findViewById(R.id.button_day);
+        btnWeek = getActivity().findViewById(R.id.button_week);
+        btnMonth = getActivity().findViewById(R.id.button_month);
+
+        btnDay.setVisibility(View.GONE);
+        btnWeek.setVisibility(View.GONE);
+        btnMonth.setVisibility(View.GONE);
+
         mAuth = FirebaseAuth.getInstance();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         yourLocked = prefs.getBoolean(mAuth.getCurrentUser().getUid() + "groupStatus", true);

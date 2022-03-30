@@ -47,7 +47,7 @@
             <EditText
                 android:id="@+id/inputEmail"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="88dp"
                 android:layout_marginEnd="35dp"
@@ -71,7 +71,7 @@
             <EditText
                 android:id="@+id/inputPassword"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginTop="25dp"
                 android:background="@drawable/input_bg"
                 android:ems="10"
@@ -112,7 +112,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="50dp"
-
                 android:text="Don't have an account?"
                 android:textSize="15dp"
                 android:fontFamily="@font/bitter_regular"
@@ -128,9 +127,8 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="100dp"
-                android:fontFamily="@font/bitter_regular"
+                android:fontFamily="@font/bitter_extra_bold"
                 android:textColor="@color/colorHint"
-                android:textStyle="bold"
                 android:text="Register"
                 android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"

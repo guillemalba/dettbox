@@ -151,7 +151,15 @@ public class NoGroupFragment extends Fragment {
                                                 .child("Users")
                                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                 .child("totalMinutes")
-                                                .setValue("02h 51m 12s");       // TODO: Change this value
+                                                .setValue("00h 00m");       // TODO: Change this value
+
+                                        FirebaseDatabase.getInstance(FIREBASE_LINK)
+                                                .getReference("Groups")
+                                                .child(groupName)
+                                                .child("Users")
+                                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                .child("totalTaskMinutes")
+                                                .setValue("00h 00m");       // TODO: Change this value
 
                                         FirebaseDatabase.getInstance(FIREBASE_LINK)
                                                 .getReference("Users")
@@ -238,7 +246,15 @@ public class NoGroupFragment extends Fragment {
                                         .child("Users")
                                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                         .child("totalMinutes")
-                                        .setValue("00h 34m 56s");       // TODO: Change this value
+                                        .setValue("00h 00m");       // TODO: Change this value
+
+                                FirebaseDatabase.getInstance(FIREBASE_LINK)
+                                        .getReference("Groups")
+                                        .child(groupName)
+                                        .child("Users")
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .child("totalTaskMinutes")
+                                        .setValue("00h 00m");       // TODO: Change this value
 
                                 FirebaseDatabase.getInstance(FIREBASE_LINK)
                                         .getReference("Users")

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "456716383339",
+    "firebase_url": "https://dettbox-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "dettbox",
     "storage_bucket": "dettbox.appspot.com"
   },

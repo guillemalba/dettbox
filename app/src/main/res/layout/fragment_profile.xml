@@ -1,27 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/NavigationBar">
+    android:layout_height="wrap_content">
 
-    <View
-        android:id="@+id/view2"
-        android:layout_width="265px"
-        android:layout_height="265px"
-        android:background="@drawable/ic_profile_picture"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="@color/colorSecondary"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/NavigationBar">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/profile_foto"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:src="@drawable/ic_profile_picture_register"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="3dp"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="10dp"
+        app:civ_shadow_color="#000000"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <!--<ImageView
+        android:id="@+id/profile_foto"
+        android:layout_width="265px"
+        android:layout_height="265px"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/ic_profile_picture"
+        android:backgroundTint="@color/colorSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <Button
+        android:id="@+id/edit_pic_button"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/ic_camera_icon"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_foto"
+        app:layout_constraintEnd_toEndOf="@+id/profile_foto" />
+
+    <!--<TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/bitter_regular"
         android:gravity="center"
         android:text="Profile"
@@ -30,135 +60,205 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_foto" />-->
 
 
-    <Button
-        android:id="@+id/btnlogout"
-        android:layout_width="250dp"
+        <Button
+            android:id="@+id/btnlogout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/button_background_outline"
+            android:fontFamily="@font/bitter_regular"
+            android:layout_marginBottom="90dp"
+            android:text="Logout"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/btnUpdate"
+            app:layout_constraintStart_toStartOf="@+id/btnUpdate"
+            app:layout_constraintTop_toBottomOf="@+id/btnUpdate" />
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
-        android:layout_marginBottom="116dp"
-        android:background="@drawable/button_background"
-        android:fontFamily="@font/bitter_regular"
-        android:text="Logout"
+        android:text="Username"
         android:textColor="@color/colorWhite"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnUpdate" />
+        android:textSize="12sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="@+id/textView5" />
 
     <EditText
         android:id="@+id/textView5"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="35dp"
         android:background="@drawable/input_bg"
+        android:drawableLeft="@drawable/ic_profile_picture_register"
         android:drawablePadding="10dp"
+        android:ems="10"
         android:fontFamily="@font/bitter_regular"
+        android:hint="Username"
+        android:inputType="textPersonName"
+        android:maxLength="10"
         android:paddingLeft="20dp"
         android:paddingTop="12dp"
         android:paddingRight="20dp"
         android:paddingBottom="12dp"
-        android:text="Username"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorHint"
+        android:textColorHint="@color/colorHint"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_foto" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/textEmail"
+        app:layout_constraintStart_toStartOf="@+id/textEmail" />
 
     <TextView
         android:id="@+id/textEmail"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/input_bg"
+        android:drawableLeft="@drawable/ic_baseline_email_24"
+        android:drawablePadding="10dp"
+        android:ems="10"
         android:fontFamily="@font/bitter_regular"
         android:paddingLeft="20dp"
-        android:paddingTop="12dp"
+        android:paddingTop="13dp"
         android:paddingRight="20dp"
-        android:paddingBottom="12dp"
-        android:text="Email"
-        android:textColor="@color/colorBlack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent"
+        android:paddingBottom="13dp"
+        android:textSize="18sp"
+        android:textColor="@color/colorHint"
+        android:textColorHint="@color/colorHint"
+        app:layout_constraintEnd_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView9"
+        app:layout_constraintStart_toStartOf="@+id/textView9" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/input_bg"
+        android:drawableLeft="@drawable/ic_baseline_vpn_key_24"
+        android:drawablePadding="10dp"
+        android:ems="10"
         android:fontFamily="@font/bitter_regular"
+        android:inputType="textPassword"
         android:paddingLeft="20dp"
-        android:paddingTop="12dp"
+        android:paddingTop="13dp"
         android:paddingRight="20dp"
-        android:paddingBottom="12dp"
+        android:paddingBottom="13dp"
         android:text="Password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20sp"
+        android:textColor="@color/colorHint"
+        android:textColorHint="@color/colorHint"
+        app:layout_constraintEnd_toEndOf="@+id/textEmail"
+        app:layout_constraintStart_toStartOf="@+id/textEmail"
         app:layout_constraintTop_toBottomOf="@+id/textEmail" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Birthdate"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView11"
+        app:layout_constraintStart_toStartOf="@+id/textView11" />
 
     <EditText
         android:id="@+id/textView11"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/input_bg"
+        android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/bitter_regular"
         android:paddingLeft="20dp"
-        android:paddingTop="12dp"
+        android:paddingTop="13dp"
         android:paddingRight="20dp"
-        android:paddingBottom="12dp"
-        android:text="Birthday"
-        android:textColor="@color/colorBlack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:paddingBottom="13dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView9"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Group"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView12"
+        app:layout_constraintStart_toStartOf="@+id/textView12" />
 
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
         android:background="@drawable/input_bg"
+        android:drawableLeft="@drawable/ic_family"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:fontFamily="@font/bitter_regular"
+        android:layout_marginTop="30dp"
         android:paddingLeft="20dp"
-        android:paddingTop="12dp"
+        android:paddingTop="13dp"
         android:paddingRight="20dp"
-        android:paddingBottom="12dp"
+        android:paddingBottom="13dp"
+        android:textSize="20sp"
         android:text="Group"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <Button
         android:id="@+id/btnUpdate"
-        android:layout_width="250dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="168dp"
-        android:background="@drawable/dialog_bg"
+        android:background="@drawable/button_background"
         android:fontFamily="@font/bitter_regular"
         android:text="Update"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView12"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView >

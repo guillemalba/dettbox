@@ -1,12 +1,9 @@
 package com.glasswork.dettbox.ui.ranking;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.glasswork.dettbox.R;
 import com.glasswork.dettbox.model.UserRanking;
-import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -74,23 +70,29 @@ public class RankingRecyclerAdapter extends RecyclerView.Adapter<RankingRecycler
             case 0:
                 /*holder.viewBackground.setBackgroundResource(R.drawable.ranking_top3);*/
                 /*holder.viewBackgroundBorder.setBackgroundResource(R.drawable.ranking_personal_empty);*/
-                holder.tvPosition.setBackgroundResource(R.drawable.ic_gold_medal);
+                /*holder.tvPosition.setBackgroundResource(R.drawable.ic_gold_medal);
                 holder.tvPosition.setText("");
-                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.empty);
+                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.empty);*/
+                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.background_position1);
+                holder.tvPosition.setText(pos);
                 break;
             case 1:
                 /*holder.viewBackground.setBackgroundResource(R.drawable.ranking_top2);
                 holder.viewBackgroundBorder.setBackgroundResource(R.drawable.ranking_personal_empty);*/
-                holder.tvPosition.setBackgroundResource(R.drawable.ic_silver_medal);
+                /*holder.tvPosition.setBackgroundResource(R.drawable.ic_silver_medal);
                 holder.tvPosition.setText("");
-                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.empty);
+                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.empty);*/
+                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.background_position2);
+                holder.tvPosition.setText(pos);
                 break;
             case 2:
                 /*holder.viewBackground.setBackgroundResource(R.drawable.ranking_top1);
                 holder.viewBackgroundBorder.setBackgroundResource(R.drawable.ranking_personal_empty);*/
-                holder.tvPosition.setBackgroundResource(R.drawable.ic_bronze_medal);
+                /*holder.tvPosition.setBackgroundResource(R.drawable.ic_bronze_medal);
                 holder.tvPosition.setText("");
-                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.empty);
+                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.empty);*/
+                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.background_position3);
+                holder.tvPosition.setText(pos);
                 break;
             default:
                 holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.background_position);

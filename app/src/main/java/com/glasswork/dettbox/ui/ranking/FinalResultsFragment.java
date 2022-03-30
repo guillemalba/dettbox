@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,7 @@ import com.glasswork.dettbox.R;
 
 public class FinalResultsFragment extends Fragment {
 
-
-
-
+    CountDownTimer mCountDownTimer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,11 +28,29 @@ public class FinalResultsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, new GrupListFragment());
-                ft.addToBackStack("FinalResultsFragment");
+                ft.replace(R.id.fragment_container, new MainRankingFragment());
+                ft.addToBackStack("FinalResultsFragment222");
                 ft.commit();
             }
         });
+
+
+        mCountDownTimer = new CountDownTimer(10000, 1000) {
+            StringBuilder time = new StringBuilder();
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                FragmentTransaction ft = ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, new MainRankingFragment());
+                ft.addToBackStack("FinalResultsFragment222");
+                ft.commit();
+            }
+        }.start();
 
         return view;
     }

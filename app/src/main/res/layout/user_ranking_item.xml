@@ -8,7 +8,7 @@
     <View
         android:id="@+id/viewBackground"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="20dp"
@@ -24,7 +24,7 @@
     <View
         android:id="@+id/viewBackgroundBorder"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="20dp"
@@ -34,6 +34,21 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+    </View>
+
+    <View
+        android:id="@+id/viewBackgroundDecoration"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
+        android:background="@drawable/item_decoration"
+        app:layout_constraintEnd_toEndOf="@id/viewBackgroundBorder"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/viewBackgroundBorder"
+        app:layout_constraintTop_toTopOf="@id/viewBackgroundBorder">
 
     </View>
 
@@ -57,8 +72,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:textSize="18dp"
-        android:textColor="@color/colorBlack"
-        android:fontFamily="@font/bitter_regular"
+        android:fontFamily="@font/bitter_extra_bold"
         android:gravity="center"
         android:elevation="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/viewBackground"
@@ -70,6 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="UserName"
+        android:fontFamily="@font/bitter_extra_bold"
         android:layout_marginLeft="10dp"
         android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="@+id/textPosition"
@@ -80,9 +95,10 @@
         android:id="@+id/textTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time"
-        android:layout_marginRight="25dp"
-        android:textSize="17sp"
+        android:text="25h 34m"
+        android:layout_marginRight="20dp"
+        android:textSize="20sp"
+        android:fontFamily="@font/bitter_bold"
         app:layout_constraintBottom_toBottomOf="@+id/textPosition"
         app:layout_constraintEnd_toEndOf="@+id/viewBackground"
         app:layout_constraintTop_toTopOf="@+id/textPosition" />
