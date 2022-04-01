@@ -3,7 +3,6 @@ package com.glasswork.dettbox.ui.home;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -18,7 +17,6 @@ import android.view.ViewGroup;
 
 import android.content.pm.PackageInfo;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,13 +28,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.glasswork.dettbox.MainActivity;
-import com.glasswork.dettbox.Messages;
 import com.glasswork.dettbox.R;
 import com.glasswork.dettbox.model.AppItem;
-import com.glasswork.dettbox.model.UserRanking;
-import com.glasswork.dettbox.ui.HomeActivity;
-import com.glasswork.dettbox.ui.ranking.MainRankingFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,6 +49,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment {
@@ -96,8 +90,7 @@ public class HomeFragment extends Fragment {
         btnWeek.setVisibility(View.VISIBLE);
         btnMonth.setVisibility(View.VISIBLE);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String savedStateMode = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH);
+        String savedStateMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH);
         setMyAppsDataToFirebase(savedStateMode);
         switch (savedStateMode) {
             case DAY:
@@ -111,7 +104,6 @@ public class HomeFragment extends Fragment {
                 break;
         }
 
-
         btnDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,10 +114,8 @@ public class HomeFragment extends Fragment {
                 btnMonth.setBackgroundResource(R.drawable.button_day_week_month);
                 btnMonth.setActivated(false);
 
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                prefs.edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", DAY).commit();
+                PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", DAY).commit();
                 setMyAppsDataToFirebase(DAY);
-
                 refreshFragment();
             }
         });
@@ -140,10 +130,8 @@ public class HomeFragment extends Fragment {
                 btnMonth.setBackgroundResource(R.drawable.button_day_week_month);
                 btnMonth.setActivated(false);
 
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                prefs.edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", WEEK).commit();
+                PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", WEEK).commit();
                 setMyAppsDataToFirebase(WEEK);
-
                 refreshFragment();
             }
         });
@@ -157,34 +145,12 @@ public class HomeFragment extends Fragment {
                 btnWeek.setActivated(false);
                 btnMonth.setBackgroundResource(R.drawable.button_selected);
                 btnMonth.setActivated(true);
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                prefs.edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH).commit();
-                setMyAppsDataToFirebase(MONTH);
-                /*startActivity(new Intent(getActivity(), HomeActivity.class));*/
 
+                PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH).commit();
+                setMyAppsDataToFirebase(MONTH);
                 refreshFragment();
             }
         });
-
-
-
-        /*Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
-        cal.clear(Calendar.MINUTE);
-        cal.clear(Calendar.SECOND);
-        cal.clear(Calendar.MILLISECOND);
-
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.DAY_OF_WEEK, 1);
-        cal.setFirstDayOfWeek(Calendar.MONDAY);*/
-
-        /*if (btnDay.isActivated()) {
-            Toast.makeText(getContext(), "DailyViewActive", Toast.LENGTH_SHORT).show();
-        } else if (btnWeek.isActivated()) {
-            Toast.makeText(getContext(), "WeekViewActive", Toast.LENGTH_SHORT).show();
-        } else if (btnMonth.isActivated()) {
-            Toast.makeText(getContext(), "MonthViewActive", Toast.LENGTH_SHORT).show();
-        }*/
 
         appItemList = new ArrayList<>();
 
@@ -201,8 +167,8 @@ public class HomeFragment extends Fragment {
 
     public void refreshFragment() {
         FragmentTransaction ft = ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, new HomeFragment());
-                ft.commit();
+        ft.replace(R.id.fragment_container, new HomeFragment());
+        ft.commit();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -215,10 +181,6 @@ public class HomeFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setMyAppsDataToFirebase(String mode) {
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
-        cal.clear(Calendar.MINUTE);
-        cal.clear(Calendar.SECOND);
-        cal.clear(Calendar.MILLISECOND);
 
         switch (mode) {
             case DAY:
@@ -230,15 +192,8 @@ public class HomeFragment extends Fragment {
                 cal.clear(Calendar.MINUTE);
                 cal.clear(Calendar.SECOND);
                 cal.clear(Calendar.MILLISECOND);
-
                 cal.setFirstDayOfWeek(Calendar.MONDAY);
-
-                // get start of this week in milliseconds
                 cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-
-                /*Toast.makeText(getContext(), cal.getTime().toString(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), convertTimeToString(System.currentTimeMillis() - cal.getTimeInMillis()), Toast.LENGTH_SHORT).show();*/
-
                 break;
 
             case MONTH:
@@ -246,35 +201,98 @@ public class HomeFragment extends Fragment {
                 cal.clear(Calendar.MINUTE);
                 cal.clear(Calendar.SECOND);
                 cal.clear(Calendar.MILLISECOND);
-
                 cal.set(Calendar.DAY_OF_MONTH, 1);
 
                 break;
         }
 
-        getAppData(getContext(), "com.whatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "edu.salleurl.esyllabus", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.glasswork.dettbox", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.instagram.android", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.netflix.mediaclient", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "org.telegram.messenger", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.discord", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.twitter.android", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "tv.twitch.android.app", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.google.android.youtube", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.zhiliaoapp.musically", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.snapchat.android", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.facebook.katana", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.facebook.orca", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.reddit.frontpage", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.bereal.ft", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.vanced.android.youtube", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.fmwhatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.yowhatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
-        getAppData(getContext(), "com.tinder", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.whatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "edu.salleurl.esyllabus", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.glasswork.dettbox", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.instagram.android", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.netflix.mediaclient", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "org.telegram.messenger", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.discord", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.twitter.android", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "tv.twitch.android.app", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.google.android.youtube", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.zhiliaoapp.musically", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.snapchat.android", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.facebook.katana", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.facebook.orca", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.reddit.frontpage", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.bereal.ft", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.vanced.android.youtube", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.fmwhatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.yowhatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
+        getSingleAppData(getContext(), "com.tinder", cal.getTimeInMillis(), System.currentTimeMillis());
+        /*
+        */
     }
 
     public void setDailyApps() {
+
+    }
+
+    public void getSingleAppData(Context context, String packageName, long startSeason, long actualTime) {
+
+        mUsageStatsManager = (UsageStatsManager)getContext().getSystemService(context.USAGE_STATS_SERVICE);
+
+        String savedStateMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH);
+
+        Map<String, UsageStats> queryUsageStats = mUsageStatsManager.queryAndAggregateUsageStats(startSeason, actualTime);
+        UsageStats usageStats;
+        if (queryUsageStats.containsKey(packageName)) {
+            usageStats = queryUsageStats.get(packageName);
+        } else {
+            return;
+        }
+
+        Log.e("DAAAAAAAAAAAAAAYYY", "NAME: " + usageStats.getPackageName() + "UsageStatsAdapter: " + convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
+
+
+
+        String appName = getAppName(packageName);
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+
+            switch (savedStateMode) {
+                case DAY:
+                    FirebaseDatabase.getInstance(FIREBASE_LINK)
+                            .getReference("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("Apps")
+                            .child(packageName.replace(".", "-"))
+                            .child("timeDaily")
+                            .setValue(convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
+                    break;
+                case WEEK:
+                    FirebaseDatabase.getInstance(FIREBASE_LINK)
+                            .getReference("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("Apps")
+                            .child(packageName.replace(".", "-"))
+                            .child("timeWeekly")
+                            .setValue(convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
+                    break;
+                case MONTH:
+                    FirebaseDatabase.getInstance(FIREBASE_LINK)
+                            .getReference("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("Apps")
+                            .child(packageName.replace(".", "-"))
+                            .child("time")
+                            .setValue(convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
+                    break;
+            }
+            FirebaseDatabase.getInstance(FIREBASE_LINK)
+                    .getReference("Users")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .child("Apps")
+                    .child(packageName.replace(".", "-"))
+                    .child("name")
+                    .setValue(appName);
+        }
 
     }
 

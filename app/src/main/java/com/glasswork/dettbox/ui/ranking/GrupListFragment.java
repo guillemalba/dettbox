@@ -196,8 +196,8 @@ public class GrupListFragment extends Fragment {
         mInitialTime = DateUtils.DAY_IN_MILLIS * Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
         long timeBetweenStartMonthAndCurrent = System.currentTimeMillis() - cal.getTimeInMillis();
         timeRemaining = mInitialTime - timeBetweenStartMonthAndCurrent;
-
-        mCountDownTimer = new CountDownTimer(timeRemaining, 1000) {
+        long cambioDeHoraEspaña = 3600000;
+        mCountDownTimer = new CountDownTimer(timeRemaining - cambioDeHoraEspaña, 1000) {
             StringBuilder time = new StringBuilder();
             @Override
             public void onFinish() {
