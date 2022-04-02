@@ -14,10 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.glasswork.dettbox.Messages;
 import com.glasswork.dettbox.R;
+import com.glasswork.dettbox.ui.home.HomeFragment;
 import com.glasswork.dettbox.ui.home.RecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,10 +30,12 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
+    private Context context;
     private AlertDialog dialog;
     private List<String> listImages;
 
-    public RecyclerViewAdapter(AlertDialog dialog, List<String> listImages) {
+    public RecyclerViewAdapter(Context context, AlertDialog dialog, List<String> listImages) {
+        this.context = context;
         this.dialog = dialog;
         this.listImages = listImages;
     }
@@ -85,6 +90,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         .child("picture")
                         .setValue(imagePath);
                 dialog.dismiss();
+                refreshFragment();
                 Toast.makeText(v.getContext(), "Profile picture updated!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -103,5 +109,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(view);
             ivProfilePic = view.findViewById(R.id.imageview_profile_pic);
         }
+    }
+
+    public void refreshFragment() {
+        FragmentTransaction ft = ((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, new ProfileFragment());
+        ft.commit();
     }
 }

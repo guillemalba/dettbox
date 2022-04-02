@@ -268,7 +268,7 @@ public class ProfileFragment extends Fragment {
         recyclerView = dialogView.findViewById(R.id.recycle_profile_pics);
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerViewAdapter = new RecyclerViewAdapter(dialog, listImages);
+        recyclerViewAdapter = new RecyclerViewAdapter(getContext(), dialog, listImages);
 
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setHasFixedSize(true);

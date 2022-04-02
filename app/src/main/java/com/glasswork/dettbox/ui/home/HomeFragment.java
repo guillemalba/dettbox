@@ -100,7 +100,6 @@ public class HomeFragment extends Fragment {
         btnMonth.setVisibility(View.VISIBLE);
 
         String savedStateMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH);
-        //setMyAppsDataToFirebase(savedStateMode);
         switch (savedStateMode) {
             case DAY:
                 btnDay.setBackgroundResource(R.drawable.button_selected);
@@ -121,7 +120,6 @@ public class HomeFragment extends Fragment {
                 btnMonth.setBackgroundResource(R.drawable.button_day_week_month);
 
                 PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", DAY).commit();
-                /*setMyAppsDataToFirebase(DAY);*/
                 refreshFragment();
             }
         });
@@ -134,7 +132,6 @@ public class HomeFragment extends Fragment {
                 btnMonth.setBackgroundResource(R.drawable.button_day_week_month);
 
                 PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", WEEK).commit();
-                /*setMyAppsDataToFirebase(WEEK);*/
                 refreshFragment();
             }
         });
@@ -147,7 +144,6 @@ public class HomeFragment extends Fragment {
                 btnMonth.setBackgroundResource(R.drawable.button_selected);
 
                 PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH).commit();
-                /*setMyAppsDataToFirebase(MONTH);*/
                 refreshFragment();
             }
         });
