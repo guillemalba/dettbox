@@ -3,8 +3,10 @@ package com.glasswork.dettbox.ui.home;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 
 import android.content.pm.PackageInfo;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,6 +54,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import bot.box.appusage.contract.PackageContracts;
+import bot.box.appusage.handler.Monitor;
+import bot.box.appusage.model.AppData;
+import bot.box.appusage.utils.DurationRange;
+import kotlin.jvm.internal.unsafe.MonitorKt;
 
 public class HomeFragment extends Fragment {
 
@@ -91,7 +100,7 @@ public class HomeFragment extends Fragment {
         btnMonth.setVisibility(View.VISIBLE);
 
         String savedStateMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH);
-        setMyAppsDataToFirebase(savedStateMode);
+        //setMyAppsDataToFirebase(savedStateMode);
         switch (savedStateMode) {
             case DAY:
                 btnDay.setBackgroundResource(R.drawable.button_selected);
@@ -108,14 +117,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 btnDay.setBackgroundResource(R.drawable.button_selected);
-                btnDay.setActivated(true);
                 btnWeek.setBackgroundResource(R.drawable.button_day_week_month);
-                btnWeek.setActivated(false);
                 btnMonth.setBackgroundResource(R.drawable.button_day_week_month);
-                btnMonth.setActivated(false);
 
                 PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", DAY).commit();
-                setMyAppsDataToFirebase(DAY);
+                /*setMyAppsDataToFirebase(DAY);*/
                 refreshFragment();
             }
         });
@@ -124,14 +130,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 btnDay.setBackgroundResource(R.drawable.button_day_week_month);
-                btnDay.setActivated(false);
                 btnWeek.setBackgroundResource(R.drawable.button_selected);
-                btnWeek.setActivated(true);
                 btnMonth.setBackgroundResource(R.drawable.button_day_week_month);
-                btnMonth.setActivated(false);
 
                 PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", WEEK).commit();
-                setMyAppsDataToFirebase(WEEK);
+                /*setMyAppsDataToFirebase(WEEK);*/
                 refreshFragment();
             }
         });
@@ -140,14 +143,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 btnDay.setBackgroundResource(R.drawable.button_day_week_month);
-                btnDay.setActivated(false);
                 btnWeek.setBackgroundResource(R.drawable.button_day_week_month);
-                btnWeek.setActivated(false);
                 btnMonth.setBackgroundResource(R.drawable.button_selected);
-                btnMonth.setActivated(true);
 
                 PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH).commit();
-                setMyAppsDataToFirebase(MONTH);
+                /*setMyAppsDataToFirebase(MONTH);*/
                 refreshFragment();
             }
         });
@@ -160,7 +160,7 @@ public class HomeFragment extends Fragment {
 
         setAdapter();
         setAppInfo();
-        saveTotalTimeToFirebase();
+        //saveTotalTimeToFirebase();
 
         return view;
     }
@@ -206,6 +206,11 @@ public class HomeFragment extends Fragment {
                 break;
         }
 
+        if (Monitor.hasUsagePermission()) {
+        } else {
+            Monitor.requestUsagePermission();
+        }
+
         getSingleAppData(getContext(), "com.whatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
         getSingleAppData(getContext(), "edu.salleurl.esyllabus", cal.getTimeInMillis(), System.currentTimeMillis());
         getSingleAppData(getContext(), "com.glasswork.dettbox", cal.getTimeInMillis(), System.currentTimeMillis());
@@ -230,16 +235,10 @@ public class HomeFragment extends Fragment {
         */
     }
 
-    public void setDailyApps() {
-
-    }
-
     public void getSingleAppData(Context context, String packageName, long startSeason, long actualTime) {
 
         mUsageStatsManager = (UsageStatsManager)getContext().getSystemService(context.USAGE_STATS_SERVICE);
-
         String savedStateMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH);
-
         Map<String, UsageStats> queryUsageStats = mUsageStatsManager.queryAndAggregateUsageStats(startSeason, actualTime);
         UsageStats usageStats;
         if (queryUsageStats.containsKey(packageName)) {
@@ -296,81 +295,64 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public void getAppData(Context context, String packageName, long startSeason, long actualTime) {
+    public void getSingleAppData2(Context context, String packageName, long startSeason, long actualTime) {
 
         mUsageStatsManager = (UsageStatsManager)getContext().getSystemService(context.USAGE_STATS_SERVICE);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String savedStateMode = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH);
-        final List<UsageStats> stats;
-        switch (savedStateMode) {
-            case DAY:
-                stats = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startSeason, actualTime);
-                break;
-            case WEEK:
-                stats = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_WEEKLY, startSeason, actualTime);
-                break;
-            case MONTH:
-                stats = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_MONTHLY, startSeason, actualTime);
-                break;
-            default:
-                return;
+        String savedStateMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH);
+        Map<String, UsageStats> queryUsageStats = mUsageStatsManager.queryAndAggregateUsageStats(startSeason, actualTime);
+        UsageStats usageStats;
+        if (queryUsageStats.containsKey(packageName)) {
+            usageStats = queryUsageStats.get(packageName);
+        } else {
+            return;
         }
 
-        /*Log.e("HAHAHAHAHAHAHHAHAHHAHAHHA", "time: " + convertTimeToString(actualTime-startSeason));*/
+        Log.e("DAAAAAAAAAAAAAAYYY", "NAME: " + usageStats.getPackageName() + "UsageStatsAdapter: " + convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
 
-        ArrayMap<String, UsageStats> map = new ArrayMap<>();
-        final int statCount = stats.size();
-        for (int i = 0; i < statCount; i++) {
 
-            final android.app.usage.UsageStats pkgStats = stats.get(i);
 
-            if (pkgStats.getPackageName().equals(packageName)) {
-                // load application labels for each application
+        String appName = getAppName(packageName);
 
-                String appName = getAppName(packageName);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
-                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-
-                    switch (savedStateMode) {
-                        case DAY:
-                            FirebaseDatabase.getInstance(FIREBASE_LINK)
-                                    .getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .child("Apps")
-                                    .child(packageName.replace(".", "-"))
-                                    .child("timeDaily")
-                                    .setValue(convertMillisToHourMinute(pkgStats.getTotalTimeInForeground()));
-                            break;
-                        case WEEK:
-                            FirebaseDatabase.getInstance(FIREBASE_LINK)
-                                    .getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .child("Apps")
-                                    .child(packageName.replace(".", "-"))
-                                    .child("timeWeekly")
-                                    .setValue(convertMillisToHourMinute(pkgStats.getTotalTimeInForeground()));
-                            break;
-                        case MONTH:
-                            FirebaseDatabase.getInstance(FIREBASE_LINK)
-                                    .getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .child("Apps")
-                                    .child(packageName.replace(".", "-"))
-                                    .child("time")
-                                    .setValue(convertMillisToHourMinute(pkgStats.getTotalTimeInForeground()));
-                            break;
-                    }
+            switch (savedStateMode) {
+                case DAY:
                     FirebaseDatabase.getInstance(FIREBASE_LINK)
                             .getReference("Users")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .child("Apps")
                             .child(packageName.replace(".", "-"))
-                            .child("name")
-                            .setValue(appName);
-                }
+                            .child("timeDaily")
+                            .setValue(convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
+                    break;
+                case WEEK:
+                    FirebaseDatabase.getInstance(FIREBASE_LINK)
+                            .getReference("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("Apps")
+                            .child(packageName.replace(".", "-"))
+                            .child("timeWeekly")
+                            .setValue(convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
+                    break;
+                case MONTH:
+                    FirebaseDatabase.getInstance(FIREBASE_LINK)
+                            .getReference("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("Apps")
+                            .child(packageName.replace(".", "-"))
+                            .child("time")
+                            .setValue(convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
+                    break;
             }
+            FirebaseDatabase.getInstance(FIREBASE_LINK)
+                    .getReference("Users")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .child("Apps")
+                    .child(packageName.replace(".", "-"))
+                    .child("name")
+                    .setValue(appName);
         }
+
     }
 
     void saveTotalTimeToFirebase () {
@@ -400,7 +382,6 @@ public class HomeFragment extends Fragment {
                         String prefsGroupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
                         if (!yourLocked) {
                             if (!prefsGroupName.equals("null")) {
-
                                 FirebaseDatabase.getInstance(FIREBASE_LINK)
                                         .getReference("Groups")
                                         .child(prefsGroupName)
