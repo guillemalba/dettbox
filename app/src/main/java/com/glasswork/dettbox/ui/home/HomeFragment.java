@@ -535,7 +535,10 @@ public class HomeFragment extends Fragment {
 
                         Drawable drawableIcon = getActivity().getResources().getDrawable(R.drawable.no_icon);
                         if (name.equals("YouTube Vanced")) {
-                            drawableIcon = getActivity().getResources().getDrawable(R.drawable.ic_youtube_svgrepo_com);
+                            drawableIcon = getActivity().getResources().getDrawable(R.drawable.ic_youtube);
+                        }
+                        if (name.equals("eSyllabus")) {
+                            drawableIcon = getActivity().getResources().getDrawable(R.drawable.ic_ls_bcn);
                         }
 
                         if (!time.equals("00h 00m")) {
@@ -544,8 +547,15 @@ public class HomeFragment extends Fragment {
                             if (json != null) {
                                 PackageInfo packInfo = gson.fromJson(json, PackageInfo.class);
                                 String appName = packInfo.applicationInfo.loadLabel(getActivity().getPackageManager()).toString();
+                                Log.e("name--", name + "--" + appName);
+                                if (appName.equals("com.instagram.app.InstagramAppShell")) {
+                                    drawableIcon = getActivity().getResources().getDrawable(R.drawable.ic_instagram);
+                                }
                                 if (appName.equals(name)) {
                                     drawableIcon = packInfo.applicationInfo.loadIcon(getActivity().getPackageManager());
+                                    if (name.equals("Dettbox")) {
+                                        drawableIcon = getActivity().getResources().getDrawable(R.drawable.ic_dettbox2);
+                                    }
                                 }
                             }
 
@@ -605,7 +615,7 @@ public class HomeFragment extends Fragment {
     }
 
     public int convertTimeToSeconds(String timeString) {
-        if (timeString.contains("d")) {
+        if (timeString.contains("name")) {
             String[] aux = timeString.split("d ", 2);
             String days = aux[0];
             String[] aux2 = aux[1].split("h ", 2);

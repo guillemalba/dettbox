@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../Library/Android/sdk/platforms/android-30/data/res/layout/simple_list_item_checked.xml" value="0.3890625" />
         <entry key="app/src/main/res/drawable-v24/background_position.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable-v24/background_position1.xml" value="0.233" />
         <entry key="app/src/main/res/drawable-v24/background_position3.xml" value="0.233" />
@@ -31,6 +32,7 @@
         <entry key="app/src/main/res/drawable-v24/ranking_top2.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable-v24/ranking_top3.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable-v24/register_background.xml" value="0.27685185185185185" />
+        <entry key="app/src/main/res/drawable/color_cursor.xml" value="0.277" />
         <entry key="app/src/main/res/drawable/ic_activity.xml" value="0.2615" />
         <entry key="app/src/main/res/drawable/ic_add_task.xml" value="0.2665" />
         <entry key="app/src/main/res/drawable/ic_baseline_data_usage_24.xml" value="0.2665" />
@@ -47,6 +49,7 @@
         <entry key="app/src/main/res/drawable/ic_dettbox_splashscreen.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/ic_family.xml" value="0.2665" />
         <entry key="app/src/main/res/drawable/ic_gold_medal.xml" value="0.2265" />
+        <entry key="app/src/main/res/drawable/ic_instagram.xml" value="0.2685" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_launcher_dettbox.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_profile.xml" value="0.2665" />
@@ -64,6 +67,7 @@
         <entry key="app/src/main/res/drawable/ic_top3.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/ic_youtube_svgrepo_com.xml" value="0.233" />
         <entry key="app/src/main/res/drawable/rectangle_with_10dp_radius_white_bg_and_shadow.xml" value="0.2625" />
+        <entry key="app/src/main/res/drawable/spinner_background.xml" value="0.277" />
         <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.125" />
         <entry key="app/src/main/res/font/bitter_font.xml" value="0.3074074074074074" />
         <entry key="app/src/main/res/font/font.xml" value="0.3074074074074074" />
@@ -87,6 +91,7 @@
         <entry key="app/src/main/res/layout/item_profile_pic.xml" value="0.328804347826087" />
         <entry key="app/src/main/res/layout/item_task_verified.xml" value="0.29685058593749986" />
         <entry key="app/src/main/res/layout/popup_add_task.xml" value="0.34193840579710144" />
+        <entry key="app/src/main/res/layout/popup_create_group.xml" value="0.23097826086956522" />
         <entry key="app/src/main/res/layout/popup_edit_profile_pic.xml" value="0.328804347826087" />
         <entry key="app/src/main/res/layout/popup_join_group.xml" value="0.18161094224924013" />
         <entry key="app/src/main/res/layout/popup_leave_group.xml" value="0.3890625" />

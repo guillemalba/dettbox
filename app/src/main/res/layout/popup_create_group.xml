@@ -39,7 +39,6 @@
         android:background="@drawable/input_bg"
         android:fontFamily="@font/bitter_regular"
         android:hint="Group Name"
-        android:textCursorDrawable="@null"
         android:layout_marginTop="25dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
@@ -49,6 +48,7 @@
         android:paddingBottom="13dp"
         android:textColor="@color/colorHint"
         android:textColorHint="@color/colorHint"
+        android:textCursorDrawable="@drawable/color_cursor"
         app:layout_constraintEnd_toEndOf="@+id/view3"
         app:layout_constraintStart_toStartOf="@+id/view3"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -60,7 +60,6 @@
         android:background="@drawable/input_bg"
         android:fontFamily="@font/bitter_regular"
         android:hint="Password"
-        android:textCursorDrawable="@null"
         android:layout_marginTop="25dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
@@ -70,6 +69,7 @@
         android:paddingBottom="13dp"
         android:textColor="@color/colorHint"
         android:textColorHint="@color/colorHint"
+        android:textCursorDrawable="@drawable/color_cursor"
         app:layout_constraintEnd_toEndOf="@+id/view3"
         app:layout_constraintStart_toStartOf="@+id/view3"
         app:layout_constraintTop_toBottomOf="@+id/inputCreateGroupName" />

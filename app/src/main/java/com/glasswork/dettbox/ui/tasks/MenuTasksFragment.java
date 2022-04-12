@@ -106,20 +106,19 @@ public class MenuTasksFragment extends Fragment {
 
     public void addTaskDialog() {
         dialogBuilder = new AlertDialog.Builder(getContext());
-        final View joinGroupView = getLayoutInflater().inflate(R.layout.popup_add_task, null);
+        final View addTaskView = getLayoutInflater().inflate(R.layout.popup_add_task, null);
 
-        dialogBuilder.setView(joinGroupView);
+        dialogBuilder.setView(addTaskView);
         dialog = dialogBuilder.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
-        // TODO change name joinGroupView
-        etTaskTitle = joinGroupView.findViewById(R.id.inputTaskTitle);
-        etTaskDescription = joinGroupView.findViewById(R.id.inputTaskDescription);
-        spinnerMembers = joinGroupView.findViewById(R.id.spinner_members);
-        spinnerHours = joinGroupView.findViewById(R.id.spinner_hours);
+        etTaskTitle = addTaskView.findViewById(R.id.inputTaskTitle);
+        etTaskDescription = addTaskView.findViewById(R.id.inputTaskDescription);
+        spinnerMembers = addTaskView.findViewById(R.id.spinner_members);
+        spinnerHours = addTaskView.findViewById(R.id.spinner_hours);
 
-        btnAddTask = joinGroupView.findViewById(R.id.btnAddTask);
+        btnAddTask = addTaskView.findViewById(R.id.btnAddTask);
 
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -181,12 +180,12 @@ public class MenuTasksFragment extends Fragment {
                         if (!user.getName().equals(member)) {
                             names.add(member);
                         }
-                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_single_choice, names);
+                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_checked, names);
                         arrayAdapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
 
                         spinnerMembers.setAdapter(arrayAdapter);
 
-                        ArrayAdapter<String> arrayHoursAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_single_choice, hours);
+                        ArrayAdapter<String> arrayHoursAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_checked, hours);
                         arrayHoursAdapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
 
                         spinnerHours.setAdapter(arrayHoursAdapter);

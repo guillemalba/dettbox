@@ -12,8 +12,7 @@
         android:layout_marginTop="15dp"
         android:layout_gravity="center"
         android:clickable="true"
-
-        android:background="@drawable/no_icon" />
+        android:background="@color/colorHint" />
 
 
 </LinearLayout>

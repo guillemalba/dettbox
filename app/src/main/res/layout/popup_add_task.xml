@@ -22,6 +22,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add new task"
+                android:textColor="@color/colorBlack"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/inputTaskTitle"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
             <EditText
                 android:id="@+id/inputTaskTitle"
                 android:layout_width="0dp"
@@ -34,13 +57,24 @@
                 android:paddingTop="13dp"
                 android:paddingRight="20dp"
                 android:paddingBottom="13dp"
+                android:layout_marginTop="30dp"
                 android:textColor="@color/colorHint"
                 android:textColorHint="@color/colorHint"
-                android:textCursorDrawable="@null"
+                android:textCursorDrawable="@drawable/color_cursor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/inputTaskDescription"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
                 android:id="@+id/inputTaskDescription"
@@ -56,27 +90,71 @@
                 android:paddingBottom="13dp"
                 android:textColor="@color/colorHint"
                 android:textColorHint="@color/colorHint"
-                android:textCursorDrawable="@null"
-                android:layout_marginTop="20dp"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:layout_marginTop="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/inputTaskTitle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Member"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/spinner_members"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <Spinner
                 android:id="@+id/spinner_members"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/input_bg"
                 app:layout_constraintEnd_toEndOf="@+id/inputTaskDescription"
                 app:layout_constraintStart_toStartOf="@+id/inputTaskDescription"
                 app:layout_constraintTop_toBottomOf="@+id/inputTaskDescription" />
 
+            <!--<com.skydoves.powerspinner.PowerSpinnerView
+                android:id="@+id/spinner_members"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:foreground="?attr/selectableItemBackground"
+                android:hint="Select a member"
+                android:padding="10dp"
+                android:textSize="14.5sp"
+                app:spinner_arrow_gravity="end"
+                app:spinner_arrow_padding="8dp"
+                app:spinner_divider_color="@color/colorBlack"
+                app:spinner_divider_show="true"
+                app:spinner_divider_size="0.4dp"
+                app:spinner_popup_animation="normal"
+                app:spinner_popup_background="@color/colorSecondary"
+                app:spinner_popup_elevation="14dp"
+                app:layout_constraintEnd_toEndOf="@+id/inputTaskDescription"
+                app:layout_constraintStart_toStartOf="@+id/inputTaskDescription"
+                app:layout_constraintTop_toBottomOf="@+id/inputTaskDescription" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/spinner_hours"
+                app:layout_constraintStart_toStartOf="parent" />
+
             <Spinner
                 android:id="@+id/spinner_hours"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/input_bg"
                 app:layout_constraintEnd_toEndOf="@+id/spinner_members"
                 app:layout_constraintStart_toStartOf="@+id/spinner_members"
@@ -90,7 +168,7 @@
                 android:gravity="center"
                 android:text="Add task"
                 android:textColor="@color/colorWhite"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinner_hours" />

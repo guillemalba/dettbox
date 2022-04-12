@@ -143,6 +143,7 @@ public class HomeActivity extends AppCompatActivity {
                 case "Reddit":
                 case "FMWhatsApp":
                 case "YoWhatsApp":
+            Log.e("APPPPPPPPPPPPPPPPPP", "saveIconsToLocal: " + appName);
                     String json = gson.toJson(packList.get(i));
                     prefs.edit().putString(appName, json).commit();
                     break;
@@ -255,7 +256,6 @@ public class HomeActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setMyAppsDataToFirebase(String mode) {
         Calendar cal = Calendar.getInstance();
-
         switch (mode) {
             case DAY:
                 cal.setTime(atStartOfDay(Calendar.getInstance().getTime()));
@@ -307,17 +307,50 @@ public class HomeActivity extends AppCompatActivity {
         String savedStateMode = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH);
         Map<String, UsageStats> queryUsageStats = mUsageStatsManager.queryAndAggregateUsageStats(startSeason, actualTime);
         UsageStats usageStats;
+        String appName = getAppName(packageName);
+
         if (queryUsageStats.containsKey(packageName)) {
             usageStats = queryUsageStats.get(packageName);
         } else {
+            switch (savedStateMode) {
+                case DAY:
+                    FirebaseDatabase.getInstance(FIREBASE_LINK)
+                            .getReference("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("Apps")
+                            .child(packageName.replace(".", "-"))
+                            .child("timeDaily")
+                            .setValue("00h 00m");
+                    break;
+                case WEEK:
+                    FirebaseDatabase.getInstance(FIREBASE_LINK)
+                            .getReference("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("Apps")
+                            .child(packageName.replace(".", "-"))
+                            .child("timeWeekly")
+                            .setValue("00h 00m");
+                    break;
+                case MONTH:
+                    FirebaseDatabase.getInstance(FIREBASE_LINK)
+                            .getReference("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("Apps")
+                            .child(packageName.replace(".", "-"))
+                            .child("time")
+                            .setValue("00h 00m");
+                    break;
+            }
+            FirebaseDatabase.getInstance(FIREBASE_LINK)
+                    .getReference("Users")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .child("Apps")
+                    .child(packageName.replace(".", "-"))
+                    .child("name")
+                    .setValue(appName);
             return;
         }
-
-        Log.e("DAAAAAAAAAAAAAAYYY", "NAME: " + usageStats.getPackageName() + "UsageStatsAdapter: " + convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
-
-
-
-        String appName = getAppName(packageName);
+        /*Log.e("DAAAAAAAAAAAAAAYYY", "NAME: " + usageStats.getPackageName() + "UsageStatsAdapter: " + convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));*/
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 

@@ -180,7 +180,7 @@ public class GrupListFragment extends Fragment {
         String groupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "Ranking");
 
         rankingName = getActivity().findViewById(R.id.ranking_name);
-        /*rankingName.setText(groupName);*/
+        rankingName.setText(groupName);
     }
 
     public void setCountDownSeason() {
@@ -197,7 +197,7 @@ public class GrupListFragment extends Fragment {
         long timeBetweenStartMonthAndCurrent = System.currentTimeMillis() - cal.getTimeInMillis();
         timeRemaining = mInitialTime - timeBetweenStartMonthAndCurrent;
         long cambioDeHoraEspaña = 3600000;
-        mCountDownTimer = new CountDownTimer(timeRemaining - cambioDeHoraEspaña, 1000) {
+        mCountDownTimer = new CountDownTimer(timeRemaining, 1000) {
             StringBuilder time = new StringBuilder();
             @Override
             public void onFinish() {
