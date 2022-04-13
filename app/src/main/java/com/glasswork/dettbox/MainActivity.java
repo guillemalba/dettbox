@@ -2,6 +2,7 @@ package com.glasswork.dettbox;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -14,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -30,16 +32,8 @@ import bot.box.appusage.handler.Monitor;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView createNewAccount;
-
-    private EditText inputEmail;
-    private EditText inputPassword;
     private Button btnLogin;
-
-    private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-    private ProgressDialog progressDialog;
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
+    private Button btnRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,33 +61,32 @@ public class MainActivity extends AppCompatActivity {
 
 
         // to remove top navbar
-        /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorSecondary));*/
-
-        inputEmail = findViewById(R.id.inputEmail);
-        inputPassword = findViewById(R.id.inputPassword);
-
-        progressDialog = new ProgressDialog(this);
-
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        /*getWindow().setNavigationBarColor(getResources().getColor(R.color.colorSecondary));*/
 
         btnLogin = findViewById(R.id.btnLogin);
+        btnRegister = findViewById(R.id.btnRegister);
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                performLogin();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
 
-        // text to go to register screen
-        createNewAccount = findViewById(R.id.createNewAccount);
-        createNewAccount.setOnClickListener(new View.OnClickListener() {
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
+
+
+
     }
 
     private boolean checkUsageStatsPermision() {
@@ -114,47 +107,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (mAuth.getCurrentUser() != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             startActivity(new Intent(MainActivity.this, HomeActivity.class));
             finish();
         }
     }
 
-    private void performLogin () {
-        String email = inputEmail.getText().toString();
-        String password = inputPassword.getText().toString();
-
-        if (!email.matches(emailPattern)) {
-            inputEmail.setError("Enter Context Email");
-            inputEmail.requestFocus();
-        } else if (password.isEmpty() || password.length() < 6) {
-            inputPassword.setError("Enter propper password!");
-            inputPassword.requestFocus();
-        } else {
-            progressDialog.setMessage("Please wait while login in...");
-            progressDialog.setTitle("Login");
-            progressDialog.setCanceledOnTouchOutside(true);
-            progressDialog.show();
-
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        progressDialog.dismiss();
-                        sendUserToNextActivity();
-                        Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                    } else {
-                        progressDialog.dismiss();
-                        Toast.makeText(MainActivity.this, "Wrong email or password!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-    }
-
-    private void sendUserToNextActivity() {
-        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
 }

@@ -18,6 +18,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.glasswork.dettbox.R;
@@ -63,10 +64,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.DettboxTheme);
         setContentView(R.layout.activity_home);
-
-        // to remove top navbar
-        /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorDark));*/
 
         saveIconsToLocal();
         setUserGroup();
@@ -143,7 +140,6 @@ public class HomeActivity extends AppCompatActivity {
                 case "Reddit":
                 case "FMWhatsApp":
                 case "YoWhatsApp":
-            Log.e("APPPPPPPPPPPPPPPPPP", "saveIconsToLocal: " + appName);
                     String json = gson.toJson(packList.get(i));
                     prefs.edit().putString(appName, json).commit();
                     break;

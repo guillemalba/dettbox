@@ -11,6 +11,7 @@ import java.util.Calendar;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -42,8 +43,6 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
 
     private DatePickerDialog datePickerDialog;
     private Button btnDate;
@@ -54,8 +53,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         // to remove top navbar
-        /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorSecondary));*/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        /*getWindow().setNavigationBarColor(getResources().getColor(R.color.colorSecondary));*/
 
         // Getting ids from xml to java
         inputName = findViewById(R.id.inputName);
@@ -67,7 +66,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
 
         initDatePicker();
         btnDate.setText(getTodaysDate());
@@ -77,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
         alreadyHaveAnAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
 
@@ -135,10 +133,10 @@ public class RegisterActivity extends AppCompatActivity {
         String birth = btnDate.getText().toString();
 
         if (!email.matches(emailPattern)) {
-            inputEmail.setError("Enter Context Email");
+            inputEmail.setError("Email format is wrong!");
             inputEmail.requestFocus();
-        } else if (password.isEmpty() || password.length() < 6) {
-            inputPassword.setError("Enter propper password!");
+        } else if (password.length() < 6) {
+            inputPassword.setError("Must have at least 6 characters!");
             inputPassword.requestFocus();
         } else if (!password.equals(confirmPassword)) {
             inputConfirmPassword.setError("Password not match both fields");
