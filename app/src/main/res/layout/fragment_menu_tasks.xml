@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:background="@drawable/input_bg"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="50dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -95,6 +95,90 @@
             app:layout_constraintBottom_toBottomOf="@+id/verify_task"
             app:layout_constraintEnd_toEndOf="@+id/verify_task"
             app:layout_constraintTop_toTopOf="@+id/verify_task" />
+
+        <View
+            android:id="@+id/manage_reward"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/input_bg"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/verify_task" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Reward"
+            android:textSize="20sp"
+            android:layout_marginLeft="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/manage_reward"
+            app:layout_constraintStart_toEndOf="@+id/ic_manage_reward"
+            app:layout_constraintTop_toTopOf="@+id/manage_reward" />
+
+        <View
+            android:id="@+id/ic_manage_reward"
+            android:layout_width="23dp"
+            android:layout_height="25dp"
+            android:background="@drawable/ic_task_verified"
+            android:layout_marginLeft="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/manage_reward"
+            app:layout_constraintStart_toStartOf="@+id/manage_reward"
+            app:layout_constraintTop_toTopOf="@+id/manage_reward" />
+
+        <View
+            android:id="@+id/ic_arrow3"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:layout_marginRight="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/manage_reward"
+            app:layout_constraintEnd_toEndOf="@+id/manage_reward"
+            app:layout_constraintTop_toTopOf="@+id/manage_reward" />
+
+        <View
+            android:id="@+id/manage_punishment"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/input_bg"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/manage_reward" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Punishment"
+            android:textSize="20sp"
+            android:layout_marginLeft="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/manage_punishment"
+            app:layout_constraintStart_toEndOf="@+id/ic_manage_punishment"
+            app:layout_constraintTop_toTopOf="@+id/manage_punishment" />
+
+        <View
+            android:id="@+id/ic_manage_punishment"
+            android:layout_width="23dp"
+            android:layout_height="25dp"
+            android:background="@drawable/ic_task_verified"
+            android:layout_marginLeft="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/manage_punishment"
+            app:layout_constraintStart_toStartOf="@+id/manage_punishment"
+            app:layout_constraintTop_toTopOf="@+id/manage_punishment" />
+
+        <View
+            android:id="@+id/ic_arrow4"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:layout_marginRight="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/manage_punishment"
+            app:layout_constraintEnd_toEndOf="@+id/manage_punishment"
+            app:layout_constraintTop_toTopOf="@+id/manage_punishment" />
 
 
 

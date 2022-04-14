@@ -5,11 +5,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.app.ActivityManager;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.os.Build;
@@ -17,12 +15,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.Toast;
 
 import com.glasswork.dettbox.R;
-import com.glasswork.dettbox.model.User;
 import com.glasswork.dettbox.ui.home.HomeFragment;
 import com.glasswork.dettbox.ui.profile.ProfileFragment;
 import com.glasswork.dettbox.ui.ranking.MainRankingFragment;
@@ -37,16 +32,21 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import bot.box.appusage.handler.Monitor;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -64,6 +64,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.DettboxTheme);
         setContentView(R.layout.activity_home);
+
+        // we set the default list of rewards and punishments from a csv file and store it to firebase
+        setDefaultRewardsToFirebase();
+        setDefaultPunishmentsToFirebase();
 
         saveIconsToLocal();
         setUserGroup();
@@ -251,53 +255,59 @@ public class HomeActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setMyAppsDataToFirebase(String mode) {
-        Calendar cal = Calendar.getInstance();
-        switch (mode) {
-            case DAY:
-                cal.setTime(atStartOfDay(Calendar.getInstance().getTime()));
-                break;
+        for (int i = 0; i < 3; i++) {
+            Calendar cal = Calendar.getInstance();
+            String timeInterval = null;
+            switch (i) {
+                case 0:
+                    cal.setTime(atStartOfDay(Calendar.getInstance().getTime()));
+                    timeInterval = DAY;
+                    break;
 
-            case WEEK:
-                cal.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
-                cal.clear(Calendar.MINUTE);
-                cal.clear(Calendar.SECOND);
-                cal.clear(Calendar.MILLISECOND);
-                cal.setFirstDayOfWeek(Calendar.MONDAY);
-                cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-                break;
+                case 1:
+                    cal.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
+                    cal.clear(Calendar.MINUTE);
+                    cal.clear(Calendar.SECOND);
+                    cal.clear(Calendar.MILLISECOND);
+                    cal.setFirstDayOfWeek(Calendar.MONDAY);
+                    cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+                    timeInterval = WEEK;
+                    break;
 
-            case MONTH:
-                cal.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
-                cal.clear(Calendar.MINUTE);
-                cal.clear(Calendar.SECOND);
-                cal.clear(Calendar.MILLISECOND);
-                cal.set(Calendar.DAY_OF_MONTH, 1);
-                break;
+                case 2:
+                    cal.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
+                    cal.clear(Calendar.MINUTE);
+                    cal.clear(Calendar.SECOND);
+                    cal.clear(Calendar.MILLISECOND);
+                    cal.set(Calendar.DAY_OF_MONTH, 1);
+                    timeInterval = MONTH;
+                    break;
+            }
+
+            getSingleAppData(getApplicationContext(), "com.whatsapp", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "edu.salleurl.esyllabus", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.glasswork.dettbox", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.instagram.android", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.netflix.mediaclient", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "org.telegram.messenger", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.discord", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.twitter.android", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "tv.twitch.android.app", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.google.android.youtube", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.zhiliaoapp.musically", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.snapchat.android", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.facebook.katana", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.facebook.orca", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.reddit.frontpage", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.bereal.ft", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.vanced.android.youtube", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.fmwhatsapp", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.yowhatsapp", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
+            getSingleAppData(getApplicationContext(), "com.tinder", cal.getTimeInMillis(), System.currentTimeMillis(), timeInterval);
         }
-
-        getSingleAppData(getApplicationContext(), "com.whatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "edu.salleurl.esyllabus", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.glasswork.dettbox", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.instagram.android", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.netflix.mediaclient", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "org.telegram.messenger", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.discord", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.twitter.android", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "tv.twitch.android.app", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.google.android.youtube", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.zhiliaoapp.musically", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.snapchat.android", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.facebook.katana", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.facebook.orca", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.reddit.frontpage", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.bereal.ft", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.vanced.android.youtube", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.fmwhatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.yowhatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getApplicationContext(), "com.tinder", cal.getTimeInMillis(), System.currentTimeMillis());
     }
 
-    public void getSingleAppData(Context context, String packageName, long startSeason, long actualTime) {
+    public void getSingleAppData(Context context, String packageName, long startSeason, long actualTime, String timeInterval) {
 
         mUsageStatsManager = (UsageStatsManager)getApplicationContext().getSystemService(context.USAGE_STATS_SERVICE);
         String savedStateMode = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH);
@@ -308,7 +318,7 @@ public class HomeActivity extends AppCompatActivity {
         if (queryUsageStats.containsKey(packageName)) {
             usageStats = queryUsageStats.get(packageName);
         } else {
-            switch (savedStateMode) {
+            switch (timeInterval) {
                 case DAY:
                     FirebaseDatabase.getInstance(FIREBASE_LINK)
                             .getReference("Users")
@@ -350,7 +360,7 @@ public class HomeActivity extends AppCompatActivity {
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
-            switch (savedStateMode) {
+            switch (timeInterval) {
                 case DAY:
                     FirebaseDatabase.getInstance(FIREBASE_LINK)
                             .getReference("Users")
@@ -479,5 +489,74 @@ public class HomeActivity extends AppCompatActivity {
                 appName = "App not found";
         }
         return appName;
+    }
+
+
+    private void setDefaultRewardsToFirebase() {
+        List<String> listRewards = new ArrayList<>();
+
+        InputStream is = getResources(). openRawResource(R.raw.default_rewards);
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(is, Charset.forName("UTF-8"))
+        );
+
+        String reward = "";
+        try {
+            while ((reward = reader.readLine()) != null) {
+                listRewards.add(reward);
+            }
+        } catch (IOException e) {
+            Log.e("CSV", "Error reading data file on line " + reward);
+        }
+
+        for (int i = 0; i < listRewards.size(); i++) {
+            String position = "" + i;
+            if (i < 10) {
+                position = "0" + i;
+            }
+            String groupName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
+
+            FirebaseDatabase.getInstance(FIREBASE_LINK)
+                    .getReference("Groups")
+                    .child(groupName)
+                    .child("Rewards")
+                    .child("default-" + position)
+                    .child("title")
+                    .setValue(listRewards.get(i));
+        }
+    }
+
+    private void setDefaultPunishmentsToFirebase() {
+        List<String> listPunishments = new ArrayList<>();
+
+        InputStream is = getResources(). openRawResource(R.raw.default_punishments);
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(is, Charset.forName("UTF-8"))
+        );
+
+        String punishment = "";
+        try {
+            while ((punishment = reader.readLine()) != null) {
+                listPunishments.add(punishment);
+            }
+        } catch (IOException e) {
+            Log.e("CSV", "Error reading data file on line " + punishment);
+        }
+
+        for (int i = 0; i < listPunishments.size(); i++) {
+            String position = "" + i;
+            if (i < 10) {
+                position = "0" + i;
+            }
+            String groupName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
+
+            FirebaseDatabase.getInstance(FIREBASE_LINK)
+                    .getReference("Groups")
+                    .child(groupName)
+                    .child("Punishments")
+                    .child("default-" + position)
+                    .child("title")
+                    .setValue(listPunishments.get(i));
+        }
     }
 }

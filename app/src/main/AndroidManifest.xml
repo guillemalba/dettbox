@@ -23,7 +23,8 @@
         android:theme="@style/SplashTheme">
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.HomeActivity"
             android:exported="true"

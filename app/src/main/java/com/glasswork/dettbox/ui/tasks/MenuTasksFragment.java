@@ -52,6 +52,8 @@ public class MenuTasksFragment extends Fragment {
     private Button btnAddTask;
     private View vAddTask;
     private View vVerifyTask;
+    private View vManageRewards;
+    private View vManagePunishments;
 
     private List<String> names;
     private List<String> hours;
@@ -95,6 +97,42 @@ public class MenuTasksFragment extends Fragment {
                     FragmentTransaction ft = ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragment_container, fragment);
                     ft.addToBackStack("verify_task");
+                    ft.commit();
+                }
+            }
+        });
+
+        vManageRewards = view.findViewById(R.id.manage_reward);
+        vManageRewards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                prefs.edit().putString("fragment_tasks", "manage_reward").commit();
+
+                Fragment fragment = new MainTasksFragment();
+                //replacing the fragment
+                if (fragment != null) {
+                    FragmentTransaction ft = ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_container, fragment);
+                    ft.addToBackStack("manage_reward");
+                    ft.commit();
+                }
+            }
+        });
+
+        vManagePunishments = view.findViewById(R.id.manage_punishment);
+        vManagePunishments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                prefs.edit().putString("fragment_tasks", "manage_punishment").commit();
+
+                Fragment fragment = new MainTasksFragment();
+                //replacing the fragment
+                if (fragment != null) {
+                    FragmentTransaction ft = ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_container, fragment);
+                    ft.addToBackStack("manage_punishment");
                     ft.commit();
                 }
             }
@@ -153,7 +191,7 @@ public class MenuTasksFragment extends Fragment {
                         .child("ActiveTasks")
                         .child(actualDate)
                         .setValue(newTask);
-
+                Toast.makeText(getContext(), "Task successfully added!", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });

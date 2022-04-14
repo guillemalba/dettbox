@@ -69,10 +69,15 @@ public class MainTasksFragment extends Fragment {
             getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, childFragment).commit();
         } else {
             switch (fragment) {
+                case "add_task": break;
                 case "verify_task":
                     getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, new VerifyTasksFragment()).addToBackStack(null).commit();
                     break;
-                case "add_task":
+                case "manage_reward":
+                    getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, new ManageRewardFragment()).addToBackStack(null).commit();
+                    break;
+                case "manage_punishment":
+                    getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, new ManagePunishmentFragment()).addToBackStack(null).commit();
                     break;
                 default:
                     getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, new MenuTasksFragment()).addToBackStack(null).commit();
