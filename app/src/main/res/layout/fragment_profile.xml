@@ -21,21 +21,11 @@
         app:civ_shadow="true"
         app:civ_shadow_radius="10dp"
         app:civ_shadow_color="#000000"
+        android:layout_marginTop="10dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!--<ImageView
-        android:id="@+id/profile_foto"
-        android:layout_width="265px"
-        android:layout_height="265px"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/ic_profile_picture"
-        android:backgroundTint="@color/colorSecondary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
 
     <Button
         android:id="@+id/edit_pic_button"
@@ -81,7 +71,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="35dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="35dp"
         android:background="@drawable/input_bg"
         android:drawableLeft="@drawable/ic_profile_picture_register"
@@ -170,34 +160,7 @@
         app:layout_constraintStart_toStartOf="@+id/textEmail"
         app:layout_constraintTop_toBottomOf="@+id/textEmail" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Birthdate"
-        android:textColor="@color/colorWhite"
-        android:textSize="12sp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView11"
-        app:layout_constraintStart_toStartOf="@+id/textView11" />
 
-    <EditText
-        android:id="@+id/textView11"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/input_bg"
-        android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
-        android:drawablePadding="10dp"
-        android:fontFamily="@font/bitter_regular"
-        android:paddingLeft="20dp"
-        android:paddingTop="13dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="13dp"
-        android:textCursorDrawable="@drawable/color_cursor"
-        app:layout_constraintEnd_toEndOf="@+id/textView9"
-        app:layout_constraintStart_toStartOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -232,37 +195,37 @@
         android:textColor="@color/colorHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <Button
         android:id="@+id/btnUpdate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_background"
+        android:background="@drawable/button_welcome_background"
         android:fontFamily="@font/bitter_regular"
         android:text="Update"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorHint"
         android:textSize="15sp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="@+id/textView12"
         app:layout_constraintStart_toStartOf="@+id/textView12"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-        <Button
-            android:id="@+id/btnlogout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/button_background_outline"
-            android:fontFamily="@font/bitter_regular"
-            android:layout_marginBottom="90dp"
-            android:text="Logout"
-            android:textColor="@color/colorWhite"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/btnUpdate"
-            app:layout_constraintStart_toStartOf="@+id/btnUpdate"
-            app:layout_constraintTop_toBottomOf="@+id/btnUpdate" />
+    <Button
+        android:id="@+id/btnlogout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_welcome_background_outlined"
+        android:fontFamily="@font/bitter_regular"
+        android:layout_marginBottom="90dp"
+        android:text="Logout"
+        android:textColor="@color/colorAccent10"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnUpdate"
+        app:layout_constraintStart_toStartOf="@+id/btnUpdate"
+        app:layout_constraintTop_toBottomOf="@+id/btnUpdate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

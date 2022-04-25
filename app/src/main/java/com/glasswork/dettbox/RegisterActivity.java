@@ -32,7 +32,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private TextView alreadyHaveAnAccount;
     private EditText inputName;
-    private EditText inputSurname;
     private EditText inputEmail;
     private EditText inputPassword;
     private EditText inputConfirmPassword;
@@ -42,10 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-
-
-    private DatePickerDialog datePickerDialog;
-    private Button btnDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +57,9 @@ public class RegisterActivity extends AppCompatActivity {
         inputPassword = findViewById(R.id.inputPassword);
         inputConfirmPassword = findViewById(R.id.inputConfirmPassword);
         btnRegister = findViewById(R.id.btnRegister);
-        btnDate = findViewById(R.id.datePickerButton);
 
         progressDialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
-
-        initDatePicker();
-        btnDate.setText(getTodaysDate());
 
         // text to go to register screen
         alreadyHaveAnAccount = findViewById(R.id.alreadyHaveAnAccount);
@@ -88,49 +79,12 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private String getTodaysDate() {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        month = month + 1;
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        return makeDateString(day, month, year);
-    }
-
-    private void initDatePicker () {
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                String date = makeDateString(day, month, year);
-                btnDate.setText(date);
-            }
-        };
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-
-        int style = AlertDialog.THEME_HOLO_LIGHT;
-        datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);
-        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-    }
-
-    private String makeDateString(int day, int month, int year) {
-        return day + "/" + month + "/" + year;
-    }
-
-    public void openDatePicker (View view) {
-        datePickerDialog.show();
-    }
-
     // authentication
     private void perforAuth() {
         String name = inputName.getText().toString();
         String email = inputEmail.getText().toString();
         String password = inputPassword.getText().toString();
         String confirmPassword = inputConfirmPassword.getText().toString();
-        String birth = btnDate.getText().toString();
 
         if (!email.matches(emailPattern)) {
             inputEmail.setError("Email format is wrong!");
@@ -152,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
 
-                        User user = new User(name, email, password, birth, "null");
+                        User user = new User(name, email, password, "null");
                         FirebaseDatabase.getInstance("https://dettbox-default-rtdb.europe-west1.firebasedatabase.app")
                                 .getReference("Users")
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())

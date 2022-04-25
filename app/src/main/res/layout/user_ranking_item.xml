@@ -38,21 +38,6 @@
     </View>
 
     <View
-        android:id="@+id/viewBackgroundDecoration"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="28dp"
-        android:background="@drawable/item_decoration"
-        app:layout_constraintEnd_toEndOf="@id/viewBackgroundBorder"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@id/viewBackgroundBorder"
-        app:layout_constraintTop_toTopOf="@id/viewBackgroundBorder">
-
-    </View>
-
-    <View
         android:id="@+id/viewBackgroundPosition4"
         android:layout_width="42dp"
         android:layout_height="42dp"

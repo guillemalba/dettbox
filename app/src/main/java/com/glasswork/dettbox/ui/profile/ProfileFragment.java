@@ -55,7 +55,6 @@ import java.util.Objects;
 public class ProfileFragment extends Fragment {
 
     private static final String FIREBASE_LINK = "https://dettbox-default-rtdb.europe-west1.firebasedatabase.app";
-    private static final String FIREBASE_STORAGE_LINK = "gs://dettbox.appspot.com/";
     private DatabaseReference reference;
 
     private FirebaseAuth mAuth;
@@ -64,10 +63,8 @@ public class ProfileFragment extends Fragment {
     private TextView textEmail;
     private EditText textName;
     private TextView textPassword;
-    private EditText textBday;
     private TextView textGroup;
     private EditText TextName2;
-    private EditText TextBday2;
 
     private CircularImageView profilePic;
     private Button btnEditPic;
@@ -79,24 +76,12 @@ public class ProfileFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     private StorageReference storageReference;
 
-    String _NAME, _BDAY;
-
-    private Button btnDay;
-    private Button btnWeek;
-    private Button btnMonth;
+    String _NAME;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
-        btnDay = getActivity().findViewById(R.id.button_day);
-        btnWeek = getActivity().findViewById(R.id.button_week);
-        btnMonth = getActivity().findViewById(R.id.button_month);
-
-        btnDay.setVisibility(View.GONE);
-        btnWeek.setVisibility(View.GONE);
-        btnMonth.setVisibility(View.GONE);
 
         mAuth = FirebaseAuth.getInstance();
         btnLogout = view.findViewById(R.id.btnlogout);
@@ -114,12 +99,9 @@ public class ProfileFragment extends Fragment {
         textName = view.findViewById(R.id.textView5);
         textEmail = view.findViewById(R.id.textEmail);
         textPassword =  view.findViewById(R.id.textView9);
-        textBday = view.findViewById(R.id.textView11);
         textGroup = view.findViewById(R.id.textView12);
         profilePic = view.findViewById(R.id.profile_foto);
         btnEditPic = view.findViewById(R.id.edit_pic_button);
-
-        //TODO
 
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +126,6 @@ public class ProfileFragment extends Fragment {
                 if (snapshot.exists()) {
                     String name = Objects.requireNonNull(snapshot.child("name").getValue()).toString();
                     String pssw = Objects.requireNonNull(snapshot.child("password").getValue()).toString();
-                    String bday = Objects.requireNonNull(snapshot.child("birth").getValue()).toString();
                     String groupName = Objects.requireNonNull(snapshot.child("groupName").getValue()).toString();
                     if (snapshot.hasChild("picture")) {
                         String picturePath = snapshot.child("picture").getValue().toString();
@@ -159,7 +140,6 @@ public class ProfileFragment extends Fragment {
 
                     textName.setText(name);
                     textPassword.setText(pssw);
-                    textBday.setText(bday);
                     textGroup.setText(groupName);
 
                 }
@@ -178,65 +158,39 @@ public class ProfileFragment extends Fragment {
 
                 //Cogemos nuevos valores de los campos
                 TextName2 = view.findViewById(R.id.textView5);
-                TextBday2 = view.findViewById(R.id.textView11);
                 _NAME = TextName2.getText().toString();
-                _BDAY = TextBday2.getText().toString();
 
-                if(!isUsernameChanged() || !isBdayChanged()){
-
+                if(!isUsernameChanged()) {
                     //Metemos los nuevos valores en la bbdd
                     String email = textEmail.getText().toString();
                     String password = textPassword.getText().toString();
                     String group =  textGroup.getText().toString();
                     textPassword =  view.findViewById(R.id.textView9);
 
-                    //solo cambiamos el username si solo se ha editado ese campo
-                    if(!isUsernameChanged()){
-                        String Bday =  TextBday2.getText().toString();
-                       User user = new User(_NAME,email, password, Bday,group);
-                        FirebaseDatabase.getInstance(FIREBASE_LINK)
-                                .getReference("Users")
-                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(getContext(), "Username has been updated", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getContext(), "Username has not been updated!", Toast.LENGTH_SHORT).show();
-                                }
+                    User user = new User(_NAME, email, password, group);
+                    FirebaseDatabase.getInstance(FIREBASE_LINK)
+                            .getReference("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getContext(), "Username has been updated", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Username has not been updated!", Toast.LENGTH_SHORT).show();
                             }
-                        });
+                        }
+                    });
 
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                        String prefsGroupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
-                        FirebaseDatabase.getInstance(FIREBASE_LINK)
-                                .getReference("Groups")
-                                .child(prefsGroupName)
-                                .child("Users")
-                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                .child("name")
-                                .setValue(_NAME);
-                    }
-                    //solo cambiamos el cumpleaños si solo se ha editado ese campo
-                    if (!isBdayChanged()){
-                        String Name = TextName2.getText().toString();
-                        User user = new User(Name,email, password, _BDAY, group);
-                        FirebaseDatabase.getInstance(FIREBASE_LINK)
-                                .getReference("Users")
-                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(getContext(), "Birthday has been updated", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getContext(), "Birthday has not been updated!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
-
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    String prefsGroupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
+                    FirebaseDatabase.getInstance(FIREBASE_LINK)
+                            .getReference("Groups")
+                            .child(prefsGroupName)
+                            .child("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("name")
+                            .setValue(_NAME);
                 }else{
                     Toast.makeText(getContext(),"There is nothing to update", Toast.LENGTH_SHORT).show();
                 }
@@ -287,7 +241,6 @@ public class ProfileFragment extends Fragment {
                 if (snapshot.exists()) {
                     String name = Objects.requireNonNull(snapshot.child("name").getValue()).toString();
                     String pssw = Objects.requireNonNull(snapshot.child("password").getValue()).toString();
-                    String bday = Objects.requireNonNull(snapshot.child("birth").getValue()).toString();
                     String groupName = Objects.requireNonNull(snapshot.child("groupName").getValue()).toString();
                     if (snapshot.hasChild("picture")) {
                         String picturePath = snapshot.child("picture").getValue().toString();
@@ -302,7 +255,6 @@ public class ProfileFragment extends Fragment {
 
                     textName.setText(name);
                     textPassword.setText(pssw);
-                    textBday.setText(bday);
                     textGroup.setText(groupName);
 
                 }
@@ -316,9 +268,5 @@ public class ProfileFragment extends Fragment {
     private boolean isUsernameChanged(){
         return !_NAME.equals(textName.getText().toString());
 
-    }
-
-    private boolean isBdayChanged(){
-        return !_BDAY.equals(textBday.getText().toString());
     }
 }

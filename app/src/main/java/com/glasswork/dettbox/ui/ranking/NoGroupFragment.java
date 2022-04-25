@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +22,21 @@ import android.widget.Toast;
 
 import com.glasswork.dettbox.R;
 import com.glasswork.dettbox.model.User;
+import com.glasswork.dettbox.ui.profile.ProfileFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NoGroupFragment extends Fragment {
 
@@ -172,6 +182,10 @@ public class NoGroupFragment extends Fragment {
                                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
                                         prefs.edit().putString(mAuth.getCurrentUser().getUid() + "groupName", groupName).commit();
 
+                                        // we set the default list of rewards and punishments from a csv file and store it to firebase
+                                        setDefaultRewardsToFirebase();
+                                        setDefaultPunishmentsToFirebase();
+
                                         sendUserToNextFragment();
                                         Toast.makeText(getContext(), "Group created successful, You are the Admin!", Toast.LENGTH_SHORT).show();
                                     }
@@ -268,6 +282,7 @@ public class NoGroupFragment extends Fragment {
                                 prefs.edit().putString(mAuth.getCurrentUser().getUid() + "groupName", groupName).commit();
 
                                 sendUserToNextFragment();
+
                                 Toast.makeText(getContext(), "Joined successful!", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getContext(), "Group name or password not matches.", Toast.LENGTH_SHORT).show();
@@ -299,15 +314,88 @@ public class NoGroupFragment extends Fragment {
                 if (snapshot.exists()) {
                     String name = snapshot.child("name").getValue().toString();
                     String pssw = snapshot.child("password").getValue().toString();
-                    String bday = snapshot.child("birth").getValue().toString();
                     String groupName = snapshot.child("groupName").getValue().toString();
                     String email = snapshot.child("email").getValue().toString();
-                    user = new User(name,email, pssw, bday, groupName);
+                    user = new User(name,email, pssw, groupName);
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+    }
+
+    private void setDefaultRewardsToFirebase() {
+        List<String> listRewards = new ArrayList<>();
+
+        InputStream is = getResources(). openRawResource(R.raw.default_rewards);
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(is, Charset.forName("UTF-8"))
+        );
+
+        String reward = "";
+        try {
+            while ((reward = reader.readLine()) != null) {
+                listRewards.add(reward);
+            }
+        } catch (IOException e) {
+            Log.e("CSV", "Error reading data file on line " + reward);
+        }
+
+        for (int i = 0; i < listRewards.size(); i++) {
+            String position = "" + i;
+            if (i < 10) {
+                position = "0" + i;
+            }
+            String groupName = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
+
+            FirebaseDatabase.getInstance(FIREBASE_LINK)
+                    .getReference("Groups")
+                    .child(groupName)
+                    .child("Rewards")
+                    .child("default-" + position)
+                    .child("title")
+                    .setValue(listRewards.get(i));
+        }
+    }
+
+    private void setDefaultPunishmentsToFirebase() {
+        List<String> listPunishments = new ArrayList<>();
+
+        InputStream is = getResources(). openRawResource(R.raw.default_punishments);
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(is, Charset.forName("UTF-8"))
+        );
+
+        String punishment = "";
+        try {
+            while ((punishment = reader.readLine()) != null) {
+                listPunishments.add(punishment);
+            }
+        } catch (IOException e) {
+            Log.e("CSV", "Error reading data file on line " + punishment);
+        }
+
+        for (int i = 0; i < listPunishments.size(); i++) {
+            String position = "" + i;
+            if (i < 10) {
+                position = "0" + i;
+            }
+            String groupName = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
+
+            FirebaseDatabase.getInstance(FIREBASE_LINK)
+                    .getReference("Groups")
+                    .child(groupName)
+                    .child("Punishments")
+                    .child("default-" + position)
+                    .child("title")
+                    .setValue(listPunishments.get(i));
+        }
+    }
+
+    public void refreshFragment() {
+        FragmentTransaction ft = ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, new MainRankingFragment());
+        ft.commit();
     }
 }

@@ -14,10 +14,10 @@
 
         <View
             android:id="@+id/view2"
-            android:layout_width="364px"
-            android:layout_height="200px"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/ic_activity"
+            android:layout_width="80dp"
+            android:layout_height="93dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/ic_timer"
             android:backgroundTint="@color/colorSecondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,14 +29,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
             android:gravity="center"
-            android:text="Activity"
+            android:text="Usage"
             android:textColor="@color/colorSecondary"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view2" />
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_app_list"
@@ -49,6 +48,10 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

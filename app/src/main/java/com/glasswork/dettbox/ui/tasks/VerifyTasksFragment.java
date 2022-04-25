@@ -1,10 +1,15 @@
 package com.glasswork.dettbox.ui.tasks;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -16,6 +21,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,19 +34,25 @@ import com.firebase.ui.database.SnapshotParser;
 import com.glasswork.dettbox.Messages;
 import com.glasswork.dettbox.R;
 import com.glasswork.dettbox.model.ActiveTask;
+import com.glasswork.dettbox.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
@@ -51,10 +66,40 @@ public class VerifyTasksFragment extends Fragment {
     private RecyclerView recyclerView;
     private FirebaseRecyclerAdapter firebaseRecyclerAdapter;
 
+    private Button btnAddTask;
+
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private EditText etTaskTitle;
+    private EditText etTaskDescription;
+    private Spinner spinnerMembers;
+    private Spinner spinnerHours;
+    private Button btnAdd;
+
+    private List<String> names;
+    private List<String> hours;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_verify_tasks, container, false);
+
+        names = new ArrayList<>();
+        hours = new ArrayList<>();
+        hours.add("1h");
+        hours.add("2h");
+        hours.add("3h");
+        hours.add("4h");
+        hours.add("5h");
+
+        btnAddTask = getActivity().findViewById(R.id.btnAddTask);
+        btnAddTask.setVisibility(View.VISIBLE);
+        btnAddTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addTaskDialog();
+            }
+        });
 
         readGroupSize();
 
@@ -129,6 +174,110 @@ public class VerifyTasksFragment extends Fragment {
         recyclerView.setAdapter(firebaseRecyclerAdapter);
     }
 
+    public void addTaskDialog() {
+        dialogBuilder = new AlertDialog.Builder(getContext());
+        final View addTaskView = getLayoutInflater().inflate(R.layout.popup_add_task, null);
+
+        dialogBuilder.setView(addTaskView);
+        dialog = dialogBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+        etTaskTitle = addTaskView.findViewById(R.id.inputTaskTitle);
+        etTaskDescription = addTaskView.findViewById(R.id.inputTaskDescription);
+        spinnerMembers = addTaskView.findViewById(R.id.spinner_members);
+        spinnerHours = addTaskView.findViewById(R.id.spinner_hours);
+
+        btnAdd = addTaskView.findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                String groupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
+
+                Gson gson = new Gson();
+                String json = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid(), "");
+                User user = gson.fromJson(json, User.class);
+
+                String taskTitle = etTaskTitle.getText().toString();
+                String taskDescription = etTaskDescription.getText().toString();
+                String memberName2;
+                int groupSize = prefs.getInt(groupName + "countUsers", 0);
+                if (groupSize == 1) {
+                    memberName2 = "Nobody";
+                } else {
+                    memberName2 = spinnerMembers.getSelectedItem().toString();
+                }
+                String hoursSelected = spinnerHours.getSelectedItem().toString();
+
+                String actualDate = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss").format(LocalDateTime.now());
+                String id = actualDate;
+
+                ActiveTask newTask = new ActiveTask(id, taskTitle, taskDescription, user.getName(), memberName2, hoursSelected, "0");
+                FirebaseDatabase.getInstance(FIREBASE_LINK)
+                        .getReference("Groups")
+                        .child(groupName)
+                        .child("ActiveTasks")
+                        .child(actualDate)
+                        .setValue(newTask);
+                Toast.makeText(getContext(), "Task successfully added!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String groupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
+
+        DatabaseReference reference = FirebaseDatabase.getInstance(FIREBASE_LINK)
+                .getReference("Groups")
+                .child(groupName)
+                .child("Users");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    /*LinkedList<String> groupMembers = new LinkedList<>();*/
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    Gson gson = new Gson();
+                    String json = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid(), "");
+                    User user = gson.fromJson(json, User.class);
+                    for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
+                        String member = dataSnapshot.child("name").getValue().toString();
+                        if (!user.getName().equals(member)) {
+                            names.add(member);
+                        }
+                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_checked, names);
+                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+
+                        spinnerMembers.setAdapter(arrayAdapter);
+
+                        ArrayAdapter<String> arrayHoursAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_checked, hours);
+                        arrayHoursAdapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+
+                        spinnerHours.setAdapter(arrayHoursAdapter);
+                    }
+
+                            /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                            String fragment = prefs.getString("fragment_tasks", "null");
+                            prefs.edit().putString(mAuth.getCurrentUser().getUid() + "groupName", "null").commit();
+                            String groupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");*/
+                } else {
+                    Toast.makeText(getContext(), "ERROR: Im here on MenuTasksFragment", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -136,15 +285,23 @@ public class VerifyTasksFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        btnAddTask.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         firebaseRecyclerAdapter.stopListening();
+        btnAddTask.setVisibility(View.GONE);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         setTitleOnScreen();
+        btnAddTask.setVisibility(View.VISIBLE);
     }
 
     public void setTitleOnScreen() {

@@ -6,8 +6,10 @@
         <entry key="../../Library/Android/sdk/platforms/android-30/data/res/layout/simple_list_item_checked.xml" value="0.3890625" />
         <entry key="app/src/main/res/drawable-v24/background_position.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable-v24/background_position1.xml" value="0.233" />
+        <entry key="app/src/main/res/drawable-v24/background_position2.xml" value="0.264" />
         <entry key="app/src/main/res/drawable-v24/background_position3.xml" value="0.233" />
         <entry key="app/src/main/res/drawable-v24/background_position_1.xml" value="0.212" />
+        <entry key="app/src/main/res/drawable-v24/background_position_loser.xml" value="0.2635" />
         <entry key="app/src/main/res/drawable-v24/button_background.xml" value="0.2796296296296296" />
         <entry key="app/src/main/res/drawable-v24/button_background_outline.xml" value="0.233" />
         <entry key="app/src/main/res/drawable-v24/button_day_week_month.xml" value="0.2135" />
@@ -32,6 +34,8 @@
         <entry key="app/src/main/res/drawable-v24/ranking_top2.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable-v24/ranking_top3.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable-v24/register_background.xml" value="0.27685185185185185" />
+        <entry key="app/src/main/res/drawable/background_cardview.xml" value="0.2635" />
+        <entry key="app/src/main/res/drawable/button_background_accent.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/button_welcome_background.xml" value="0.277" />
         <entry key="app/src/main/res/drawable/button_welcome_background_outlined.xml" value="0.277" />
         <entry key="app/src/main/res/drawable/color_cursor.xml" value="0.277" />
@@ -46,10 +50,12 @@
         <entry key="app/src/main/res/drawable/ic_check_filled.xml" value="0.2665" />
         <entry key="app/src/main/res/drawable/ic_check_filled_green.xml" value="0.2665" />
         <entry key="app/src/main/res/drawable/ic_checked.xml" value="0.2665" />
+        <entry key="app/src/main/res/drawable/ic_crono.xml" value="0.2635" />
         <entry key="app/src/main/res/drawable/ic_dettbox.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_dettbox_foreground.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/ic_dettbox_splashscreen.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/ic_family.xml" value="0.2665" />
+        <entry key="app/src/main/res/drawable/ic_gavel.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/ic_gold_medal.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/ic_instagram.xml" value="0.2685" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.27685185185185185" />
@@ -57,6 +63,9 @@
         <entry key="app/src/main/res/drawable/ic_profile.xml" value="0.2665" />
         <entry key="app/src/main/res/drawable/ic_profile_picture.xml" value="0.2615" />
         <entry key="app/src/main/res/drawable/ic_profile_picture_register.xml" value="0.233" />
+        <entry key="app/src/main/res/drawable/ic_punishment-white.xml" value="0.2635" />
+        <entry key="app/src/main/res/drawable/ic_punishment.xml" value="0.2635" />
+        <entry key="app/src/main/res/drawable/ic_punishment_white.xml" value="0.2635" />
         <entry key="app/src/main/res/drawable/ic_rank.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/ic_ranking.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_ranking3.xml" value="0.2265" />
@@ -66,7 +75,11 @@
         <entry key="app/src/main/res/drawable/ic_task_verified.xml" value="0.3" />
         <entry key="app/src/main/res/drawable/ic_task_verified2.xml" value="0.2665" />
         <entry key="app/src/main/res/drawable/ic_tasks.xml" value="0.2665" />
+        <entry key="app/src/main/res/drawable/ic_timer.xml" value="0.2635" />
         <entry key="app/src/main/res/drawable/ic_top3.xml" value="0.2265" />
+        <entry key="app/src/main/res/drawable/ic_trophy.xml" value="0.2635" />
+        <entry key="app/src/main/res/drawable/ic_trophy_white.xml" value="0.2635" />
+        <entry key="app/src/main/res/drawable/ic_usage.xml" value="0.2635" />
         <entry key="app/src/main/res/drawable/ic_youtube_svgrepo_com.xml" value="0.233" />
         <entry key="app/src/main/res/drawable/rectangle_with_10dp_radius_white_bg_and_shadow.xml" value="0.2625" />
         <entry key="app/src/main/res/drawable/spinner_background.xml" value="0.277" />
@@ -86,16 +99,19 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.34747100830078137" />
         <entry key="app/src/main/res/layout/fragment_manage_punishment.xml" value="0.3890625" />
         <entry key="app/src/main/res/layout/fragment_manage_reward.xml" value="0.3890625" />
-        <entry key="app/src/main/res/layout/fragment_menu_tasks.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/fragment_menu_tasks.xml" value="0.37294332723948814" />
         <entry key="app/src/main/res/layout/fragment_no_group.xml" value="0.18161094224924013" />
         <entry key="app/src/main/res/layout/fragment_no_group_tasks.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.26486017589190863" />
         <entry key="app/src/main/res/layout/fragment_ranking.xml" value="0.30978260869565216" />
         <entry key="app/src/main/res/layout/fragment_tasks.xml" value="0.30978260869565216" />
+        <entry key="app/src/main/res/layout/fragment_tasks_main.xml" value="0.3890625" />
         <entry key="app/src/main/res/layout/fragment_verify_tasks.xml" value="0.34193840579710144" />
         <entry key="app/src/main/res/layout/item_profile_pic.xml" value="0.328804347826087" />
-        <entry key="app/src/main/res/layout/item_reward_punishment.xml" value="0.26197916666666665" />
+        <entry key="app/src/main/res/layout/item_reward_punishment.xml" value="0.5923869944488501" />
         <entry key="app/src/main/res/layout/item_task_verified.xml" value="0.29685058593749986" />
+        <entry key="app/src/main/res/layout/popup_add_punishment.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/popup_add_reward.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/layout/popup_add_task.xml" value="0.34193840579710144" />
         <entry key="app/src/main/res/layout/popup_create_group.xml" value="0.23097826086956522" />
         <entry key="app/src/main/res/layout/popup_edit_profile_pic.xml" value="0.328804347826087" />

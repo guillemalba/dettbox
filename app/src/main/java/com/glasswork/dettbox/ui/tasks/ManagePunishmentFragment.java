@@ -1,9 +1,14 @@
 package com.glasswork.dettbox.ui.tasks;
 
+import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +18,11 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -21,10 +30,14 @@ import com.firebase.ui.database.SnapshotParser;
 import com.glasswork.dettbox.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ManagePunishmentFragment extends Fragment {
 
@@ -36,12 +49,28 @@ public class ManagePunishmentFragment extends Fragment {
     private TextView tvTitlePage;
     private View vIconPage;
 
+    private Button btnAddPunishment;
+
+    private EditText etTitle;
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private Button btnAdd;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_manage_punishment, container, false);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         prefs.edit().putString("fragment_tasks", "null").commit();
+
+        btnAddPunishment = getActivity().findViewById(R.id.btnAddPunishment);
+        btnAddPunishment.setVisibility(View.VISIBLE);
+        btnAddPunishment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addPunishmentDialog();
+            }
+        });
 
         listRewards = new ArrayList<>();
 
@@ -54,6 +83,11 @@ public class ManagePunishmentFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        btnAddPunishment.setVisibility(View.GONE);
+    }
 
     @Override
     public void onStart() {
@@ -65,19 +99,72 @@ public class ManagePunishmentFragment extends Fragment {
     public void onStop() {
         super.onStop();
         firebaseRecyclerAdapter.stopListening();
+        btnAddPunishment.setVisibility(View.GONE);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         setTitleOnScreen();
+        btnAddPunishment.setVisibility(View.VISIBLE);
     }
 
     public void setTitleOnScreen() {
         tvTitlePage = getActivity().findViewById(R.id.tvTitle);
         vIconPage = getActivity().findViewById(R.id.icon_view);
         tvTitlePage.setText("Punishments");
-        vIconPage.setBackground(getContext().getDrawable(R.drawable.ic_task_verified2));
+        vIconPage.setBackground(getContext().getDrawable(R.drawable.ic_punishment_white));
+    }
+
+    public void addPunishmentDialog() {
+        dialogBuilder = new AlertDialog.Builder(getContext());
+        final View addTaskView = getLayoutInflater().inflate(R.layout.popup_add_punishment, null);
+
+        dialogBuilder.setView(addTaskView);
+        dialog = dialogBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+        etTitle = addTaskView.findViewById(R.id.inputPunishmentTitle);
+        btnAdd = addTaskView.findViewById(R.id.btnAdd);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                String groupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
+
+                String punishmentTitle = etTitle.getText().toString();
+
+                FirebaseDatabase.getInstance(FIREBASE_LINK)
+                        .getReference("Groups")
+                        .child(groupName)
+                        .child("Punishments")
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                long numPunishments = snapshot.getChildrenCount();
+                                FirebaseDatabase.getInstance(FIREBASE_LINK)
+                                        .getReference("Groups")
+                                        .child(groupName)
+                                        .child("Punishments")
+                                        .child("personalized-" + numPunishments)
+                                        .child("title")
+                                        .setValue(punishmentTitle);
+                                Toast.makeText(getContext(), "Punishment successfully added!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                dialog.dismiss();
+            }
+        });
     }
 
     public void setFirebaseAdapter() {
@@ -100,17 +187,19 @@ public class ManagePunishmentFragment extends Fragment {
                 .child(prefsGroupName)
                 .child("Punishments");
 
-        FirebaseRecyclerOptions<String> options = new FirebaseRecyclerOptions.Builder<String>()
-                .setQuery(query, new SnapshotParser<String>() {
+        FirebaseRecyclerOptions<HashMap<String, String>> options = new FirebaseRecyclerOptions.Builder<HashMap<String, String>>()
+                .setQuery(query, new SnapshotParser<HashMap<String, String>>() {
                     @NonNull
                     @Override
-                    public String parseSnapshot(@NonNull DataSnapshot snapshot) {
-                        return snapshot.child("title").getValue().toString();
+                    public HashMap<String, String> parseSnapshot(@NonNull DataSnapshot snapshot) {
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put(snapshot.getKey(), snapshot.child("title").getValue().toString());
+                        return map;
                     }
                 })
                 .build();
 
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<String, ManagePunishmentFragment.MyViewHolder>(options) {
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<HashMap<String, String>, ManagePunishmentFragment.MyViewHolder>(options) {
             @NonNull
             @Override
             public ManagePunishmentFragment.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -120,8 +209,15 @@ public class ManagePunishmentFragment extends Fragment {
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull ManagePunishmentFragment.MyViewHolder myViewHolder, int i, @NonNull String title) {
-                myViewHolder.setTvTitle(title);
+            protected void onBindViewHolder(@NonNull ManagePunishmentFragment.MyViewHolder myViewHolder, int i, @NonNull HashMap<String, String> map) {
+                for(Map.Entry map1  :  map.entrySet() ){
+                    if (map1.getKey().toString().contains("personalized")) {
+                        myViewHolder.setIvColorPersonalized();
+                    } else {
+                        myViewHolder.setIvColorDefault();
+                    }
+                    myViewHolder.setTvTitle(i + 1 + ". " + map1.getValue());
+                }
             }
         };
         recyclerView.setAdapter(firebaseRecyclerAdapter);
@@ -129,14 +225,24 @@ public class ManagePunishmentFragment extends Fragment {
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView tvTitle;
+        private ImageView imageView;
 
         public MyViewHolder(@NonNull View view) {
             super(view);
             tvTitle = view.findViewById(R.id.title);
+            imageView = view.findViewById(R.id.iv_tag_color);
         }
 
         public void setTvTitle(String string) {
             tvTitle.setText(string);
+        }
+
+        public void setIvColorPersonalized() {
+            imageView.setColorFilter(getResources().getColor(R.color.colorPersonalizedReward));
+        }
+
+        public void setIvColorDefault() {
+            imageView.setColorFilter(getResources().getColor(R.color.colorDefaultReward));
         }
 
     }

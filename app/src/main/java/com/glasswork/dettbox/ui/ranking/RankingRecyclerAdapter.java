@@ -24,10 +24,6 @@ public class RankingRecyclerAdapter extends RecyclerView.Adapter<RankingRecycler
         this.userRankingArrayList = userRankingArrayList;
     }
 
-    public RankingRecyclerAdapter() {
-
-    }
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
         private TextView tvPosition;
@@ -65,42 +61,15 @@ public class RankingRecyclerAdapter extends RecyclerView.Adapter<RankingRecycler
         holder.tvName.setText(name);
         holder.tvTime.setText(time);
 
+        holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.background_position);
+        holder.tvPosition.setText(pos);
+        int listSize = userRankingArrayList.size();
+        if (position == listSize-1) {
+            holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.background_position_loser);
+        }
+        if (position == 0) {
+            holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.background_position_winner);
 
-        switch (position) {
-            case 0:
-                /*holder.viewBackground.setBackgroundResource(R.drawable.ranking_top3);*/
-                /*holder.viewBackgroundBorder.setBackgroundResource(R.drawable.ranking_personal_empty);*/
-                /*holder.tvPosition.setBackgroundResource(R.drawable.ic_gold_medal);
-                holder.tvPosition.setText("");
-                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.empty);*/
-                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.background_position1);
-                holder.tvPosition.setText(pos);
-                break;
-            case 1:
-                /*holder.viewBackground.setBackgroundResource(R.drawable.ranking_top2);
-                holder.viewBackgroundBorder.setBackgroundResource(R.drawable.ranking_personal_empty);*/
-                /*holder.tvPosition.setBackgroundResource(R.drawable.ic_silver_medal);
-                holder.tvPosition.setText("");
-                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.empty);*/
-                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.background_position2);
-                holder.tvPosition.setText(pos);
-                break;
-            case 2:
-                /*holder.viewBackground.setBackgroundResource(R.drawable.ranking_top1);
-                holder.viewBackgroundBorder.setBackgroundResource(R.drawable.ranking_personal_empty);*/
-                /*holder.tvPosition.setBackgroundResource(R.drawable.ic_bronze_medal);
-                holder.tvPosition.setText("");
-                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.empty);*/
-                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.background_position3);
-                holder.tvPosition.setText(pos);
-                break;
-            default:
-                holder.viewBackgroundPosition4.setBackgroundResource(R.drawable.background_position);
-                holder.tvPosition.setText(pos);
-
-                /*holder.viewBackground.setBackgroundResource(R.drawable.input_bg);
-                holder.viewBackgroundBorder.setBackgroundResource(R.drawable.ranking_personal_empty);*/
-                break;
         }
 
         holder.viewBackgroundBorder.setBackgroundResource(R.drawable.input_bg);

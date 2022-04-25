@@ -2,15 +2,14 @@ package com.glasswork.dettbox.model;
 
 public class User {
 
-    public String name, email, password, birth, groupName;
+    public String name, email, password, groupName;
 
     public User () {}
 
-    public User (String name, String email, String password, String birth, String groupName) {
+    public User (String name, String email, String password, String groupName) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.birth = birth;
         this.groupName = groupName;
     }
 
@@ -36,14 +35,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getBirth() {
-        return birth;
-    }
-
-    public void setBirth(String birth) {
-        this.birth = birth;
     }
 
     public String getGroupName() {

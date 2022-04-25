@@ -65,9 +65,7 @@ public class HomeActivity extends AppCompatActivity {
         setTheme(R.style.DettboxTheme);
         setContentView(R.layout.activity_home);
 
-        // we set the default list of rewards and punishments from a csv file and store it to firebase
-        setDefaultRewardsToFirebase();
-        setDefaultPunishmentsToFirebase();
+
 
         saveIconsToLocal();
         setUserGroup();
@@ -176,75 +174,6 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
                 }
             };
-
-    void saveTotalTimeToFirebase () {
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            DatabaseReference reference = FirebaseDatabase.getInstance(FIREBASE_LINK)
-                    .getReference("Users")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child("Apps");
-
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        final int[] totalTime = {0};
-                        for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
-                            String time;
-                            if (dataSnapshot.hasChild("time")) {
-                                time = dataSnapshot.child("time").getValue().toString();
-                            } else {
-                                time = "00h 00m";
-                            }
-                            totalTime[0] += convertHourMinuteToInt(time);
-                        }
-                        // boolean if player is in the group or not to save its info
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        Boolean yourLocked = prefs.getBoolean(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupStatus", true);
-                        String prefsGroupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
-                        if (!yourLocked) {
-                            if (!prefsGroupName.equals("null")) {
-                                FirebaseDatabase.getInstance(FIREBASE_LINK)
-                                        .getReference("Groups")
-                                        .child(prefsGroupName)
-                                        .child("Users")
-                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                if (snapshot.exists()) {
-                                                    if (snapshot.child("totalTaskMinutes").getValue() != null) {
-                                                        String totalTaskMinutes = snapshot.child("totalTaskMinutes").getValue().toString();
-                                                        totalTime[0] -= convertHourMinuteToInt(totalTaskMinutes);
-                                                    }
-                                                    String timeString = convertMillisToHourMinute(totalTime[0] *1000L);
-                                                    FirebaseDatabase.getInstance(FIREBASE_LINK)
-                                                            .getReference("Groups")
-                                                            .child(prefsGroupName)
-                                                            .child("Users")
-                                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                            .child("totalMinutes")
-                                                            .setValue(timeString);
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-
-                                            }
-                                        });
-
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                }
-            });
-        }
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static Date atStartOfDay(Date date) {
@@ -492,71 +421,5 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    private void setDefaultRewardsToFirebase() {
-        List<String> listRewards = new ArrayList<>();
 
-        InputStream is = getResources(). openRawResource(R.raw.default_rewards);
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(is, Charset.forName("UTF-8"))
-        );
-
-        String reward = "";
-        try {
-            while ((reward = reader.readLine()) != null) {
-                listRewards.add(reward);
-            }
-        } catch (IOException e) {
-            Log.e("CSV", "Error reading data file on line " + reward);
-        }
-
-        for (int i = 0; i < listRewards.size(); i++) {
-            String position = "" + i;
-            if (i < 10) {
-                position = "0" + i;
-            }
-            String groupName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
-
-            FirebaseDatabase.getInstance(FIREBASE_LINK)
-                    .getReference("Groups")
-                    .child(groupName)
-                    .child("Rewards")
-                    .child("default-" + position)
-                    .child("title")
-                    .setValue(listRewards.get(i));
-        }
-    }
-
-    private void setDefaultPunishmentsToFirebase() {
-        List<String> listPunishments = new ArrayList<>();
-
-        InputStream is = getResources(). openRawResource(R.raw.default_punishments);
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(is, Charset.forName("UTF-8"))
-        );
-
-        String punishment = "";
-        try {
-            while ((punishment = reader.readLine()) != null) {
-                listPunishments.add(punishment);
-            }
-        } catch (IOException e) {
-            Log.e("CSV", "Error reading data file on line " + punishment);
-        }
-
-        for (int i = 0; i < listPunishments.size(); i++) {
-            String position = "" + i;
-            if (i < 10) {
-                position = "0" + i;
-            }
-            String groupName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
-
-            FirebaseDatabase.getInstance(FIREBASE_LINK)
-                    .getReference("Groups")
-                    .child(groupName)
-                    .child("Punishments")
-                    .child("default-" + position)
-                    .child("title")
-                    .setValue(listPunishments.get(i));
-        }
-    }
 }

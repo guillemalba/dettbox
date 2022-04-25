@@ -3,90 +3,93 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/view3"
-        android:layout_width="300dp"
-        android:layout_height="350dp"
-        android:background="@drawable/dialog_bg"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/colorSecondary"
+        app:cardCornerRadius="30dp"
+        app:contentPadding="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </View>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:fontFamily="@font/bitter_regular"
-        android:text="Join Group"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Join Group"
+                android:fontFamily="@font/bitter_bold"
+                android:textColor="@color/colorHint"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/inputJoinGroupName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/input_bg"
-        android:fontFamily="@font/bitter_regular"
-        android:hint="Group Name"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:paddingLeft="20dp"
-        android:paddingTop="13dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="13dp"
-        android:textColor="@color/colorHint"
-        android:textColorHint="@color/colorHint"
-        android:textCursorDrawable="@drawable/color_cursor"
-        app:layout_constraintEnd_toEndOf="@+id/view3"
-        app:layout_constraintStart_toStartOf="@+id/view3"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            <EditText
+                android:id="@+id/inputJoinGroupName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/input_bg"
+                android:fontFamily="@font/bitter_regular"
+                android:hint="Group Name"
+                android:paddingLeft="20dp"
+                android:paddingTop="13dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="13dp"
+                android:textColor="@color/colorHint"
+                android:textColorHint="@color/colorHint"
+                android:textCursorDrawable="@drawable/color_cursor"
 
-    <EditText
-        android:id="@+id/inputJoinGroupPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/input_bg"
-        android:fontFamily="@font/bitter_regular"
-        android:hint="Password"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:paddingLeft="20dp"
-        android:paddingTop="13dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="13dp"
-        android:textColor="@color/colorHint"
-        android:textColorHint="@color/colorHint"
-        android:textCursorDrawable="@drawable/color_cursor"
-        app:layout_constraintEnd_toEndOf="@+id/view3"
-        app:layout_constraintStart_toStartOf="@+id/view3"
-        app:layout_constraintTop_toBottomOf="@+id/inputJoinGroupName" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <Button
-        android:id="@+id/btnJoin"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/button_background"
-        android:gravity="center"
-        android:text="Join"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintBottom_toBottomOf="@+id/view3"
-        app:layout_constraintEnd_toEndOf="@+id/view3"
-        app:layout_constraintStart_toStartOf="@+id/view3"
-        app:layout_constraintTop_toBottomOf="@+id/inputJoinGroupPassword" />
+            <EditText
+                android:id="@+id/inputJoinGroupPassword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/input_bg"
+                android:fontFamily="@font/bitter_regular"
+                android:hint="Password"
+                android:paddingLeft="20dp"
+                android:paddingTop="13dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="13dp"
+                android:textColor="@color/colorHint"
+                android:textColorHint="@color/colorHint"
+                android:textCursorDrawable="@drawable/color_cursor"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputJoinGroupName" />
+
+            <Button
+                android:id="@+id/btnJoin"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/button_background"
+                android:gravity="center"
+                android:text="Join"
+                android:textColor="@color/colorWhite"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputJoinGroupPassword" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

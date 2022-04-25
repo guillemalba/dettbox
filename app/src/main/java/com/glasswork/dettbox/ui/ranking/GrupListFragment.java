@@ -465,10 +465,9 @@ public class GrupListFragment extends Fragment {
                         if (snapshot.exists()) {
                             String name = snapshot.child("name").getValue().toString();
                             String pssw = snapshot.child("password").getValue().toString();
-                            String bday = snapshot.child("birth").getValue().toString();
                             String groupName = snapshot.child("groupName").getValue().toString();
                             String email = snapshot.child("email").getValue().toString();
-                            user = new User(name, email, pssw, bday, groupName);
+                            user = new User(name, email, pssw, groupName);
                         }
                     }
                     @Override

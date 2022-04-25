@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -103,12 +104,15 @@ public class HomeFragment extends Fragment {
         switch (savedStateMode) {
             case DAY:
                 btnDay.setBackgroundResource(R.drawable.button_selected);
+                btnDay.setTextColor(Color.parseColor("#000000"));
                 break;
             case WEEK:
                 btnWeek.setBackgroundResource(R.drawable.button_selected);
+                btnWeek.setTextColor(Color.parseColor("#000000"));
                 break;
             case MONTH:
                 btnMonth.setBackgroundResource(R.drawable.button_selected);
+                btnMonth.setTextColor(Color.parseColor("#000000"));
                 break;
         }
 
@@ -118,6 +122,10 @@ public class HomeFragment extends Fragment {
                 btnDay.setBackgroundResource(R.drawable.button_selected);
                 btnWeek.setBackgroundResource(R.drawable.button_day_week_month);
                 btnMonth.setBackgroundResource(R.drawable.button_day_week_month);
+                btnDay.setTextColor(Color.parseColor("#000000"));
+                btnWeek.setTextColor(Color.parseColor("#FFFFFF"));
+                btnMonth.setTextColor(Color.parseColor("#FFFFFF"));
+
 
                 PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", DAY).commit();
                 refreshFragment();
@@ -130,6 +138,10 @@ public class HomeFragment extends Fragment {
                 btnDay.setBackgroundResource(R.drawable.button_day_week_month);
                 btnWeek.setBackgroundResource(R.drawable.button_selected);
                 btnMonth.setBackgroundResource(R.drawable.button_day_week_month);
+                btnDay.setTextColor(Color.parseColor("#FFFFFF"));
+                btnWeek.setTextColor(Color.parseColor("#000000"));
+                btnMonth.setTextColor(Color.parseColor("#FFFFFF"));
+
 
                 PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", WEEK).commit();
                 refreshFragment();
@@ -142,6 +154,9 @@ public class HomeFragment extends Fragment {
                 btnDay.setBackgroundResource(R.drawable.button_day_week_month);
                 btnWeek.setBackgroundResource(R.drawable.button_day_week_month);
                 btnMonth.setBackgroundResource(R.drawable.button_selected);
+                btnDay.setTextColor(Color.parseColor("#FFFFFF"));
+                btnWeek.setTextColor(Color.parseColor("#FFFFFF"));
+                btnMonth.setTextColor(Color.parseColor("#000000"));
 
                 PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH).commit();
                 refreshFragment();
@@ -156,7 +171,6 @@ public class HomeFragment extends Fragment {
 
         setAdapter();
         setAppInfo();
-        //saveTotalTimeToFirebase();
 
         return view;
     }
@@ -167,329 +181,20 @@ public class HomeFragment extends Fragment {
         ft.commit();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static Date atStartOfDay(Date date) {
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
-        LocalDateTime startOfDay = localDateTime.with(LocalTime.MIN);
-        return Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        btnDay.setVisibility(View.GONE);
+        btnWeek.setVisibility(View.GONE);
+        btnMonth.setVisibility(View.GONE);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setMyAppsDataToFirebase(String mode) {
-        Calendar cal = Calendar.getInstance();
-
-        switch (mode) {
-            case DAY:
-                cal.setTime(atStartOfDay(Calendar.getInstance().getTime()));
-                break;
-
-            case WEEK:
-                cal.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
-                cal.clear(Calendar.MINUTE);
-                cal.clear(Calendar.SECOND);
-                cal.clear(Calendar.MILLISECOND);
-                cal.setFirstDayOfWeek(Calendar.MONDAY);
-                cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-                break;
-
-            case MONTH:
-                cal.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
-                cal.clear(Calendar.MINUTE);
-                cal.clear(Calendar.SECOND);
-                cal.clear(Calendar.MILLISECOND);
-                cal.set(Calendar.DAY_OF_MONTH, 1);
-
-                break;
-        }
-
-        if (Monitor.hasUsagePermission()) {
-        } else {
-            Monitor.requestUsagePermission();
-        }
-
-        getSingleAppData(getContext(), "com.whatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "edu.salleurl.esyllabus", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.glasswork.dettbox", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.instagram.android", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.netflix.mediaclient", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "org.telegram.messenger", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.discord", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.twitter.android", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "tv.twitch.android.app", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.google.android.youtube", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.zhiliaoapp.musically", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.snapchat.android", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.facebook.katana", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.facebook.orca", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.reddit.frontpage", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.bereal.ft", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.vanced.android.youtube", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.fmwhatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.yowhatsapp", cal.getTimeInMillis(), System.currentTimeMillis());
-        getSingleAppData(getContext(), "com.tinder", cal.getTimeInMillis(), System.currentTimeMillis());
-        /*
-        */
-    }
-
-    public void getSingleAppData(Context context, String packageName, long startSeason, long actualTime) {
-
-        mUsageStatsManager = (UsageStatsManager)getContext().getSystemService(context.USAGE_STATS_SERVICE);
-        String savedStateMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH);
-        Map<String, UsageStats> queryUsageStats = mUsageStatsManager.queryAndAggregateUsageStats(startSeason, actualTime);
-        UsageStats usageStats;
-        if (queryUsageStats.containsKey(packageName)) {
-            usageStats = queryUsageStats.get(packageName);
-        } else {
-            return;
-        }
-
-        Log.e("DAAAAAAAAAAAAAAYYY", "NAME: " + usageStats.getPackageName() + "UsageStatsAdapter: " + convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
-
-
-
-        String appName = getAppName(packageName);
-
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-
-            switch (savedStateMode) {
-                case DAY:
-                    FirebaseDatabase.getInstance(FIREBASE_LINK)
-                            .getReference("Users")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .child("Apps")
-                            .child(packageName.replace(".", "-"))
-                            .child("timeDaily")
-                            .setValue(convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
-                    break;
-                case WEEK:
-                    FirebaseDatabase.getInstance(FIREBASE_LINK)
-                            .getReference("Users")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .child("Apps")
-                            .child(packageName.replace(".", "-"))
-                            .child("timeWeekly")
-                            .setValue(convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
-                    break;
-                case MONTH:
-                    FirebaseDatabase.getInstance(FIREBASE_LINK)
-                            .getReference("Users")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .child("Apps")
-                            .child(packageName.replace(".", "-"))
-                            .child("time")
-                            .setValue(convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
-                    break;
-            }
-            FirebaseDatabase.getInstance(FIREBASE_LINK)
-                    .getReference("Users")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child("Apps")
-                    .child(packageName.replace(".", "-"))
-                    .child("name")
-                    .setValue(appName);
-        }
-
-    }
-
-    public void getSingleAppData2(Context context, String packageName, long startSeason, long actualTime) {
-
-        mUsageStatsManager = (UsageStatsManager)getContext().getSystemService(context.USAGE_STATS_SERVICE);
-        String savedStateMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "HomeTimeSelected", MONTH);
-        Map<String, UsageStats> queryUsageStats = mUsageStatsManager.queryAndAggregateUsageStats(startSeason, actualTime);
-        UsageStats usageStats;
-        if (queryUsageStats.containsKey(packageName)) {
-            usageStats = queryUsageStats.get(packageName);
-        } else {
-            return;
-        }
-
-        Log.e("DAAAAAAAAAAAAAAYYY", "NAME: " + usageStats.getPackageName() + "UsageStatsAdapter: " + convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
-
-
-
-        String appName = getAppName(packageName);
-
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-
-            switch (savedStateMode) {
-                case DAY:
-                    FirebaseDatabase.getInstance(FIREBASE_LINK)
-                            .getReference("Users")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .child("Apps")
-                            .child(packageName.replace(".", "-"))
-                            .child("timeDaily")
-                            .setValue(convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
-                    break;
-                case WEEK:
-                    FirebaseDatabase.getInstance(FIREBASE_LINK)
-                            .getReference("Users")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .child("Apps")
-                            .child(packageName.replace(".", "-"))
-                            .child("timeWeekly")
-                            .setValue(convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
-                    break;
-                case MONTH:
-                    FirebaseDatabase.getInstance(FIREBASE_LINK)
-                            .getReference("Users")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .child("Apps")
-                            .child(packageName.replace(".", "-"))
-                            .child("time")
-                            .setValue(convertMillisToHourMinute(usageStats.getTotalTimeInForeground()));
-                    break;
-            }
-            FirebaseDatabase.getInstance(FIREBASE_LINK)
-                    .getReference("Users")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child("Apps")
-                    .child(packageName.replace(".", "-"))
-                    .child("name")
-                    .setValue(appName);
-        }
-
-    }
-
-    void saveTotalTimeToFirebase () {
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            DatabaseReference reference = FirebaseDatabase.getInstance(FIREBASE_LINK)
-                    .getReference("Users")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child("Apps");
-
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        final int[] totalTime = {0};
-                        for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
-                            String time;
-                            if (dataSnapshot.hasChild("time")) {
-                                time = dataSnapshot.child("time").getValue().toString();
-                            } else {
-                                time = "00h 00m";
-                            }
-                            totalTime[0] += convertHourMinuteToInt(time);
-                        }
-                        // boolean if player is in the group or not to save its info
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                        Boolean yourLocked = prefs.getBoolean(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupStatus", true);
-                        String prefsGroupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
-                        if (!yourLocked) {
-                            if (!prefsGroupName.equals("null")) {
-                                FirebaseDatabase.getInstance(FIREBASE_LINK)
-                                        .getReference("Groups")
-                                        .child(prefsGroupName)
-                                        .child("Users")
-                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                if (snapshot.exists()) {
-                                                    if (snapshot.child("totalTaskMinutes").getValue() != null) {
-                                                        String totalTaskMinutes = snapshot.child("totalTaskMinutes").getValue().toString();
-                                                        totalTime[0] -= convertHourMinuteToInt(totalTaskMinutes);
-                                                    }
-                                                    String timeString = convertMillisToHourMinute(totalTime[0] *1000L);
-                                                    FirebaseDatabase.getInstance(FIREBASE_LINK)
-                                                            .getReference("Groups")
-                                                            .child(prefsGroupName)
-                                                            .child("Users")
-                                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                            .child("totalMinutes")
-                                                            .setValue(timeString);
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-
-                                            }
-                                        });
-
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                }
-            });
-        }
-    }
-
-    private String getAppName(String packageName) {
-        String appName;
-        switch (packageName) {
-            case "com.whatsapp":
-                appName = "WhatsApp";
-                break;
-            case "deezer.android.app":
-                appName = "Deezer";
-                break;
-            case "com.glasswork.dettbox":
-                appName = "Dettbox";
-                break;
-            case "com.instagram.android":
-                appName = "Instagram";
-                break;
-            case "com.netflix.mediaclient":
-                appName = "Netflix";
-                break;
-            case "org.telegram.messenger":
-                appName = "Telegram";
-                break;
-            case "com.discord":
-                appName = "Discord";
-                break;
-            case "com.twitter.android":
-                appName = "Twitter";
-                break;
-            case "tv.twitch.android.app":
-                appName = "Twitch";
-                break;
-            case "com.google.android.youtube":
-                appName = "YouTube";
-                break;
-            case "com.zhiliaoapp.musically":
-                appName = "TikTok";
-                break;
-            case "com.snapchat.android":
-                appName = "Snapchat";
-                break;
-            case "com.tinder":
-                appName = "Tinder";
-                break;
-            case "com.facebook.katana":
-                appName = "Facebook";
-                break;
-            case "edu.salleurl.esyllabus":
-                appName = "eSyllabus";
-                break;
-            case "com.facebook.orca":
-                appName = "Messenger";
-                break;
-            case "com.reddit.frontpage":
-                appName = "Reddit";
-                break;
-            case "com.bereal.ft":
-                appName = "BeReal";
-                break;
-            case "com.vanced.android.youtube":
-                appName = "YouTube Vanced";
-                break;
-            case "com.fmwhatsapp":
-                appName = "FMWhatsApp";
-                break;
-            case "com.yowhatsapp":
-                appName = "YoWhatsApp";
-                break;
-            default:
-                appName = "App not found";
-        }
-        return appName;
+    @Override
+    public void onResume() {
+        super.onResume();
+        btnDay.setVisibility(View.VISIBLE);
+        btnWeek.setVisibility(View.VISIBLE);
+        btnMonth.setVisibility(View.VISIBLE);
     }
 
     private void setAdapter() {
@@ -553,9 +258,9 @@ public class HomeFragment extends Fragment {
                                 }
                                 if (appName.equals(name)) {
                                     drawableIcon = packInfo.applicationInfo.loadIcon(getActivity().getPackageManager());
-                                    if (name.equals("Dettbox")) {
+                                    /*if (name.equals("Dettbox")) {
                                         drawableIcon = getActivity().getResources().getDrawable(R.drawable.ic_dettbox2);
-                                    }
+                                    }*/
                                 }
                             }
 
@@ -595,107 +300,12 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private String convertMillisToHourMinute(long lastTimeUsed) {
-        String format = "%02dh %02dm";
-        return String.format(
-                format,
-                TimeUnit.MILLISECONDS.toHours(lastTimeUsed),
-                TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed) - TimeUnit.HOURS.toMinutes(
-                        TimeUnit.MILLISECONDS.toHours(lastTimeUsed)
-                )
-        );
-    }
-
     public int convertHourMinuteToInt(String timeString) {
         String[] aux = timeString.split("h ", 2);
         String hours = aux[0];
         String[] aux2 = aux[1].split("m", 2);
         String mins = aux2[0];
         return Integer.parseInt(hours)*60*60 + Integer.parseInt(mins)*60;
-    }
-
-    public int convertTimeToSeconds(String timeString) {
-        if (timeString.contains("name")) {
-            String[] aux = timeString.split("d ", 2);
-            String days = aux[0];
-            String[] aux2 = aux[1].split("h ", 2);
-            String hours = aux2[0];
-            String[] aux3 = aux2[1].split("m ", 2);
-            String mins = aux3[0];
-            String[] aux4 = aux3[1].split("s", 2);
-            String sec = aux4[0];
-            return Integer.parseInt(days)*24*60*60 + Integer.parseInt(hours)*60*60 + Integer.parseInt(mins)*60 + Integer.parseInt(sec);
-        } else if (timeString.contains("h")) {
-            String[] aux = timeString.split("h ", 2);
-            String hours = aux[0];
-            String[] aux2 = aux[1].split("m ", 2);
-            String mins = aux2[0];
-            String[] aux3 = aux2[1].split("s", 2);
-            String sec = aux3[0];
-            return Integer.parseInt(hours)*60*60 + Integer.parseInt(mins)*60 + Integer.parseInt(sec);
-        } else if (timeString.contains("m")) {
-            String[] aux2 = timeString.split("m ", 2);
-            String mins = aux2[0];
-            String[] aux3 = aux2[1].split("s", 2);
-            String sec = aux3[0];
-            return Integer.parseInt(mins)*60 + Integer.parseInt(sec);
-        } else {
-            String removeSpace = timeString.replace(" ", "");
-            String sec = removeSpace.replace("s", "");
-            return Integer.parseInt(sec);
-        }
-
-    }
-
-    private String convertTimeToString(long lastTimeUsed) {
-        String format;
-        long aDay = 86400000;
-        long anHour = 3600000;
-        long aMinute = 60000;
-        if (lastTimeUsed >= aDay) {
-            format = "%02dd %02dh %02dm %02ds";
-            return String.format(
-                    format,
-                    TimeUnit.MILLISECONDS.toDays(lastTimeUsed),
-                    TimeUnit.MILLISECONDS.toHours(lastTimeUsed) - TimeUnit.DAYS.toHours(
-                            TimeUnit.MILLISECONDS.toDays(lastTimeUsed)
-                    ),
-                    TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed) - TimeUnit.HOURS.toMinutes(
-                            TimeUnit.MILLISECONDS.toHours(lastTimeUsed)
-                    ),
-                    TimeUnit.MILLISECONDS.toSeconds(lastTimeUsed) - TimeUnit.MINUTES.toSeconds(
-                            TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed)
-                    )
-            );
-        } else if (lastTimeUsed >= anHour) {
-            format = "%02dh %02dm %02ds";
-            return String.format(
-                    format,
-                    TimeUnit.MILLISECONDS.toHours(lastTimeUsed),
-                    TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed) - TimeUnit.HOURS.toMinutes(
-                            TimeUnit.MILLISECONDS.toHours(lastTimeUsed)
-                    ),
-                    TimeUnit.MILLISECONDS.toSeconds(lastTimeUsed) - TimeUnit.MINUTES.toSeconds(
-                            TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed)
-                    )
-            );
-        } else if (lastTimeUsed >= aMinute) {
-            format = "%02dm %02ds";
-            return String.format(
-                    format,
-                    TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed),
-                    TimeUnit.MILLISECONDS.toSeconds(lastTimeUsed) - TimeUnit.MINUTES.toSeconds(
-                            TimeUnit.MILLISECONDS.toMinutes(lastTimeUsed)
-                    )
-            );
-        } else {
-            format = "%02ds";
-            return String.format(
-                    format,
-                    TimeUnit.MILLISECONDS.toSeconds(lastTimeUsed)
-            );
-        }
-
     }
 
     private int appExist(ArrayList<AppItem> list, String appName) {

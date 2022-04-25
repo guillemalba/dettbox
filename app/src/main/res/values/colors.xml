@@ -8,6 +8,7 @@
     <!--<color name="colorAccent">#FFE68A</color>-->
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorWhite75">#BEFFFFFF</color>
+    <color name="colorWhiteInput">#DDDDDD</color>
     <color name="colorWhiteDelete">#80FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGray">#E5E5E5</color>
@@ -17,6 +18,8 @@
     <color name="colorSplash">#003038</color>
     <color name="colorDark">#222222</color>
     <color name="colorAccent10">#FFF9B5</color>
+    <color name="colorDefaultReward">#2196F3</color>
+    <color name="colorPersonalizedReward">#E40000</color>
 
     <!--<color name="colorPrimary">#03D8AD</color>
     <color name="colorPrimaryDark">#3700B3</color>
