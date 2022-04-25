@@ -2,7 +2,34 @@
     <string name="app_name">Dettbox</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+    <string name="register2">Register</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="create_group">Create group</string>
     <string name="join_group">Join group</string>
+    <string name="title">Welcome!</string>
+    <string name="title2">We believe that every minute of your life is important.</string>
+    <string name="pssw">Password</string>
+    <string name="account">Don\'\t you have an account?</string>
+    <string name="username">Username</string>
+    <string name="cpssw">Confirm password</string>
+    <string name="account2">Already have an account?</string>
+    <string name="usage">Usage</string>
+    <string name="ranking">Ranking</string>
+    <string name="activities">Activities</string>
+    <string name="profile">Porfile</string>
+    <string name="grupo">Don\'\t you have a group yet?</string>
+    <string name="grupox">Group</string>
+    <string name="update">Update</string>
+    <string name="logout">Logout</string>
+    <string name="group_name">Group Name</string>
+    <string name="join">Join</string>
+    <string name="create">Create</string>
+    <string name="end_season">End season:</string>
+    <string name="leave_group">Leave group</string>
+    <string name="final_res">This are the final results!</string>
+    <string name="returnx">Return</string>
+    <string name="manage_rew">Manage Rewards</string>
+    <string name="manage_pun">Manage Punishments</string>
+    <string name="verify_tasks">Verify Tasks</string>
+
 </resources>

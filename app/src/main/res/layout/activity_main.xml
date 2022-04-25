@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/bitter_regular"
                 android:gravity="left"
-                android:text="Welcome!"
+                android:text="@string/title"
                 android:textColor="@color/colorWhite"
                 android:textSize="40dp"
                 android:textStyle="bold"
@@ -34,13 +34,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_marginBottom="50dp"
+                android:layout_width="250dp"
+                android:layout_height="60dp"/>
+
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/bitter_regular"
                 android:gravity="left"
-                android:text="We believe that every minute of your life is important."
+                android:text="@string/title2"
                 android:textColor="@color/colorWhite75"
                 android:textSize="18sp"
                 android:layout_marginTop="15dp"
@@ -68,7 +74,7 @@
                 android:layout_marginRight="40dp"
                 android:background="@drawable/button_welcome_background"
                 android:fontFamily="@font/bitter_regular"
-                android:text="Register"
+                android:text="@string/register"
                 android:textColor="@color/colorSplash"
                 android:textSize="15sp"
                 android:layout_marginTop="100dp"
@@ -82,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_welcome_background_outlined"
                 android:fontFamily="@font/bitter_regular"
-                android:text="Login"
+                android:text="@string/login"
                 android:textColor="@color/colorAccent10"
                 android:textSize="15sp"
                 android:layout_marginTop="25dp"

@@ -6,18 +6,24 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.app.AppOpsManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,12 +34,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import bot.box.appusage.handler.Monitor;
+import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity {
 
+    Spinner spinner;
     private Button btnLogin;
     private Button btnRegister;
+    public static final String[] languages = {"Select language","English","Spanish"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        spinner = findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, languages);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(0);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedLang =  adapterView.getItemAtPosition(i).toString();
+                 if (selectedLang.equals("English")){
+                    setLocal(MainActivity.this, "en");
+                    finish();
+                    startActivity(getIntent());
+
+                 }else if (selectedLang.equals("Spanish")){
+                     setLocal(MainActivity.this, "es");
+                     finish();
+                     startActivity(getIntent());
+                 }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         if (!checkUsageStatsPermision()) {
             startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
@@ -84,6 +120,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+    }
+
+    public void setLocal(Activity activity, String langCode){
+        Locale locale  = new Locale(langCode);
+        locale.setDefault(locale);
+        Resources r = activity.getResources();
+        Configuration config = r.getConfiguration();
+        config.setLocale(locale);
+        r.updateConfiguration(config,r.getDisplayMetrics());
 
 
 

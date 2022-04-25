@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dettbox</string>
+    <string name="login">Login</string>
+    <string name="register">Registro</string>
+    <string name="register2">Registrar</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_group">Crea un grupo</string>
+    <string name="join_group">Únete a un grupo</string>
+    <string name="title">Bienvenido!</string>
+    <string name="title2">Creemos en que cada minuto de tu vida es importante.</string>
+    <string name="pssw">Contraseña</string>
+    <string name="account">¿No tienes cuenta?</string>
+    <string name="username">Nombre</string>
+    <string name="cpssw">Confirma contraseña</string>
+    <string name="account2">¿Ya tienes una cuenta?</string>
+    <string name="usage">Uso</string>
+    <string name="ranking">Ranking</string>
+    <string name="activities">Actividades</string>
+    <string name="profile">Perfil</string>
+    <string name="grupo">¿No tienes grupo?</string>
+    <string name="grupox">Grupo</string>
+    <string name="update">Actualizar</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="group_name">Nombre del grupo</string>
+    <string name="join">Unirme</string>
+    <string name="create">Crear grupo</string>
+    <string name="end_season">Fin temporada:</string>
+    <string name="leave_group">Abandonar grupo</string>
+    <string name="final_res">Estos son los resultados finales</string>
+    <string name="returnx">Volver</string>
+    <string name="manage_rew">Gestionar Premios</string>
+    <string name="manage_pun">Gestionar castigos</string>
+    <string name="verify_tasks">Verificar tareas</string>
+</resources>

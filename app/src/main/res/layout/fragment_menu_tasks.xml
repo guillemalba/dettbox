@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Verify Tasks"
+            android:text="@string/verify_tasks"
             android:textSize="20sp"
             android:layout_marginLeft="25dp"
             app:layout_constraintBottom_toBottomOf="@+id/verify_task"
@@ -67,7 +67,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Manage Rewards"
+            android:text="@string/manage_rew"
             android:textSize="20sp"
             android:layout_marginLeft="25dp"
             app:layout_constraintBottom_toBottomOf="@+id/manage_reward"
@@ -109,7 +109,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Manage Punishments"
+            android:text="@string/manage_pun"
             android:textSize="20sp"
             android:layout_marginLeft="25dp"
             app:layout_constraintBottom_toBottomOf="@+id/manage_punishment"

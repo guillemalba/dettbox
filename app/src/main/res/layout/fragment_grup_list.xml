@@ -14,7 +14,7 @@
             android:id="@+id/endOfSeason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="End of season:"
+            android:text="@string/end_season"
             android:textAlignment="center"
             android:textFontWeight="0"
             android:textColor="@color/colorWhite"
@@ -61,7 +61,7 @@
             android:layout_marginLeft="25dp"
             android:textColor="@color/colorHint"
             android:background="@drawable/button_background_accent"
-            android:text="Leave Group"
+            android:text="@string/leave_group"
             android:textSize="20dp"
             android:textAllCaps="false"
 

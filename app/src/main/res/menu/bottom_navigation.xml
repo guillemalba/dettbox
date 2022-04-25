@@ -3,17 +3,17 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_timer"
-        android:title="Usage"/>
+        android:title="@string/usage"/>
     <item
         android:id="@+id/nav_ranking"
         android:icon="@drawable/ic_ranking"
-        android:title="Ranking"/>
+        android:title="@string/ranking"/>
     <item
         android:id="@+id/nav_tasks"
         android:icon="@drawable/ic_tasks"
-        android:title="Activities"/>
+        android:title="@string/activities"/>
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_profile"
-        android:title="Profile"/>
+        android:title="@string/profile"/>
 </menu>
