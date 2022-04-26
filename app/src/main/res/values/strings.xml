@@ -5,12 +5,11 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="register2">Register</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     //Groups
     <string name="create_group">Create group</string>
     <string name="join_group">Join group</string>
-    <string name="grupo">Don\'\t you have a group yet?</string>
+    <string name="grupo">Do not have a group yet?</string>
     <string name="grupox">Group</string>
     <string name="group_name">Group Name</string>
     <string name="join">Join</string>
@@ -21,15 +20,13 @@
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
 
-
-
     //Inicio
     <string name="title">Welcome!</string>
-    <string name="title2">We believe that every minute of your life is important.</string>
+    <string name="title2">Every minute of your life is important.</string>
 
     //Register and login
     <string name="pssw">Password</string>
-    <string name="account">Don\'\t you have an account?</string>
+    <string name="account">Do not have an account?</string>
     <string name="username">Username</string>
     <string name="cpssw">Confirm password</string>
     <string name="account2">Already have an account?</string>
@@ -49,6 +46,10 @@
     <string name="need_join">You first need to join a group!</string>
     <string name="titulo">Title</string>
 
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+
     //Profile
     <string name="update">Update</string>
     <string name="logout">Logout</string>
@@ -61,7 +62,7 @@
     <string name="task_description">Task description</string>
     <string name="participant">Participant</string>
     <string name="division">1/6</string>
-    <string name="add_task">Add new task</string>
+    <string name="add_task">Add task</string>
     <string name="miembro">Member</string>
     <string name="timex">Time</string>
 

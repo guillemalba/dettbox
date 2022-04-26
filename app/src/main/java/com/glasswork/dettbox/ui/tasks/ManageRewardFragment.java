@@ -124,7 +124,7 @@ public class ManageRewardFragment extends Fragment {
     public void setTitleOnScreen() {
         tvTitlePage = getActivity().findViewById(R.id.tvTitle);
         vIconPage = getActivity().findViewById(R.id.icon_view);
-        tvTitlePage.setText("Rewards");
+        tvTitlePage.setText(R.string.manage_rew);
         vIconPage.setBackground(getContext().getDrawable(R.drawable.ic_trophy_white));
     }
 

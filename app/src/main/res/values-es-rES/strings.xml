@@ -3,10 +3,9 @@
     //Basics
     <string name="app_name">Dettbox</string>
     <string name="appname">NombreApp</string>
-    <string name="login">Login</string>
-    <string name="register">Registro</string>
-    <string name="register2">Registrar</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="register">Crear cuenta</string>
+    <string name="register2">Registrate</string>
 
     //Groups
     <string name="create_group">Crea un grupo</string>
@@ -26,7 +25,7 @@
 
     //Inicio
     <string name="title">Bienvenido!</string>
-    <string name="title2">Creemos en que cada minuto de tu vida es importante.</string>
+    <string name="title2">Cada minuto de tu vida es importante.</string>
 
     //Register and login
     <string name="pssw">Contraseña</string>
@@ -52,6 +51,9 @@
     <string name="manage_rew">Gestionar Premios</string>
     <string name="manage_pun">Gestionar castigos</string>
 
+    <string name="day">Dia</string>
+    <string name="week">Semana</string>
+    <string name="month">Mes</string>
 
 
     //Tasks
@@ -61,7 +63,7 @@
     <string name="task_description">Descripción</string>
     <string name="participant">Participante</string>
     <string name="division">1/6</string>
-    <string name="add_task">Añade una tarea nueva</string>
+    <string name="add_task">Añade una tarea</string>
     <string name="miembro">Miembro</string>
     <string name="timex">Tiempo</string>
     <string name="verify_tasks">Verificar tareas</string>

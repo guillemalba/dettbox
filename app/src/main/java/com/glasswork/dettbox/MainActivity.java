@@ -11,11 +11,13 @@ import android.app.AppOpsManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.View;
 import android.view.WindowManager;
@@ -42,40 +44,66 @@ public class MainActivity extends AppCompatActivity {
     Spinner spinner;
     private Button btnLogin;
     private Button btnRegister;
-    public static final String[] languages = {"Select language","English","Spanish"};
+    public static final String[] languages = {"🇬🇧","🇪🇸"};
+
+    private boolean showEn = true;
+    private boolean showEs = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /* Splash Screen time*/
-        /*setTheme(R.style.SplashTheme);*/
 
-        /*try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        int selected = prefs.getInt("language", 0);
+        switch (selected) {
+            case 0:
+                setLocal(MainActivity.this, "en");
+
+                break;
+            case 1:
+                setLocal(MainActivity.this, "es");
+
+                break;
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         spinner = findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, languages);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spinner.setAdapter(adapter);
-        spinner.setSelection(0);
+
+
+        spinner.setSelection(selected);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedLang =  adapterView.getItemAtPosition(i).toString();
-                 if (selectedLang.equals("English")){
-                    setLocal(MainActivity.this, "en");
-                    finish();
-                    startActivity(getIntent());
+                if (selectedLang.equals("🇬🇧")){
+                    if (prefs.getBoolean("showEn", true)) {
+                        setLocal(MainActivity.this, "en");
+                        finish();
+                        startActivity(getIntent());
 
-                 }else if (selectedLang.equals("Spanish")){
-                     setLocal(MainActivity.this, "es");
-                     finish();
-                     startActivity(getIntent());
-                 }
+                        prefs.edit().putBoolean("showEn", false).commit();
+                        prefs.edit().putBoolean("showEs", true).commit();
+                        prefs.edit().putInt("language", 0).commit();
+                    }
+
+                } else if (selectedLang.equals("🇪🇸")){
+                    if (prefs.getBoolean("showEs", true)) {
+                        setLocal(MainActivity.this, "es");
+                        finish();
+                        startActivity(getIntent());
+
+                        prefs.edit().putBoolean("showEs", false).commit();
+                        prefs.edit().putBoolean("showEn", true).commit();
+                        prefs.edit().putInt("language", 1).commit();
+                    }
+                }
 
             }
 
@@ -87,14 +115,6 @@ public class MainActivity extends AppCompatActivity {
         if (!checkUsageStatsPermision()) {
             startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
-
-        //TODO
-        /*if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_PHONE_STATE}, 100);
-        }*/
-
 
         // to remove top navbar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

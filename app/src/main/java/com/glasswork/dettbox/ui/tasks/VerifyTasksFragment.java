@@ -307,7 +307,7 @@ public class VerifyTasksFragment extends Fragment {
     public void setTitleOnScreen() {
         tvTitle = getActivity().findViewById(R.id.tvTitle);
         vIcon = getActivity().findViewById(R.id.icon_view);
-        tvTitle.setText("Verify tasks");
+        tvTitle.setText(R.string.verify_tasks);
         vIcon.setBackground(getContext().getDrawable(R.drawable.ic_task_verified2));
     }
 

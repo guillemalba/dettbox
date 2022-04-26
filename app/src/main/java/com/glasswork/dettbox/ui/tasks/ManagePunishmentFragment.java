@@ -112,7 +112,7 @@ public class ManagePunishmentFragment extends Fragment {
     public void setTitleOnScreen() {
         tvTitlePage = getActivity().findViewById(R.id.tvTitle);
         vIconPage = getActivity().findViewById(R.id.icon_view);
-        tvTitlePage.setText("Punishments");
+        tvTitlePage.setText(R.string.manage_pun);
         vIconPage.setBackground(getContext().getDrawable(R.drawable.ic_punishment_white));
     }
 
