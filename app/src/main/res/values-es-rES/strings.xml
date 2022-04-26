@@ -2,7 +2,7 @@
 <resources>
     //Basics
     <string name="app_name">Dettbox</string>
-    <string name="appname">NombreApp/string>
+    <string name="appname">NombreApp</string>
     <string name="login">Login</string>
     <string name="register">Registro</string>
     <string name="register2">Registrar</string>
