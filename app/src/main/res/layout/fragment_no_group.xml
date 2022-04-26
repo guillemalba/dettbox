@@ -17,7 +17,7 @@
             android:layout_marginTop="50dp"
             android:gravity="center"
             android:fontFamily="@font/bitter_regular"
-            android:text="Don't have group yet?"
+            android:text="@string/grupo"
             android:textColor="@color/colorSecondary"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"

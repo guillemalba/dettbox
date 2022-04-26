@@ -1,35 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    //Basics
     <string name="app_name">Dettbox</string>
+    <string name="appname">NombreApp/string>
     <string name="login">Login</string>
     <string name="register">Registro</string>
     <string name="register2">Registrar</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //Groups
     <string name="create_group">Crea un grupo</string>
     <string name="join_group">Únete a un grupo</string>
-    <string name="title">Bienvenido!</string>
-    <string name="title2">Creemos en que cada minuto de tu vida es importante.</string>
-    <string name="pssw">Contraseña</string>
-    <string name="account">¿No tienes cuenta?</string>
-    <string name="username">Nombre</string>
-    <string name="cpssw">Confirma contraseña</string>
-    <string name="account2">¿Ya tienes una cuenta?</string>
-    <string name="usage">Uso</string>
-    <string name="ranking">Ranking</string>
-    <string name="activities">Actividades</string>
-    <string name="profile">Perfil</string>
     <string name="grupo">¿No tienes grupo?</string>
     <string name="grupox">Grupo</string>
-    <string name="update">Actualizar</string>
-    <string name="logout">Cerrar sesión</string>
     <string name="group_name">Nombre del grupo</string>
     <string name="join">Unirme</string>
     <string name="create">Crear grupo</string>
     <string name="end_season">Fin temporada:</string>
     <string name="leave_group">Abandonar grupo</string>
+    <string name="need_join">¡Primero debes unirte a un grupo!</string>
+    <string name="titulo">Título</string>
+    <string name="leave">¿Seguro que quieres abandonar el grupo?</string>
+    <string name="yes">Abandonar</string>
+    <string name="cancel">Cancelar</string>
+
+    //Inicio
+    <string name="title">Bienvenido!</string>
+    <string name="title2">Creemos en que cada minuto de tu vida es importante.</string>
+
+    //Register and login
+    <string name="pssw">Contraseña</string>
+    <string name="account">¿No tienes cuenta?</string>
+    <string name="username">Nombre</string>
+    <string name="cpssw">Confirma contraseña</string>
+    <string name="account2">¿Ya tienes una cuenta?</string>
+
+    //Menu
+    <string name="usage">Uso</string>
+    <string name="ranking">Ranking</string>
+    <string name="activities">Actividades</string>
+    <string name="profile">Perfil</string>
+
+    //Profile
+    <string name="update">Actualizar</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="choose_img">Escoge una imagen:</string>
+
+    //Others
     <string name="final_res">Estos son los resultados finales</string>
     <string name="returnx">Volver</string>
     <string name="manage_rew">Gestionar Premios</string>
     <string name="manage_pun">Gestionar castigos</string>
+
+
+
+    //Tasks
+    <string name="task_title">Título tarea</string>
+    <string name="reporter">Reportero:</string>
+    <string name="time">1 hora</string>
+    <string name="task_description">Descripción</string>
+    <string name="participant">Participante</string>
+    <string name="division">1/6</string>
+    <string name="add_task">Añade una tarea nueva</string>
+    <string name="miembro">Miembro</string>
+    <string name="timex">Tiempo</string>
     <string name="verify_tasks">Verificar tareas</string>
+
+    //Add punishment and reward
+    <string name="add_punish">Añade un castigo</string>
+    <string name="description">Descripción...</string>
+    <string name="add">Añadir</string>
+    <string name="add_rew">Añade un premio</string>
+
+
 </resources>

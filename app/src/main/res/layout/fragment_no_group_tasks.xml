@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You first need to join a group!"
+            android:text="@string/need_join"
             android:textColor="@color/colorWhite"
             android:textSize="25sp"
             android:layout_marginTop="150dp"

@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/bitter_bold"
                 android:gravity="center"
-                android:text="Are you sure you want\nto leave the group?"
+                android:text="@string/leave"
                 android:textColor="@color/colorHint"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/button_background_outline"
                     android:gravity="center"
-                    android:text="Cancel"
+                    android:text="@string/cancel"
                     android:textColor="@color/colorHint"/>
 
                 <Button
@@ -71,7 +71,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/button_background"
                     android:gravity="center"
-                    android:text="Yes"
+                    android:text="@string/yes"
                     android:textColor="@color/colorWhite" />
             </LinearLayout>
 
