@@ -38,7 +38,7 @@
     <string name="profile">Porfile</string>
 
     //Others
-    <string name="final_res">This are the final results!</string>
+    <string name="final_res">Season Ended!</string>
     <string name="returnx">Return</string>
     <string name="manage_rew">Manage Rewards</string>
     <string name="manage_pun">Manage Punishments</string>

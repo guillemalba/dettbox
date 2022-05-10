@@ -14,6 +14,12 @@ public class UserRanking {
         this.totalTaskMinutes = totalTaskMinutes;
     }
 
+    public UserRanking(String name, String position, String time) {
+        this.name = name;
+        this.position = position;
+        this.time = time;
+    }
+
     public String getId() {
         return id;
     }

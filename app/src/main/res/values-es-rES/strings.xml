@@ -46,7 +46,7 @@
     <string name="choose_img">Escoge una imagen:</string>
 
     //Others
-    <string name="final_res">Estos son los resultados finales</string>
+    <string name="final_res">Temporada Finalizada!</string>
     <string name="returnx">Volver</string>
     <string name="manage_rew">Gestionar Premios</string>
     <string name="manage_pun">Gestionar castigos</string>

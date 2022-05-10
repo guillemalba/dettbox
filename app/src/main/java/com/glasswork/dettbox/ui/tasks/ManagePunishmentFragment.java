@@ -217,6 +217,7 @@ public class ManagePunishmentFragment extends Fragment {
                         myViewHolder.setIvColorDefault();
                     }
                     myViewHolder.setTvTitle(i + 1 + ". " + map1.getValue());
+                    myViewHolder.setBtnDelete(map1.getKey().toString());
                 }
             }
         };
@@ -226,11 +227,31 @@ public class ManagePunishmentFragment extends Fragment {
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView tvTitle;
         private ImageView imageView;
+        private Button btnDelete;
 
         public MyViewHolder(@NonNull View view) {
             super(view);
             tvTitle = view.findViewById(R.id.title);
             imageView = view.findViewById(R.id.iv_tag_color);
+            btnDelete = view.findViewById(R.id.btn_delete);
+        }
+
+        public void setBtnDelete(String punishmentId) {
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    String prefsGroupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
+                    FirebaseDatabase.getInstance(FIREBASE_LINK)
+                            .getReference("Groups")
+                            .child(prefsGroupName)
+                            .child("Punishments")
+                            .child(punishmentId)
+                            .removeValue();
+                    Toast.makeText(getContext(), "Punishment deleted!", Toast.LENGTH_SHORT).show();
+                }
+
+            });
         }
 
         public void setTvTitle(String string) {

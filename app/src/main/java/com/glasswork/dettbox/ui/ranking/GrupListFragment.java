@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.glasswork.dettbox.R;
@@ -63,12 +64,15 @@ public class GrupListFragment extends Fragment {
     long mInitialTime;
     long timeRemaining;
 
+    private Button btnLastSeason;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_grup_list, container, false);
 
         tvCountDown = view.findViewById(R.id.tvCountDown);
+        btnLastSeason = view.findViewById(R.id.btn_last_season);
         // sets the timer of the season
         setCountDownSeason();
 
@@ -77,6 +81,16 @@ public class GrupListFragment extends Fragment {
 
         readUser();
         mAuth = FirebaseAuth.getInstance();
+
+        btnLastSeason.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, new FinalResultsFragment());
+                ft.addToBackStack("FinalResultsFragment");
+                ft.commit();
+            }
+        });
 
         btnLeave = view.findViewById(R.id.btnLeave);
         btnLeave.setOnClickListener(new View.OnClickListener() {
@@ -192,15 +206,80 @@ public class GrupListFragment extends Fragment {
 
         cal.set(Calendar.DAY_OF_MONTH, 1);
 
-
         mInitialTime = DateUtils.DAY_IN_MILLIS * Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
         long timeBetweenStartMonthAndCurrent = System.currentTimeMillis() - cal.getTimeInMillis();
         timeRemaining = mInitialTime - timeBetweenStartMonthAndCurrent;
         long cambioDeHoraEspaña = 3600000;
+        //timeRemaining = 10000;
         mCountDownTimer = new CountDownTimer(timeRemaining, 1000) {
             StringBuilder time = new StringBuilder();
             @Override
             public void onFinish() {
+                FirebaseDatabase.getInstance(FIREBASE_LINK)
+                        .getReference("Groups")
+                        .child(user.getGroupName())
+                        .child("FinalResults")
+                        .child("Winner")
+                        .child("id")
+                        .setValue(userRankingArrayList.get(0).getId());
+
+                FirebaseDatabase.getInstance(FIREBASE_LINK)
+                        .getReference("Groups")
+                        .child(user.getGroupName())
+                        .child("FinalResults")
+                        .child("Winner")
+                        .child("name")
+                        .setValue(userRankingArrayList.get(0).getName());
+
+                FirebaseDatabase.getInstance(FIREBASE_LINK)
+                        .getReference("Groups")
+                        .child(user.getGroupName())
+                        .child("FinalResults")
+                        .child("Winner")
+                        .child("time")
+                        .setValue(userRankingArrayList.get(0).getTime());
+
+                FirebaseDatabase.getInstance(FIREBASE_LINK)
+                        .getReference("Groups")
+                        .child(user.getGroupName())
+                        .child("FinalResults")
+                        .child("Winner")
+                        .child("position")
+                        .setValue(userRankingArrayList.get(0).getPosition());
+
+
+                FirebaseDatabase.getInstance(FIREBASE_LINK)
+                        .getReference("Groups")
+                        .child(user.getGroupName())
+                        .child("FinalResults")
+                        .child("Loser")
+                        .child("id")
+                        .setValue(userRankingArrayList.get(userRankingArrayList.size()-1).getId());
+
+                FirebaseDatabase.getInstance(FIREBASE_LINK)
+                        .getReference("Groups")
+                        .child(user.getGroupName())
+                        .child("FinalResults")
+                        .child("Loser")
+                        .child("name")
+                        .setValue(userRankingArrayList.get(userRankingArrayList.size()-1).getName());
+
+                FirebaseDatabase.getInstance(FIREBASE_LINK)
+                        .getReference("Groups")
+                        .child(user.getGroupName())
+                        .child("FinalResults")
+                        .child("Loser")
+                        .child("time")
+                        .setValue(userRankingArrayList.get(userRankingArrayList.size()-1).getTime());
+
+                FirebaseDatabase.getInstance(FIREBASE_LINK)
+                        .getReference("Groups")
+                        .child(user.getGroupName())
+                        .child("FinalResults")
+                        .child("Loser")
+                        .child("position")
+                        .setValue(userRankingArrayList.get(userRankingArrayList.size()-1).getPosition());
+
                 tvCountDown.setText("Season Ended");
                 //mTextView.setText("Times Up!");
                 FragmentTransaction ft = ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction();

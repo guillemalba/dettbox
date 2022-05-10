@@ -15,7 +15,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="100dp"
             android:fontFamily="@font/bitter_extra_bold"
             android:text="@string/final_res"
             android:textColor="@color/colorWhite"
@@ -24,19 +24,205 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button_background"
-            android:text="@string/returnx"
-            android:textSize="25dp"
-            android:gravity="center"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:textColor="@color/colorWhite"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:cardBackgroundColor="@color/colorSecondary"
+            app:cardCornerRadius="30dp"
+            app:contentPadding="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/season_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bitter_bold"
+                    android:text="Final results"
+                    android:textColor="@color/colorHint"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_view_winner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    app:cardBackgroundColor="#D5D5D5"
+                    app:cardCornerRadius="30dp"
+                    app:contentPadding="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/season_title">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_position_winner"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/background_position_winner"
+                            android:text="1"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/bitter_bold"
+                            android:gravity="center"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_reward"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Select a reward"
+                            android:textSize="15sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_position_winner" />
+
+                        <TextView
+                            android:id="@+id/tv_name_winner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="PRUEBA"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/bitter_bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_position_winner"
+                            app:layout_constraintStart_toEndOf="@+id/tv_position_winner"
+                            app:layout_constraintTop_toTopOf="@+id/tv_position_winner" />
+
+                        <TextView
+                            android:id="@+id/tv_time_winner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="122h 40m"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_name_winner"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/tv_name_winner" />
+
+                        <Button
+                            android:id="@+id/btn_choose_reward"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:background="@drawable/button_background"
+                            android:gravity="center"
+                            android:text="Choose reward"
+                            android:textColor="@color/colorWhite"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_reward" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_view_loser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:cardBackgroundColor="#FFD5D5D5"
+                    app:cardCornerRadius="30dp"
+                    app:contentPadding="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/card_view_winner">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_position_loser"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/background_position_loser"
+                            android:text="2"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/bitter_bold"
+                            android:gravity="center"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_punishment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Select a punishment"
+                            android:textSize="15sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_position_loser" />
+
+                        <TextView
+                            android:id="@+id/tv_name_loser"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="PRUEBA"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/bitter_bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_position_loser"
+                            app:layout_constraintStart_toEndOf="@+id/tv_position_loser"
+                            app:layout_constraintTop_toTopOf="@+id/tv_position_loser" />
+
+                        <TextView
+                            android:id="@+id/tv_time_loser"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="122h 40m"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_name_loser"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/tv_name_loser" />
+
+                        <Button
+                            android:id="@+id/btn_choose_punishment"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:background="@drawable/button_background"
+                            android:gravity="center"
+                            android:text="Choose punishment"
+                            android:textColor="@color/colorWhite"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_punishment" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_baseline_arrow_back_24"
+            android:gravity="center"
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
