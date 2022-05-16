@@ -1,6 +1,8 @@
 package com.glasswork.dettbox.ui.ranking;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.glasswork.dettbox.R;
 import com.glasswork.dettbox.model.UserRanking;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class RankingRecyclerAdapter extends RecyclerView.Adapter<RankingRecyclerAdapter.MyViewHolder>{
 
+    private static final String FIREBASE_LINK = "https://dettbox-default-rtdb.europe-west1.firebasedatabase.app";
+
     private ArrayList<UserRanking> userRankingArrayList;
     private Context context;
 
-    public RankingRecyclerAdapter(ArrayList<UserRanking> userRankingArrayList) {
+    public RankingRecyclerAdapter(ArrayList<UserRanking> userRankingArrayList, Context context) {
         this.userRankingArrayList = userRankingArrayList;
+        this.context = context;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -77,6 +83,33 @@ public class RankingRecyclerAdapter extends RecyclerView.Adapter<RankingRecycler
             holder.viewBackgroundBorder.setBackgroundResource(R.drawable.ranking_my_position);
         }
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        String prefsGroupName = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
+
+        if (userRankingArrayList.get(position).getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            String attribute;
+            switch (position) {
+                case 0:
+                    attribute = "st";
+                    break;
+                case 1:
+                    attribute = "nd";
+                    break;
+                case 2:
+                    attribute = "rd";
+                    break;
+                default:
+                    attribute = "th";
+                    break;
+            }
+            FirebaseDatabase.getInstance(FIREBASE_LINK)
+                    .getReference("Groups")
+                    .child(prefsGroupName)
+                    .child("Users")
+                    .child(userRankingArrayList.get(position).getId())
+                    .child("rankingPosition")
+                    .setValue(userRankingArrayList.get(position).getPosition() + attribute);
+        }
     }
 
     @Override

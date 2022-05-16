@@ -104,7 +104,7 @@ public class GrupListFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycle_rank_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        myAdapter = new RankingRecyclerAdapter(userRankingArrayList);
+        myAdapter = new RankingRecyclerAdapter(userRankingArrayList, getContext());
 
         setAdapter();
         setUserInfo();
@@ -168,6 +168,16 @@ public class GrupListFragment extends Fragment {
                                                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                             .child("totalMinutes")
                                                             .setValue(timeString);
+
+                                                    // save hours as int to change led color on the box
+                                                    String hours[] = timeString.split("h");
+                                                    FirebaseDatabase.getInstance(FIREBASE_LINK)
+                                                            .getReference("Groups")
+                                                            .child(prefsGroupName)
+                                                            .child("Users")
+                                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                            .child("totalHours")
+                                                            .setValue(hours[0]);
                                                 }
                                             }
 
