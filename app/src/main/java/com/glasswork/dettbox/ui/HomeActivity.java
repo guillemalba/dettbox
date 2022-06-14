@@ -3,11 +3,16 @@ package com.glasswork.dettbox.ui;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.os.Build;
@@ -17,6 +22,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.glasswork.dettbox.MainActivity;
 import com.glasswork.dettbox.R;
 import com.glasswork.dettbox.ui.home.HomeFragment;
 import com.glasswork.dettbox.ui.profile.ProfileFragment;
@@ -56,6 +62,9 @@ public class HomeActivity extends AppCompatActivity {
     public static final String WEEK = "WEEK";
     public static final String MONTH = "MONTH";
 
+    private String nfcTags;
+    private String seasonEnded;
+
     private UsageStatsManager mUsageStatsManager;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -65,7 +74,7 @@ public class HomeActivity extends AppCompatActivity {
         setTheme(R.style.DettboxTheme);
         setContentView(R.layout.activity_home);
 
-
+        //sendNotificationSeasonEnded();
 
         saveIconsToLocal();
         setUserGroup();
@@ -418,6 +427,53 @@ public class HomeActivity extends AppCompatActivity {
                 appName = "App not found";
         }
         return appName;
+    }
+
+    public void sendNotificationSeasonEnded() {
+
+        String prefsGroupName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "groupName", "null");
+
+        FirebaseDatabase.getInstance(FIREBASE_LINK)
+                .getReference("Groups")
+                .child(prefsGroupName)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        if (snapshot.hasChild("nfcTags")&& snapshot.hasChild("seasonEnded")) {
+                            nfcTags = snapshot.child("nfcTags").getValue().toString();
+                            seasonEnded = snapshot.child("seasonEnded").getValue().toString();
+                            Log.e("HAHAHJSHAJHAJS", "onDataChange: " +snapshot.child("nfcTags").getValue().toString());
+                            if (nfcTags.equals("true") && seasonEnded.equals("true")) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    NotificationChannel channel = new NotificationChannel("My Notification", "My Notification", NotificationManager.IMPORTANCE_DEFAULT);
+                                    NotificationManager manager = getSystemService(NotificationManager.class);
+                                    manager.createNotificationChannel(channel);
+                                }
+
+                                String message = "Ve a ver los resultados finales en los cubos";
+                                NotificationCompat.Builder builder = new NotificationCompat.Builder(HomeActivity.this, "My Notification")
+                                        .setContentTitle("Temporada Finalizada!")
+                                        .setContentText(message)
+                                        .setSmallIcon(R.drawable.ic_baseline_message_24)
+                                        .setAutoCancel(true);
+
+                                NotificationManagerCompat managerCompat = NotificationManagerCompat.from(HomeActivity.this);
+                                managerCompat.notify(1,builder.build());
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
+
     }
 
 

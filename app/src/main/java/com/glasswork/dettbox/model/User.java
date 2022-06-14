@@ -2,7 +2,7 @@ package com.glasswork.dettbox.model;
 
 public class User {
 
-    public String name, email, password, groupName;
+    public String name, email, password, groupName, backgroundColor;
 
     public User () {}
 
@@ -11,6 +11,14 @@ public class User {
         this.email = email;
         this.password = password;
         this.groupName = groupName;
+    }
+
+    public User(String name, String email, String password, String groupName, String backgroundColor) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.groupName = groupName;
+        this.backgroundColor = backgroundColor;
     }
 
     public String getName() {

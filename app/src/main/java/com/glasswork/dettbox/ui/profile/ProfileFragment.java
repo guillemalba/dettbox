@@ -13,9 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +58,7 @@ import java.util.Objects;
 public class ProfileFragment extends Fragment {
 
     private static final String FIREBASE_LINK = "https://dettbox-default-rtdb.europe-west1.firebasedatabase.app";
+    public static final String[] colors = {"blue","red","green","yellow","magenta","cyan","orange"};
     private DatabaseReference reference;
 
     private FirebaseAuth mAuth;
@@ -65,6 +69,8 @@ public class ProfileFragment extends Fragment {
     private TextView textPassword;
     private TextView textGroup;
     private EditText TextName2;
+    private Spinner spinnerColors;
+
 
     private CircularImageView profilePic;
     private Button btnEditPic;
@@ -76,6 +82,8 @@ public class ProfileFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     private StorageReference storageReference;
 
+    private String selectedColor;
+
     String _NAME;
 
     @Nullable
@@ -84,6 +92,71 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         mAuth = FirebaseAuth.getInstance();
+
+        spinnerColors = view.findViewById(R.id.spinner_colors);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_checked, colors);
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        spinnerColors.setAdapter(adapter);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        int selected;
+        selectedColor = prefs.getString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "backgroundColor", "blue");
+
+        switch (selectedColor) {
+            case "blue":
+                selected = 0;
+                break;
+            case "red":
+                selected = 1;
+                break;
+            case "green":
+                selected = 2;
+                break;
+            case "yellow":
+                selected = 3;
+                break;
+            case "magenta":
+                selected = 4;
+                break;
+            case "cyan":
+                selected = 5;
+                break;
+            case "orange":
+                selected = 6;
+                break;
+
+            default:
+                selected = 1;
+                break;
+
+        }
+
+
+        spinnerColors.setSelection(selected);
+        spinnerColors.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String selectedLang =  adapterView.getItemAtPosition(i).toString();
+                FirebaseDatabase.getInstance(FIREBASE_LINK)
+                        .getReference("Users")
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child("backgroundColor")
+                        .setValue(selectedLang);
+
+                prefs.edit().putString(FirebaseAuth.getInstance().getCurrentUser().getUid() + "backgroundColor", selectedLang).commit();
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+
         btnLogout = view.findViewById(R.id.btnlogout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,10 +171,10 @@ public class ProfileFragment extends Fragment {
         //Cogemos los campos
         textName = view.findViewById(R.id.textView5);
         textEmail = view.findViewById(R.id.textEmail);
-        textPassword =  view.findViewById(R.id.textView9);
         textGroup = view.findViewById(R.id.textView12);
         profilePic = view.findViewById(R.id.profile_foto);
         btnEditPic = view.findViewById(R.id.edit_pic_button);
+
 
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,7 +212,6 @@ public class ProfileFragment extends Fragment {
                     }
 
                     textName.setText(name);
-                    textPassword.setText(pssw);
                     textGroup.setText(groupName);
 
                 }
@@ -165,7 +237,7 @@ public class ProfileFragment extends Fragment {
                     String email = textEmail.getText().toString();
                     String password = textPassword.getText().toString();
                     String group =  textGroup.getText().toString();
-                    textPassword =  view.findViewById(R.id.textView9);
+                    /*textPassword =  view.findViewById(R.id.textView9);*/
 
                     User user = new User(_NAME, email, password, group);
                     FirebaseDatabase.getInstance(FIREBASE_LINK)
@@ -254,7 +326,6 @@ public class ProfileFragment extends Fragment {
                     }
 
                     textName.setText(name);
-                    textPassword.setText(pssw);
                     textGroup.setText(groupName);
 
                 }

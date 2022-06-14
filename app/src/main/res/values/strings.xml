@@ -25,6 +25,7 @@
     <string name="title2">Every minute of your life is important.</string>
 
     //Register and login
+    <string name="bgColor">Screen cube color</string>
     <string name="pssw">Password</string>
     <string name="account">Do not have an account?</string>
     <string name="username">Username</string>

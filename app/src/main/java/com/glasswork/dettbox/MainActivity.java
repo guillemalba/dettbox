@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.app.AppOpsManager;
+import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -116,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
 
+
         // to remove top navbar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         /*getWindow().setNavigationBarColor(getResources().getColor(R.color.colorSecondary));*/
@@ -180,5 +183,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
     }
+
+
 
 }

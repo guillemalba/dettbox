@@ -29,6 +29,7 @@
 
     //Register and login
     <string name="pssw">Contraseña</string>
+    <string name="bgColor">Color pantalla cubo</string>
     <string name="account">¿No tienes cuenta?</string>
     <string name="username">Nombre</string>
     <string name="cpssw">Confirma contraseña</string>

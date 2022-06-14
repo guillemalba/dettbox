@@ -129,36 +129,23 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pssw"
+        android:text="@string/bgColor"
         android:textColor="@color/colorWhite"
         android:textSize="12sp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView9"
-        app:layout_constraintStart_toStartOf="@+id/textView9" />
+        app:layout_constraintBottom_toTopOf="@+id/spinner_colors"
+        app:layout_constraintStart_toStartOf="@+id/spinner_colors" />
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/input_bg"
-        android:drawableLeft="@drawable/ic_baseline_vpn_key_24"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:fontFamily="@font/bitter_regular"
-        android:inputType="textPassword"
-        android:paddingLeft="20dp"
-        android:paddingTop="13dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="13dp"
-        android:text="@string/pssw"
-        android:textSize="20sp"
-        android:textColor="@color/colorHint"
-        android:textColorHint="@color/colorHint"
-        app:layout_constraintEnd_toEndOf="@+id/textEmail"
-        app:layout_constraintStart_toStartOf="@+id/textEmail"
-        app:layout_constraintTop_toBottomOf="@+id/textEmail" />
+        <Spinner
+            android:id="@+id/spinner_colors"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/input_bg"
+            app:layout_constraintEnd_toEndOf="@+id/textEmail"
+            app:layout_constraintStart_toStartOf="@+id/textEmail"
+            app:layout_constraintTop_toBottomOf="@+id/textEmail" />
 
 
 
@@ -195,7 +182,7 @@
         android:textColor="@color/colorHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_colors" />
 
     <Button
         android:id="@+id/btnUpdate"
